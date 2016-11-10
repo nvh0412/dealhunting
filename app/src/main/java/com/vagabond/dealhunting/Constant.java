@@ -5,5 +5,5 @@ package com.vagabond.dealhunting;
  */
 
 public class Constant {
-  public static final String DEALHUNTING_PATH = "";
+  public static final String DEALHUNTING_PATH = BuildConfig.DEAL_HUNTING_API_PATH;
 }
