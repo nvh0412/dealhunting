@@ -1,4 +1,6 @@
-package com.vagabond.dealhunting.model;
+package com.vagabond.dealhunting.data;
+
+import android.provider.BaseColumns;
 
 /*
  * Copyright (C) 2016 SkyUnity (HoaNV)
@@ -16,24 +18,8 @@ package com.vagabond.dealhunting.model;
  * limitations under the License.
  */
 
-public class Category {
-  private int id;
-
-  private String title;
-
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
+class DealContract {
+  static class PromotionEntry implements BaseColumns {
+    static String TABLE_NAME = "promotion";
   }
 }
