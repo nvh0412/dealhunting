@@ -35,7 +35,8 @@ public class Promotion {
   @SerializedName("thumbnail_url")
   private String thumbnailUrl;
 
-  private String image_url;
+  @SerializedName("image_url")
+  private String imageUrl;
 
   private Date startDate;
 
@@ -89,12 +90,12 @@ public class Promotion {
     this.thumbnailUrl = thumbnailUrl;
   }
 
-  public String getImage_url() {
-    return image_url;
+  public String getImageUrl() {
+    return imageUrl;
   }
 
-  public void setImage_url(String image_url) {
-    this.image_url = image_url;
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
   }
 
   public Date getStartDate() {

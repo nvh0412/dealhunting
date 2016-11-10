@@ -19,7 +19,27 @@ import android.provider.BaseColumns;
  */
 
 class DealContract {
+  static class StoreEnty implements BaseColumns {
+    static final String TABLE_NAME = "store";
+    static final String COLUMN_TITLE = "title";
+    static final String COLUMN_THUMBNAIL_URL = "thumbnail_url";
+  }
+
   static class PromotionEntry implements BaseColumns {
-    static String TABLE_NAME = "promotion";
+    static final String TABLE_NAME = "promotion";
+    static final String COLUMN_TITLE = "title";
+    static final String COLUMN_TITLE_DETAIL = "title_detail";
+    static final String COLUMN_SUMMARY = "summary";
+    static final String COLUMN_THUMBNAIL_URL = "thumbnail_url";
+    static final String COLUMN_IMAGE_URL = "image_url";
+    static final String COLUMN_START_DATE = "start_date";
+    static final String COLUMN_END_DATE = "end_date";
+    static final String COLUMN_STORE_KEY = "store_id";
+    static final String COLUMN_CATEGORY_KEY = "category_id";
+  }
+
+  static class CategoryEntry implements BaseColumns {
+    static final String TABLE_NAME = "category";
+    static final String COLUMN_TITLE = "title";
   }
 }
