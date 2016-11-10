@@ -20,6 +20,10 @@ android {
   buildTypes.each {
     it.buildConfigField 'String', 'DEAL_HUNTING_API_PATH', MyDealHuntingApiPath
   }
+
+  lintOptions {
+    abortOnError false
+  }
 }
 
 dependencies {
