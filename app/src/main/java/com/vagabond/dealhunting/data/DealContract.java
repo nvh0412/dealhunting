@@ -32,27 +32,36 @@ public class DealContract {
   }
 
   public static class PromotionEntry implements BaseColumns {
-    static final String TABLE_NAME = "promotion";
-    static final String COLUMN_TITLE = "title";
-    static final String COLUMN_TITLE_DETAIL = "title_detail";
-    static final String COLUMN_SUMMARY = "summary";
-    static final String COLUMN_THUMBNAIL_URL = "thumbnail_url";
-    static final String COLUMN_IMAGE_URL = "image_url";
-    static final String COLUMN_START_DATE = "start_date";
-    static final String COLUMN_END_DATE = "end_date";
-    static final String COLUMN_STORE_KEY = "store_id";
-    static final String COLUMN_CATEGORY_KEY = "category_id";
+    public static final String PATH_PROMOTION = "promotion";
+    public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_PROMOTION).build();
+    public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PROMOTION;
+
+    public static final String TABLE_NAME = "promotion";
+    public static final String COLUMN_TITLE = "title";
+    public static final String COLUMN_TITLE_DETAIL = "title_detail";
+    public static final String COLUMN_SUMMARY = "summary";
+    public static final String COLUMN_THUMBNAIL_URL = "thumbnail_url";
+    public static final String COLUMN_IMAGE_URL = "image_url";
+    public static final String COLUMN_START_DATE = "start_date";
+    public static final String COLUMN_END_DATE = "end_date";
+    public static final String COLUMN_STORE_KEY = "store_id";
+    public static final String COLUMN_CATEGORY_KEY = "category_id";
+
+    public static Uri buildMovieUri(long rowId) {
+      return ContentUris.withAppendedId(CONTENT_URI, rowId);
+    }
   }
 
   public static class CategoryEntry implements BaseColumns {
-    public static final String TABLE_NAME = "category";
-    public static final String COLUMN_TITLE = "title";
     public static final String PATH_CATEGORY = "category";
     public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_CATEGORY).build();
     public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_CATEGORY;
 
-    public static Uri buildMovieUri(long id) {
-      return ContentUris.withAppendedId(CONTENT_URI, id);
+    public static final String TABLE_NAME = "category";
+    public static final String COLUMN_TITLE = "title";
+
+    public static Uri buildMovieUri(long rowId) {
+      return ContentUris.withAppendedId(CONTENT_URI, rowId);
     }
   }
 }

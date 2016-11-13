@@ -38,9 +38,15 @@ public class Promotion {
   @SerializedName("image_url")
   private String imageUrl;
 
+  @SerializedName("start_date")
   private Date startDate;
 
+  @SerializedName("end_date")
   private Date endDate;
+
+  private int categoryId;
+
+  private int storeId;
 
   public int getId() {
     return id;
@@ -112,5 +118,21 @@ public class Promotion {
 
   public void setEndDate(Date endDate) {
     this.endDate = endDate;
+  }
+
+  public int getCategoryId() {
+    return categoryId;
+  }
+
+  public void setCategoryId(int categoryId) {
+    this.categoryId = categoryId;
+  }
+
+  public int getStoreId() {
+    return storeId;
+  }
+
+  public void setStoreId(int storeId) {
+    this.storeId = storeId;
   }
 }

@@ -16,6 +16,7 @@ import android.util.Log;
 import com.vagabond.dealhunting.R;
 import com.vagabond.dealhunting.data.DealContract;
 import com.vagabond.dealhunting.model.Category;
+import com.vagabond.dealhunting.model.Promotion;
 import com.vagabond.dealhunting.services.DealHuntingService;
 import com.vagabond.dealhunting.services.WebService;
 
@@ -46,6 +47,7 @@ public class DealHuntingSyncAdapter extends AbstractThreadedSyncAdapter {
   private static final String LOG_TAG = "DealSyncAdapter";
   private static final int SYNC_INTERVAL = 60;
   private static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
+  DealHuntingService dealHuntingService = WebService.getDealHuntingervice();
 
   public DealHuntingSyncAdapter(Context context, boolean autoInitialize) {
     super(context, autoInitialize);
@@ -54,8 +56,6 @@ public class DealHuntingSyncAdapter extends AbstractThreadedSyncAdapter {
   @Override
   public void onPerformSync(Account account, Bundle bundle, String s, ContentProviderClient contentProviderClient, SyncResult syncResult) {
     Log.d(LOG_TAG, "onPerformSync");
-    DealHuntingService dealHuntingService = WebService.getDealHuntingervice();
-
     dealHuntingService.getCategoryData()
         .subscribeOn(Schedulers.newThread())
         .observeOn(AndroidSchedulers.mainThread())
@@ -81,6 +81,7 @@ public class DealHuntingSyncAdapter extends AbstractThreadedSyncAdapter {
 
     for (Category category : categoryList) {
       ContentValues cv = new ContentValues();
+      cv.put(DealContract.CategoryEntry._ID, category.getId());
       cv.put(DealContract.CategoryEntry.COLUMN_TITLE, category.getTitle());
       cvVector.add(cv);
     }
@@ -93,7 +94,64 @@ public class DealHuntingSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     Log.d(LOG_TAG, "Sync Category completed. " + inserted + " inserted.");
+
+    for (final Category category: categoryList) {
+      dealHuntingService.getPromotionDataByCategory(String.valueOf(category.getId()))
+          .subscribeOn(Schedulers.newThread())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(
+              new Action1<List<Promotion>>() {
+                @Override
+                public void call(List<Promotion> promotionList) {
+                  Log.d(LOG_TAG, "Sync list of all promotions by category: " + category.getTitle());
+                  promotionListHanlder(promotionList);
+                }
+              },
+              new Action1<Throwable>() {
+                @Override
+                public void call(Throwable e) {
+                  Log.e(LOG_TAG, "Error: Can't sync data from API", e);
+                }
+              }
+          );
+    }
   }
+
+  private void promotionListHanlder(List<Promotion> promotionList) {
+    Vector<ContentValues> cvVector = new Vector<>(promotionList.size());
+
+    for (Promotion promotion : promotionList) {
+      ContentValues cv = new ContentValues();
+      cv.put(DealContract.PromotionEntry._ID, promotion.getId());
+      cv.put(DealContract.PromotionEntry.COLUMN_TITLE, promotion.getTitle());
+      cv.put(DealContract.PromotionEntry.COLUMN_TITLE_DETAIL, promotion.getTitleDetail());
+      cv.put(DealContract.PromotionEntry.COLUMN_IMAGE_URL, promotion.getImageUrl());
+      cv.put(DealContract.PromotionEntry.COLUMN_THUMBNAIL_URL, promotion.getThumbnailUrl());
+      cv.put(DealContract.PromotionEntry.COLUMN_SUMMARY, promotion.getSummary());
+      cv.put(DealContract.PromotionEntry.COLUMN_CATEGORY_KEY, promotion.getCategoryId());
+      cv.put(DealContract.PromotionEntry.COLUMN_STORE_KEY, promotion.getStoreId());
+
+      if (promotion.getStartDate() != null) {
+        cv.put(DealContract.PromotionEntry.COLUMN_START_DATE, promotion.getStartDate().getTime());
+      }
+
+      if (promotion.getEndDate() != null) {
+        cv.put(DealContract.PromotionEntry.COLUMN_END_DATE, promotion.getEndDate().getTime());
+      }
+
+      cvVector.add(cv);
+    }
+
+    int inserted = 0;
+    if (promotionList.size() > 0) {
+      ContentValues[] cvArray = new ContentValues[cvVector.size()];
+      cvVector.toArray(cvArray);
+      inserted = getContext().getContentResolver().bulkInsert(DealContract.PromotionEntry.CONTENT_URI, cvArray);
+    }
+
+    Log.d(LOG_TAG, "Sync Promotions completed. " + inserted + " inserted");
+  }
+
 
   private static Account getSyncAccount(Context context) {
     Log.d(LOG_TAG, "getSyncAccount");
@@ -117,9 +175,6 @@ public class DealHuntingSyncAdapter extends AbstractThreadedSyncAdapter {
     syncImmediately(context);
   }
 
-  /**
-   * Helper method to schedule the sync adapter periodic execution
-   */
   public static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
     Account account = getSyncAccount(context);
     String authority = context.getString(R.string.content_authority);

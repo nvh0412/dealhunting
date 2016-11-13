@@ -51,9 +51,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     setSupportActionBar(toolbar);
 
     viewPager = (ViewPager) findViewById(R.id.viewpager);
-    if (viewPager != null) {
-      setupViewPager(viewPager);
-    }
 
     TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
     tabLayout.setupWithViewPager(viewPager);
@@ -129,10 +126,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     } else {
       mPager.setCurrentItem(mPager.getCurrentItem() - 1);
     }
-  }
-
-  private void setupViewPager(ViewPager viewPager) {
-
   }
 
   @Override

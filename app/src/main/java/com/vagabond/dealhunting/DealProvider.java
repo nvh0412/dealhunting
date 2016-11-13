@@ -30,21 +30,26 @@ import com.vagabond.dealhunting.data.DealDBHelper;
 public class DealProvider extends ContentProvider {
 
   private static final int CATEGORY = 200;
+  private static final int PROMOTION = 201;
   private DealDBHelper mOpenHelper;
   private static final UriMatcher sUriMatcher = buildUriMatcher();
 
 
-  private static final SQLiteQueryBuilder sDealQueryBuild;
+  private static final SQLiteQueryBuilder sCategoryQueryBuild;
+  private static final SQLiteQueryBuilder sPromotionQueryBuild;
 
   static {
-    sDealQueryBuild = new SQLiteQueryBuilder();
+    sCategoryQueryBuild = new SQLiteQueryBuilder();
+    sPromotionQueryBuild = new SQLiteQueryBuilder();
 
-    sDealQueryBuild.setTables(DealContract.CategoryEntry.TABLE_NAME);
+    sCategoryQueryBuild.setTables(DealContract.CategoryEntry.TABLE_NAME);
+    sPromotionQueryBuild.setTables(DealContract.PromotionEntry.TABLE_NAME);
   }
 
   private static UriMatcher buildUriMatcher() {
     UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.CategoryEntry.PATH_CATEGORY, CATEGORY);
+    uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.PromotionEntry.PATH_PROMOTION, PROMOTION);
     return uriMatcher;
   }
 
@@ -60,7 +65,10 @@ public class DealProvider extends ContentProvider {
     Cursor retCursor;
     switch (sUriMatcher.match(uri)) {
       case CATEGORY:
-        retCursor = sDealQueryBuild.query(mOpenHelper.getReadableDatabase(), projection, selection, selectionArgs, null, null, sortOrder);
+        retCursor = sCategoryQueryBuild.query(mOpenHelper.getReadableDatabase(), projection, selection, selectionArgs, null, null, sortOrder);
+        break;
+      case PROMOTION:
+        retCursor = sPromotionQueryBuild.query(mOpenHelper.getReadableDatabase(), projection, selection, selectionArgs, null, null, sortOrder);
         break;
       default:
         throw new UnsupportedOperationException("Unknow uri: " + uri);
@@ -76,6 +84,8 @@ public class DealProvider extends ContentProvider {
     switch (sUriMatcher.match(uri)) {
       case CATEGORY:
         return DealContract.CategoryEntry.CONTENT_TYPE;
+      case PROMOTION:
+        return DealContract.PromotionEntry.CONTENT_TYPE;
       default:
         throw new UnsupportedOperationException("Unknown uri: " + uri);
     }
@@ -87,12 +97,21 @@ public class DealProvider extends ContentProvider {
     final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     final int match = sUriMatcher.match(uri);
     Uri retUri;
+    long rowId;
 
     switch (match) {
       case CATEGORY:
-        long rowId = db.insert(DealContract.CategoryEntry.TABLE_NAME, null, values);
+        rowId = db.insert(DealContract.CategoryEntry.TABLE_NAME, null, values);
         if (rowId != -1) {
           retUri = DealContract.CategoryEntry.buildMovieUri(rowId);
+        } else {
+          throw new SQLException("Fail to insert row into " + uri);
+        }
+        break;
+      case PROMOTION:
+        rowId = db.insert(DealContract.PromotionEntry.TABLE_NAME, null, values);
+        if (rowId != -1) {
+          retUri = DealContract.PromotionEntry.buildMovieUri(rowId);
         } else {
           throw new SQLException("Fail to insert row into " + uri);
         }
@@ -115,6 +134,9 @@ public class DealProvider extends ContentProvider {
       case CATEGORY:
         rowDeleteds = db.delete(DealContract.CategoryEntry.TABLE_NAME, selection, selectionArgs);
         break;
+      case PROMOTION:
+        rowDeleteds = db.delete(DealContract.PromotionEntry.TABLE_NAME, selection, selectionArgs);
+        break;
       default:
         throw new UnsupportedOperationException("Unknown uri: " + uri);
     }
@@ -132,6 +154,9 @@ public class DealProvider extends ContentProvider {
       case CATEGORY:
         rowUpdated = db.update(DealContract.CategoryEntry.TABLE_NAME, values, selection, selectionArgs);
         break;
+      case PROMOTION:
+        rowUpdated = db.update(DealContract.PromotionEntry.TABLE_NAME, values, selection, selectionArgs);
+        break;
       default:
         throw new UnsupportedOperationException("Unknown uri: " + uri);
     }
@@ -143,14 +168,29 @@ public class DealProvider extends ContentProvider {
   public int bulkInsert(Uri uri, ContentValues[] values) {
     final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     final int match = sUriMatcher.match(uri);
+    int returnCount = 0;
 
     switch (match) {
       case CATEGORY:
         db.beginTransaction();
-        int returnCount = 0;
         try {
           for (ContentValues value : values) {
-            long _id = db.insert(DealContract.CategoryEntry.TABLE_NAME, null, value);
+            long _id = db.insertWithOnConflict(DealContract.CategoryEntry.TABLE_NAME, null, value, SQLiteDatabase.CONFLICT_IGNORE);
+            if (_id != -1) {
+              returnCount++;
+            }
+          }
+          db.setTransactionSuccessful();
+        } finally {
+          db.endTransaction();
+        }
+        getContext().getContentResolver().notifyChange(uri, null);
+        return returnCount;
+      case PROMOTION:
+        db.beginTransaction();
+        try {
+          for (ContentValues value : values) {
+            long _id = db.insertWithOnConflict(DealContract.PromotionEntry.TABLE_NAME, null, value, SQLiteDatabase.CONFLICT_REPLACE);
             if (_id != -1) {
               returnCount++;
             }

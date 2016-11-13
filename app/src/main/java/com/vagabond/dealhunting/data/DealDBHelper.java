@@ -35,7 +35,7 @@ public class DealDBHelper extends SQLiteOpenHelper {
     // Create store table
     final StringBuilder SQL_CREATE_STORE_TABLE = new StringBuilder("CREATE TABLE ");
     SQL_CREATE_STORE_TABLE.append(DealContract.StoreEntry.TABLE_NAME).append(" (");
-    SQL_CREATE_STORE_TABLE.append(DealContract.StoreEntry._ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT, ");
+    SQL_CREATE_STORE_TABLE.append(DealContract.StoreEntry._ID).append(" INTEGER PRIMARY KEY, ");
     SQL_CREATE_STORE_TABLE.append(DealContract.StoreEntry.COLUMN_TITLE).append(" TEXT NOT NULL, ");
     SQL_CREATE_STORE_TABLE.append(DealContract.StoreEntry.COLUMN_THUMBNAIL_URL).append(" TEXT NOT NULL, ");
     SQL_CREATE_STORE_TABLE.append("UNIQUE (").append(DealContract.StoreEntry.COLUMN_TITLE).append(") ON CONFLICT REPLACE);");
@@ -43,7 +43,7 @@ public class DealDBHelper extends SQLiteOpenHelper {
     // Create category table
     final StringBuilder SQL_CREATE_CATEGORY_TABLE = new StringBuilder("CREATE TABLE ");
     SQL_CREATE_CATEGORY_TABLE.append(DealContract.CategoryEntry.TABLE_NAME).append(" (");
-    SQL_CREATE_CATEGORY_TABLE.append(DealContract.CategoryEntry._ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT, ");
+    SQL_CREATE_CATEGORY_TABLE.append(DealContract.CategoryEntry._ID).append(" INTEGER PRIMARY KEY, ");
     SQL_CREATE_CATEGORY_TABLE.append(DealContract.CategoryEntry.COLUMN_TITLE).append(" TEXT NOT NULL, ");
     SQL_CREATE_CATEGORY_TABLE.append("UNIQUE (").append(DealContract.CategoryEntry.COLUMN_TITLE).append(") ON CONFLICT REPLACE);");
 
