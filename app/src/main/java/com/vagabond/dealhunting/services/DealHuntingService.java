@@ -31,11 +31,11 @@ public interface DealHuntingService {
   Observable<List<Store>> getStoreData();
 
   @GET("categories/${id}/promotions")
-  Observable<Promotion> getPromotionDataByStore(@Path("id") String storeId);
+  Observable<List<Promotion>> getPromotionDataByStore(@Path("id") String storeId);
 
   @GET("categories")
-  Observable<Category> getCategoryData();
+  Observable<List<Category>> getCategoryData();
 
   @GET("categories/${id}/promotions")
-  Observable<Promotion> getPromotionDataByCategory(@Path("id") String categoryId);
+  Observable<List<Promotion>> getPromotionDataByCategory(@Path("id") String categoryId);
 }

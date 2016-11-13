@@ -4,7 +4,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 /*
  * Copyright (C) 2016 SkyUnity (HoaNV)
@@ -28,7 +27,6 @@ public class DealHuntingSyncService extends Service {
 
   @Override
   public void onCreate() {
-    Log.d(LOG_TAG, "onCreate");
     synchronized (syncAdapterLock) {
       if (dealHutingSyncAdapter == null) {
         dealHutingSyncAdapter = new DealHuntingSyncAdapter(getApplicationContext(), true);
@@ -39,6 +37,6 @@ public class DealHuntingSyncService extends Service {
   @Nullable
   @Override
   public IBinder onBind(Intent intent) {
-    return null;
+    return dealHutingSyncAdapter.getSyncAdapterBinder();
   }
 }
