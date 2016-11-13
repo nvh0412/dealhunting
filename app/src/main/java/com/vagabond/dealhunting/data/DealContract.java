@@ -1,5 +1,6 @@
 package com.vagabond.dealhunting.data;
 
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 /*
@@ -18,14 +19,17 @@ import android.provider.BaseColumns;
  * limitations under the License.
  */
 
-class DealContract {
-  static class StoreEnty implements BaseColumns {
+public class DealContract {
+  private static final String CONTENT_AUTHORITY = "com.vagabond.dealhunting.app";
+  private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+
+  public static class StoreEntry implements BaseColumns {
     static final String TABLE_NAME = "store";
     static final String COLUMN_TITLE = "title";
     static final String COLUMN_THUMBNAIL_URL = "thumbnail_url";
   }
 
-  static class PromotionEntry implements BaseColumns {
+  public static class PromotionEntry implements BaseColumns {
     static final String TABLE_NAME = "promotion";
     static final String COLUMN_TITLE = "title";
     static final String COLUMN_TITLE_DETAIL = "title_detail";
@@ -38,8 +42,10 @@ class DealContract {
     static final String COLUMN_CATEGORY_KEY = "category_id";
   }
 
-  static class CategoryEntry implements BaseColumns {
-    static final String TABLE_NAME = "category";
-    static final String COLUMN_TITLE = "title";
+  public static class CategoryEntry implements BaseColumns {
+    public static final String TABLE_NAME = "category";
+    public static final String COLUMN_TITLE = "title";
+    public static final String PATH_CATEGORY = "category";
+    public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_CATEGORY).build();
   }
 }

@@ -1,9 +1,11 @@
 <resources>
-    <string name="app_name">Deal Hunting</string>
+  <string name="app_name">Deal Hunting</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="search">Search</string>
-    <string name="drawer_open">Open Menu Navigation</string>
-    <string name="drawer_close">Close Menu Navigation</string>
+  <!-- TODO: Remove or change this placeholder text -->
+  <string name="hello_blank_fragment">Hello blank fragment</string>
+  <string name="search">Search</string>
+  <string name="drawer_open">Open Menu Navigation</string>
+  <string name="drawer_close">Close Menu Navigation</string>
+  <string name="content_authority">com.vagabond.dealhunting.app</string>
+  <string name="sync_account_type">com.vagabond.dealhunting</string>
 </resources>

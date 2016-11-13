@@ -1,12 +1,16 @@
 package com.vagabond.dealhunting;
 
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -16,11 +20,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.vagabond.dealhunting.data.DealContract;
+import com.vagabond.dealhunting.sync.DealHuntingSyncAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
   private static final String LOG_TAG = MainActivity.class.getSimpleName();
+  private static final int LOADER_ID = 0;
   private ViewPager mPager;
   private DrawerLayout mDrawerLayout;
   private ActionBarDrawerToggle mDrawerToggle;
@@ -65,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
     getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_hamburger);
+
+    getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+
+    DealHuntingSyncAdapter.initializeSyncAdapter(this);
   }
 
 
@@ -133,6 +145,20 @@ public class MainActivity extends AppCompatActivity {
   public void onStop() {
     super.onStop();
   }
+
+  @Override
+  public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+    return new CursorLoader(this, DealContract.CategoryEntry.CONTENT_URI, null, null, null, null);
+  }
+
+  @Override
+  public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    // Add Tab to Tablayout
+
+  }
+
+  @Override
+  public void onLoaderReset(Loader<Cursor> loader) { }
 
   private class PagerFragmentAdapter extends FragmentPagerAdapter {
     private final List<Fragment> mFragments = new ArrayList<>();
