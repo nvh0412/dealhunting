@@ -1,10 +1,6 @@
 package com.vagabond.dealhunting;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.Thing;
-
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -47,17 +43,20 @@ public class MainActivity extends AppCompatActivity {
 
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_search_white_24dp, R.string.drawer_open, R.string.drawer_close) {
+    mDrawerToggle = new ActionBarDrawerToggle(
+      this,
+      mDrawerLayout, R.drawable.ic_hamburger,
+      R.string.drawer_open,
+      R.string.drawer_close
+    ) {
       @Override
       public void onDrawerClosed(View drawerView) {
         super.onDrawerClosed(drawerView);
-        invalidateOptionsMenu();
       }
 
       @Override
       public void onDrawerOpened(View drawerView) {
         super.onDrawerOpened(drawerView);
-        invalidateOptionsMenu();
       }
     };
 
@@ -65,13 +64,14 @@ public class MainActivity extends AppCompatActivity {
 
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
+    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_hamburger);
   }
 
 
   @Override
   protected void onPostCreate(Bundle savedInstanceState) {
     super.onPostCreate(savedInstanceState);
-    // Sync the toggle state after onRestoreInstanceState has occurred.
+
     mDrawerToggle.syncState();
   }
 
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     if (mDrawerToggle.onOptionsItemSelected(item)) {
       return true;
     }
-    
+
     return super.onOptionsItemSelected(item);
   }
 
@@ -122,22 +122,6 @@ public class MainActivity extends AppCompatActivity {
     adapter.addFragment(dealFragment3, "Hoa dep trai");
 
     viewPager.setAdapter(adapter);
-  }
-
-  /**
-   * ATTENTION: This was auto-generated to implement the App Indexing API.
-   * See https://g.co/AppIndexing/AndroidStudio for more information.
-   */
-  public Action getIndexApiAction() {
-    Thing object = new Thing.Builder()
-        .setName("Main Page") // TODO: Define a title for the content shown.
-        // TODO: Make sure this auto-generated URL is correct.
-        .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-        .build();
-    return new Action.Builder(Action.TYPE_VIEW)
-        .setObject(object)
-        .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-        .build();
   }
 
   @Override
