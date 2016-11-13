@@ -44,7 +44,8 @@ public class DealDBHelper extends SQLiteOpenHelper {
     final StringBuilder SQL_CREATE_CATEGORY_TABLE = new StringBuilder("CREATE TABLE ");
     SQL_CREATE_CATEGORY_TABLE.append(DealContract.CategoryEntry.TABLE_NAME).append(" (");
     SQL_CREATE_CATEGORY_TABLE.append(DealContract.CategoryEntry._ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT, ");
-    SQL_CREATE_CATEGORY_TABLE.append(DealContract.CategoryEntry.COLUMN_TITLE).append(" TEXT NOT NULL )");
+    SQL_CREATE_CATEGORY_TABLE.append(DealContract.CategoryEntry.COLUMN_TITLE).append(" TEXT NOT NULL, ");
+    SQL_CREATE_CATEGORY_TABLE.append("UNIQUE (").append(DealContract.CategoryEntry.COLUMN_TITLE).append(") ON CONFLICT REPLACE);");
 
     // Create promotion table
     final StringBuilder SQL_CREATE_PROMOTION_TABLE = new StringBuilder("CREATE TABLE ");

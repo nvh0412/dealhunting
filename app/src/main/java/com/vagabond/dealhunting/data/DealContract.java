@@ -1,5 +1,7 @@
 package com.vagabond.dealhunting.data;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -20,7 +22,7 @@ import android.provider.BaseColumns;
  */
 
 public class DealContract {
-  private static final String CONTENT_AUTHORITY = "com.vagabond.dealhunting.app";
+  public static final String CONTENT_AUTHORITY = "com.vagabond.dealhunting.app";
   private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
   public static class StoreEntry implements BaseColumns {
@@ -47,5 +49,10 @@ public class DealContract {
     public static final String COLUMN_TITLE = "title";
     public static final String PATH_CATEGORY = "category";
     public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_CATEGORY).build();
+    public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_CATEGORY;
+
+    public static Uri buildMovieUri(long id) {
+      return ContentUris.withAppendedId(CONTENT_URI, id);
+    }
   }
 }

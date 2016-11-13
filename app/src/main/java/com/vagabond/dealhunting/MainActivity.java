@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.facebook.stetho.Stetho;
 import com.vagabond.dealhunting.data.DealContract;
 import com.vagabond.dealhunting.sync.DealHuntingSyncAdapter;
 
@@ -32,16 +33,24 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
   private ViewPager mPager;
   private DrawerLayout mDrawerLayout;
   private ActionBarDrawerToggle mDrawerToggle;
+  private ViewPager viewPager;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     Log.d(LOG_TAG, "onCreate");
     super.onCreate(savedInstanceState);
+
+    Stetho.initialize(
+        Stetho.newInitializerBuilder(this)
+            .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+            .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+            .build());
+
     setContentView(R.layout.activity_main);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-    ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+    viewPager = (ViewPager) findViewById(R.id.viewpager);
     if (viewPager != null) {
       setupViewPager(viewPager);
     }
@@ -78,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     DealHuntingSyncAdapter.initializeSyncAdapter(this);
   }
-
 
   @Override
   protected void onPostCreate(Bundle savedInstanceState) {
@@ -124,16 +132,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
   }
 
   private void setupViewPager(ViewPager viewPager) {
-    DealFragment dealFragment = new DealFragment();
-    DealFragment dealFragment2 = new DealFragment();
-    DealFragment dealFragment3 = new DealFragment();
 
-    PagerFragmentAdapter adapter = new PagerFragmentAdapter(getSupportFragmentManager());
-    adapter.addFragment(dealFragment, "Hoa dep trai");
-    adapter.addFragment(dealFragment2, "Hoa dep trai");
-    adapter.addFragment(dealFragment3, "Hoa dep trai");
-
-    viewPager.setAdapter(adapter);
   }
 
   @Override
@@ -154,7 +153,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
     // Add Tab to Tablayout
+    Log.d(LOG_TAG, "onLoadFinished");
 
+    if (!data.moveToFirst()) {
+      return;
+    }
+
+    PagerFragmentAdapter adapter = new PagerFragmentAdapter(getSupportFragmentManager());
+
+    do {
+      DealFragment dealFragment = new DealFragment();
+      adapter.addFragment(dealFragment, data.getString(1));
+    } while (data.moveToNext());
+
+    viewPager.setAdapter(adapter);
   }
 
   @Override
