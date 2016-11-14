@@ -146,9 +146,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
   public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
     // Add Tab to Tablayout
     Log.d(LOG_TAG, "onLoadFinished");
-
     if (!data.moveToFirst()) {
       return;
+    }
+
+    int countFragment = 0;
+    if (viewPager.getAdapter() != null) {
+      countFragment = viewPager.getAdapter().getCount();
     }
 
     PagerFragmentAdapter adapter = new PagerFragmentAdapter(getSupportFragmentManager());
@@ -161,7 +165,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
       adapter.addFragment(dealFragment, data.getString(1));
     } while (data.moveToNext());
 
-    viewPager.setAdapter(adapter);
+    if (adapter.getCount() != countFragment) {
+      viewPager.setAdapter(adapter);
+    }
   }
 
   @Override

@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,8 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
   private static final String LOG_TAG = DealFragment.class.getSimpleName();
   private static final int LOADER_ID = 1;
   private String categoryId;
+  private RecyclerView recycleView;
+  private DealAdapter dealAdapter;
 
   public DealFragment() {
   }
@@ -44,7 +48,19 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.fragment_deal, container, false);
+    View root = inflater.inflate(R.layout.fragment_deal, container, false);
+    recycleView = (RecyclerView) root.findViewById(R.id.deal_recycler_view);
+
+    dealAdapter = new DealAdapter(getActivity());
+    dealAdapter.setHasStableIds(true);
+
+    recycleView.setAdapter(dealAdapter);
+    int columnCount = getResources().getInteger(R.integer.list_column_count);
+    StaggeredGridLayoutManager sglm =
+        new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
+    recycleView.setLayoutManager(sglm);
+
+    return root;
   }
 
   @Override
@@ -61,13 +77,11 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
       return;
     }
 
-    do {
-      Log.d(LOG_TAG, "onLoadFinished: " + data.getInt(0));
-    } while (data.moveToNext());
+    dealAdapter.swapCursor(data);
   }
 
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
-
+    recycleView.setAdapter(null);
   }
 }
