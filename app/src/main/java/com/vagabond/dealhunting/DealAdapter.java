@@ -6,7 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 /*
  * Copyright (C) 2016 SkyUnity (HoaNV)
@@ -49,6 +52,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
   public void onBindViewHolder(DealAdapterViewHolder holder, int position) {
     mCursor.moveToPosition(position);
     holder.titleView.setText(mCursor.getString(1));
+    Picasso.with(context).load(mCursor.getString(4)).into(holder.dynamicHeightImageView);
   }
 
   @Override
@@ -68,11 +72,13 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
 
 
   public class DealAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    private TextView titleView;
+    public TextView titleView;
+    public ImageView dynamicHeightImageView;
 
     public DealAdapterViewHolder(View itemView) {
       super(itemView);
       titleView = (TextView) itemView.findViewById(R.id.deal_title_textview);
+      dynamicHeightImageView = (ImageView) itemView.findViewById(R.id.thumbnail);
     }
 
     @Override

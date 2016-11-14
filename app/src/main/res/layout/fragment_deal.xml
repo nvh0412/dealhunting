@@ -8,6 +8,5 @@
     android:paddingBottom="28dp"
     android:paddingLeft="@dimen/list_side_margin"
     android:paddingRight="@dimen/list_side_margin"
-    android:paddingTop="@dimen/abc_action_bar_default_height_material"
     android:scrollbarStyle="outsideOverlay">
 </android.support.v7.widget.RecyclerView>
