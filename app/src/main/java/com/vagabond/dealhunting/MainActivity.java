@@ -30,7 +30,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
   private static final String LOG_TAG = MainActivity.class.getSimpleName();
   private static final int LOADER_ID = 0;
-  private ViewPager mPager;
   private DrawerLayout mDrawerLayout;
   private ActionBarDrawerToggle mDrawerToggle;
   private ViewPager viewPager;
@@ -120,11 +119,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
   @Override
   public void onBackPressed() {
-    Log.d(LOG_TAG, "onBackPressed: Pager position" + mPager.getCurrentItem());
-    if (mPager.getCurrentItem() == 0) {
+    Log.d(LOG_TAG, "onBackPressed: Pager position" + viewPager.getCurrentItem());
+    if (viewPager.getCurrentItem() == 0) {
       super.onBackPressed();
     } else {
-      mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+      viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
     }
   }
 
@@ -156,6 +155,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     do {
       DealFragment dealFragment = new DealFragment();
+      Bundle bundle = new Bundle();
+      bundle.putString("CATEGORY_ID", String.valueOf(data.getInt(0)));
+      dealFragment.setArguments(bundle);
       adapter.addFragment(dealFragment, data.getString(1));
     } while (data.moveToNext());
 

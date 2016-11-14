@@ -44,8 +44,10 @@ public class Promotion {
   @SerializedName("end_date")
   private Date endDate;
 
+  @SerializedName("category_id")
   private int categoryId;
 
+  @SerializedName("store_id")
   private int storeId;
 
   public int getId() {

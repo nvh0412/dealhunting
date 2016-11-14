@@ -50,6 +50,14 @@ public class DealContract {
     public static Uri buildMovieUri(long rowId) {
       return ContentUris.withAppendedId(CONTENT_URI, rowId);
     }
+
+    public static Uri buildMovieUriByCategory(String categoryId) {
+      return CONTENT_URI.buildUpon().appendPath(categoryId).build();
+    }
+
+    public static String getCategoryId(Uri uri) {
+      return uri.getPathSegments().get(1);
+    }
   }
 
   public static class CategoryEntry implements BaseColumns {

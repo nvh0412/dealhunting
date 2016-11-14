@@ -31,12 +31,16 @@ public class DealProvider extends ContentProvider {
 
   private static final int CATEGORY = 200;
   private static final int PROMOTION = 201;
+  private static final int PROMOTION_CATEGORY = 202;
   private DealDBHelper mOpenHelper;
   private static final UriMatcher sUriMatcher = buildUriMatcher();
 
 
   private static final SQLiteQueryBuilder sCategoryQueryBuild;
   private static final SQLiteQueryBuilder sPromotionQueryBuild;
+
+  private static final String promotionCategorySelection = DealContract.PromotionEntry.TABLE_NAME +
+      "." + DealContract.PromotionEntry.COLUMN_CATEGORY_KEY + " = ? ";
 
   static {
     sCategoryQueryBuild = new SQLiteQueryBuilder();
@@ -50,6 +54,7 @@ public class DealProvider extends ContentProvider {
     UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.CategoryEntry.PATH_CATEGORY, CATEGORY);
     uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.PromotionEntry.PATH_PROMOTION, PROMOTION);
+    uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.PromotionEntry.PATH_PROMOTION + "/*", PROMOTION_CATEGORY);
     return uriMatcher;
   }
 
@@ -70,6 +75,9 @@ public class DealProvider extends ContentProvider {
       case PROMOTION:
         retCursor = sPromotionQueryBuild.query(mOpenHelper.getReadableDatabase(), projection, selection, selectionArgs, null, null, sortOrder);
         break;
+      case PROMOTION_CATEGORY:
+        retCursor = getPromotionByCategory(uri, projection, sortOrder);
+        break;
       default:
         throw new UnsupportedOperationException("Unknow uri: " + uri);
     }
@@ -78,12 +86,27 @@ public class DealProvider extends ContentProvider {
     return retCursor;
   }
 
+  private Cursor getPromotionByCategory(Uri uri, String[] projection, String sortOrder) {
+    String selection = promotionCategorySelection;
+    String[] selectionArgs = new String[]{DealContract.PromotionEntry.getCategoryId(uri) };
+    return sPromotionQueryBuild.query(mOpenHelper.getReadableDatabase(),
+        projection,
+        selection,
+        selectionArgs,
+        null,
+        null,
+        sortOrder
+    );
+  }
+
   @Nullable
   @Override
   public String getType(Uri uri) {
     switch (sUriMatcher.match(uri)) {
       case CATEGORY:
         return DealContract.CategoryEntry.CONTENT_TYPE;
+      case PROMOTION_CATEGORY:
+        return DealContract.PromotionEntry.CONTENT_TYPE;
       case PROMOTION:
         return DealContract.PromotionEntry.CONTENT_TYPE;
       default:
