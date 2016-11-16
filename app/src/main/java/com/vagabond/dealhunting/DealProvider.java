@@ -32,12 +32,14 @@ public class DealProvider extends ContentProvider {
   private static final int CATEGORY = 200;
   private static final int PROMOTION = 201;
   private static final int PROMOTION_CATEGORY = 202;
+  private static final int STORE = 203;
   private DealDBHelper mOpenHelper;
   private static final UriMatcher sUriMatcher = buildUriMatcher();
 
 
   private static final SQLiteQueryBuilder sCategoryQueryBuild;
   private static final SQLiteQueryBuilder sPromotionQueryBuild;
+  private static final SQLiteQueryBuilder sStoreQueryBuild;
 
   private static final String promotionCategorySelection = DealContract.PromotionEntry.TABLE_NAME +
       "." + DealContract.PromotionEntry.COLUMN_CATEGORY_KEY + " = ? ";
@@ -45,13 +47,18 @@ public class DealProvider extends ContentProvider {
   static {
     sCategoryQueryBuild = new SQLiteQueryBuilder();
     sPromotionQueryBuild = new SQLiteQueryBuilder();
+    sStoreQueryBuild = new SQLiteQueryBuilder();
 
     sCategoryQueryBuild.setTables(DealContract.CategoryEntry.TABLE_NAME);
-    sPromotionQueryBuild.setTables(DealContract.PromotionEntry.TABLE_NAME);
+    sPromotionQueryBuild.setTables(DealContract.PromotionEntry.TABLE_NAME + " INNER JOIN " +
+        DealContract.StoreEntry.TABLE_NAME + " ON " + DealContract.PromotionEntry.COLUMN_STORE_KEY +
+        " = " + DealContract.StoreEntry.TABLE_NAME + "." + DealContract.StoreEntry._ID);
+    sStoreQueryBuild.setTables(DealContract.StoreEntry.TABLE_NAME);
   }
 
   private static UriMatcher buildUriMatcher() {
     UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+    uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.StoreEntry.PATH_STORE, STORE);
     uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.CategoryEntry.PATH_CATEGORY, CATEGORY);
     uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.PromotionEntry.PATH_PROMOTION, PROMOTION);
     uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.PromotionEntry.PATH_PROMOTION + "/*", PROMOTION_CATEGORY);
@@ -69,6 +76,9 @@ public class DealProvider extends ContentProvider {
   public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
     Cursor retCursor;
     switch (sUriMatcher.match(uri)) {
+      case STORE:
+        retCursor = sStoreQueryBuild.query(mOpenHelper.getReadableDatabase(), projection, selection, selectionArgs, null, null, sortOrder);
+        break;
       case CATEGORY:
         retCursor = sCategoryQueryBuild.query(mOpenHelper.getReadableDatabase(), projection, selection, selectionArgs, null, null, sortOrder);
         break;
@@ -126,7 +136,7 @@ public class DealProvider extends ContentProvider {
       case CATEGORY:
         rowId = db.insert(DealContract.CategoryEntry.TABLE_NAME, null, values);
         if (rowId != -1) {
-          retUri = DealContract.CategoryEntry.buildMovieUri(rowId);
+          retUri = DealContract.CategoryEntry.buildCategoryUri(rowId);
         } else {
           throw new SQLException("Fail to insert row into " + uri);
         }
@@ -134,7 +144,15 @@ public class DealProvider extends ContentProvider {
       case PROMOTION:
         rowId = db.insert(DealContract.PromotionEntry.TABLE_NAME, null, values);
         if (rowId != -1) {
-          retUri = DealContract.PromotionEntry.buildMovieUri(rowId);
+          retUri = DealContract.PromotionEntry.buildPromotionUri(rowId);
+        } else {
+          throw new SQLException("Fail to insert row into " + uri);
+        }
+        break;
+      case STORE:
+        rowId = db.insert(DealContract.StoreEntry.TABLE_NAME, null, values);
+        if (rowId != -1) {
+          retUri = DealContract.StoreEntry.buildStoreUri(rowId);
         } else {
           throw new SQLException("Fail to insert row into " + uri);
         }
@@ -160,6 +178,9 @@ public class DealProvider extends ContentProvider {
       case PROMOTION:
         rowDeleteds = db.delete(DealContract.PromotionEntry.TABLE_NAME, selection, selectionArgs);
         break;
+      case STORE:
+        rowDeleteds = db.delete(DealContract.StoreEntry.TABLE_NAME, selection, selectionArgs);
+        break;
       default:
         throw new UnsupportedOperationException("Unknown uri: " + uri);
     }
@@ -179,6 +200,9 @@ public class DealProvider extends ContentProvider {
         break;
       case PROMOTION:
         rowUpdated = db.update(DealContract.PromotionEntry.TABLE_NAME, values, selection, selectionArgs);
+        break;
+      case STORE:
+        rowUpdated = db.update(DealContract.StoreEntry.TABLE_NAME, values, selection, selectionArgs);
         break;
       default:
         throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -214,6 +238,21 @@ public class DealProvider extends ContentProvider {
         try {
           for (ContentValues value : values) {
             long _id = db.insertWithOnConflict(DealContract.PromotionEntry.TABLE_NAME, null, value, SQLiteDatabase.CONFLICT_REPLACE);
+            if (_id != -1) {
+              returnCount++;
+            }
+          }
+          db.setTransactionSuccessful();
+        } finally {
+          db.endTransaction();
+        }
+        getContext().getContentResolver().notifyChange(uri, null);
+        return returnCount;
+      case STORE:
+        db.beginTransaction();
+        try {
+          for (ContentValues value : values) {
+            long _id = db.insertWithOnConflict(DealContract.StoreEntry.TABLE_NAME, null, value, SQLiteDatabase.CONFLICT_REPLACE);
             if (_id != -1) {
               returnCount++;
             }

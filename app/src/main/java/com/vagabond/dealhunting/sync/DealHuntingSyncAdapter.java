@@ -17,6 +17,7 @@ import com.vagabond.dealhunting.R;
 import com.vagabond.dealhunting.data.DealContract;
 import com.vagabond.dealhunting.model.Category;
 import com.vagabond.dealhunting.model.Promotion;
+import com.vagabond.dealhunting.model.Store;
 import com.vagabond.dealhunting.services.DealHuntingService;
 import com.vagabond.dealhunting.services.WebService;
 
@@ -45,7 +46,7 @@ import rx.schedulers.Schedulers;
 public class DealHuntingSyncAdapter extends AbstractThreadedSyncAdapter {
 
   private static final String LOG_TAG = "DealSyncAdapter";
-  private static final int SYNC_INTERVAL = 60 * 180;
+  private static final int SYNC_INTERVAL = 30;
   private static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
   DealHuntingService dealHuntingService = WebService.getDealHuntingervice();
 
@@ -56,6 +57,26 @@ public class DealHuntingSyncAdapter extends AbstractThreadedSyncAdapter {
   @Override
   public void onPerformSync(Account account, Bundle bundle, String s, ContentProviderClient contentProviderClient, SyncResult syncResult) {
     Log.d(LOG_TAG, "onPerformSync");
+
+    dealHuntingService.getStoreData()
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(
+            new Action1<List<Store>>() {
+              @Override
+              public void call(List<Store> storeList) {
+                Log.d(LOG_TAG, "Sync list of all stores");
+                storeListHandler(storeList);
+              }
+            },
+            new Action1<Throwable>() {
+              @Override
+              public void call(Throwable e) {
+                Log.e(LOG_TAG, "Error: Can't sync data from API", e);
+              }
+            }
+        );
+
     dealHuntingService.getCategoryData()
         .subscribeOn(Schedulers.newThread())
         .observeOn(AndroidSchedulers.mainThread())
@@ -74,6 +95,28 @@ public class DealHuntingSyncAdapter extends AbstractThreadedSyncAdapter {
               }
             }
         );
+  }
+
+  private void storeListHandler(List<Store> storeList) {
+    Vector<ContentValues> cvVector = new Vector<>(storeList.size());
+
+    for (Store store : storeList) {
+      ContentValues cv = new ContentValues();
+      cv.put(DealContract.StoreEntry._ID, store.getId());
+      cv.put(DealContract.StoreEntry.COLUMN_TITLE, store.getTitle());
+      cv.put(DealContract.StoreEntry.COLUMN_THUMBNAIL_URL, store.getThumbnailUrl());
+
+      cvVector.add(cv);
+    }
+
+    int inserted = 0;
+    if (storeList.size() > 0) {
+      ContentValues[] cvArray = new ContentValues[cvVector.size()];
+      cvVector.toArray(cvArray);
+      inserted = getContext().getContentResolver().bulkInsert(DealContract.StoreEntry.CONTENT_URI, cvArray);
+    }
+
+    Log.d(LOG_TAG, "Sync Category completed. " + inserted + " inserted.");
   }
 
   private void categoryListHandler(List<Category> categoryList) {

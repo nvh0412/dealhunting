@@ -26,9 +26,16 @@ public class DealContract {
   private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
   public static class StoreEntry implements BaseColumns {
-    static final String TABLE_NAME = "store";
-    static final String COLUMN_TITLE = "title";
-    static final String COLUMN_THUMBNAIL_URL = "thumbnail_url";
+    public static final String TABLE_NAME = "store";
+    public static final String COLUMN_TITLE = "title";
+    public static final String COLUMN_THUMBNAIL_URL = "thumbnail_url";
+    public static final String PATH_STORE = "store";
+    public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_STORE).build();
+
+    public static Uri buildStoreUri(long rowId) {
+      return ContentUris.withAppendedId(CONTENT_URI, rowId);
+    }
+
   }
 
   public static class PromotionEntry implements BaseColumns {
@@ -47,11 +54,11 @@ public class DealContract {
     public static final String COLUMN_STORE_KEY = "store_id";
     public static final String COLUMN_CATEGORY_KEY = "category_id";
 
-    public static Uri buildMovieUri(long rowId) {
+    public static Uri buildPromotionUri(long rowId) {
       return ContentUris.withAppendedId(CONTENT_URI, rowId);
     }
 
-    public static Uri buildMovieUriByCategory(String categoryId) {
+    public static Uri buildPromotionUriByCategory(String categoryId) {
       return CONTENT_URI.buildUpon().appendPath(categoryId).build();
     }
 
@@ -68,7 +75,7 @@ public class DealContract {
     public static final String TABLE_NAME = "category";
     public static final String COLUMN_TITLE = "title";
 
-    public static Uri buildMovieUri(long rowId) {
+    public static Uri buildCategoryUri(long rowId) {
       return ContentUris.withAppendedId(CONTENT_URI, rowId);
     }
   }

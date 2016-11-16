@@ -66,7 +66,7 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
     return new CursorLoader(getActivity(),
-        DealContract.PromotionEntry.buildMovieUriByCategory(categoryId), null, null, null, null);
+        DealContract.PromotionEntry.buildPromotionUriByCategory(categoryId), null, null, null, null);
   }
 
   @Override

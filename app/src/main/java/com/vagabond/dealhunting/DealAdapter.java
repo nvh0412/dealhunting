@@ -2,6 +2,9 @@ package com.vagabond.dealhunting;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 /*
  * Copyright (C) 2016 SkyUnity (HoaNV)
@@ -28,6 +32,9 @@ import com.squareup.picasso.Picasso;
  */
 public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterViewHolder> {
 
+  private static final int INDEX_COLUMN_TITLE = 1;
+  private static final int INDEX_COLUMN_IMAGE = 4;
+  private static final int INDEX_COLUMN_STORE_IMAGE = 12;
   private Context context;
   private Cursor mCursor;
 
@@ -49,10 +56,35 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
   }
 
   @Override
-  public void onBindViewHolder(DealAdapterViewHolder holder, int position) {
+  public void onBindViewHolder(final DealAdapterViewHolder holder, int position) {
     mCursor.moveToPosition(position);
-    holder.titleView.setText(mCursor.getString(1));
-    Picasso.with(context).load(mCursor.getString(4)).into(holder.dynamicHeightImageView);
+    holder.titleView.setText(mCursor.getString(INDEX_COLUMN_TITLE));
+    Picasso.with(context).load(mCursor.getString(INDEX_COLUMN_STORE_IMAGE)).into(new Target() {
+      @Override
+      public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+        holder.storeBrandImageView.setImageBitmap(bitmap);
+        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+          @Override
+          public void onGenerated(Palette palette) {
+            Palette.Swatch brandSwatch = palette.getDominantSwatch();
+            if (brandSwatch != null) {
+              holder.brandBar.setBackgroundColor(brandSwatch.getRgb());
+            }
+          }
+        });
+      }
+
+      @Override
+      public void onBitmapFailed(Drawable errorDrawable) {
+
+      }
+
+      @Override
+      public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+      }
+    });
+    Picasso.with(context).load(mCursor.getString(INDEX_COLUMN_IMAGE)).into(holder.dynamicHeightImageView);
   }
 
   @Override
@@ -72,13 +104,17 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
 
 
   public class DealAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    public TextView titleView;
-    public ImageView dynamicHeightImageView;
+    private TextView titleView;
+    private ImageView storeBrandImageView;
+    private DynamicHeightImageView dynamicHeightImageView;
+    private View brandBar;
 
     public DealAdapterViewHolder(View itemView) {
       super(itemView);
       titleView = (TextView) itemView.findViewById(R.id.deal_title_textview);
-      dynamicHeightImageView = (ImageView) itemView.findViewById(R.id.thumbnail);
+      dynamicHeightImageView = (DynamicHeightImageView) itemView.findViewById(R.id.thumbnail);
+      storeBrandImageView = (ImageView) itemView.findViewById(R.id.brand_logo);
+      brandBar = itemView.findViewById(R.id.brand_bar);
     }
 
     @Override
