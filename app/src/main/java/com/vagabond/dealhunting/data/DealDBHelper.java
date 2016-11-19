@@ -34,17 +34,18 @@ public class DealDBHelper extends SQLiteOpenHelper {
   public void onCreate(SQLiteDatabase sqLiteDatabase) {
     // Create store table
     final StringBuilder SQL_CREATE_STORE_TABLE = new StringBuilder("CREATE TABLE ");
-    SQL_CREATE_STORE_TABLE.append(DealContract.StoreEnty.TABLE_NAME).append(" (");
-    SQL_CREATE_STORE_TABLE.append(DealContract.StoreEnty._ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT, ");
-    SQL_CREATE_STORE_TABLE.append(DealContract.StoreEnty.COLUMN_TITLE).append(" TEXT NOT NULL, ");
-    SQL_CREATE_STORE_TABLE.append(DealContract.StoreEnty.COLUMN_THUMBNAIL_URL).append(" TEXT NOT NULL, ");
-    SQL_CREATE_STORE_TABLE.append("UNIQUE (").append(DealContract.StoreEnty.COLUMN_TITLE).append(") ON CONFLICT REPLACE);");
+    SQL_CREATE_STORE_TABLE.append(DealContract.StoreEntry.TABLE_NAME).append(" (");
+    SQL_CREATE_STORE_TABLE.append(DealContract.StoreEntry._ID).append(" INTEGER PRIMARY KEY, ");
+    SQL_CREATE_STORE_TABLE.append(DealContract.StoreEntry.COLUMN_TITLE).append(" TEXT NOT NULL, ");
+    SQL_CREATE_STORE_TABLE.append(DealContract.StoreEntry.COLUMN_THUMBNAIL_URL).append(" TEXT NOT NULL, ");
+    SQL_CREATE_STORE_TABLE.append("UNIQUE (").append(DealContract.StoreEntry.COLUMN_TITLE).append(") ON CONFLICT REPLACE);");
 
     // Create category table
     final StringBuilder SQL_CREATE_CATEGORY_TABLE = new StringBuilder("CREATE TABLE ");
     SQL_CREATE_CATEGORY_TABLE.append(DealContract.CategoryEntry.TABLE_NAME).append(" (");
-    SQL_CREATE_CATEGORY_TABLE.append(DealContract.CategoryEntry._ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT, ");
-    SQL_CREATE_CATEGORY_TABLE.append(DealContract.CategoryEntry.COLUMN_TITLE).append(" TEXT NOT NULL )");
+    SQL_CREATE_CATEGORY_TABLE.append(DealContract.CategoryEntry._ID).append(" INTEGER PRIMARY KEY, ");
+    SQL_CREATE_CATEGORY_TABLE.append(DealContract.CategoryEntry.COLUMN_TITLE).append(" TEXT NOT NULL, ");
+    SQL_CREATE_CATEGORY_TABLE.append("UNIQUE (").append(DealContract.CategoryEntry.COLUMN_TITLE).append(") ON CONFLICT REPLACE);");
 
     // Create promotion table
     final StringBuilder SQL_CREATE_PROMOTION_TABLE = new StringBuilder("CREATE TABLE ");
@@ -63,7 +64,7 @@ public class DealDBHelper extends SQLiteOpenHelper {
     // Setup promotion column as a foreign key to store table
     SQL_CREATE_PROMOTION_TABLE
         .append("FOREIGN KEY (" + DealContract.PromotionEntry.COLUMN_STORE_KEY + ") REFERENCES ")
-        .append(DealContract.StoreEnty.TABLE_NAME + " ( " + DealContract.StoreEnty._ID + " ), ");
+        .append(DealContract.StoreEntry.TABLE_NAME + " ( " + DealContract.StoreEntry._ID + " ), ");
 
     SQL_CREATE_PROMOTION_TABLE
         .append("FOREIGN KEY (" + DealContract.PromotionEntry.COLUMN_CATEGORY_KEY + ") REFERENCES ")
@@ -76,7 +77,7 @@ public class DealDBHelper extends SQLiteOpenHelper {
 
   @Override
   public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-    db.execSQL("DROP TABLE IF EXISTS " + DealContract.StoreEnty.TABLE_NAME);
+    db.execSQL("DROP TABLE IF EXISTS " + DealContract.StoreEntry.TABLE_NAME);
     db.execSQL("DROP TABLE IF EXISTS " + DealContract.CategoryEntry.TABLE_NAME);
     db.execSQL("DROP TABLE IF EXISTS " + DealContract.PromotionEntry.TABLE_NAME);
     onCreate(db);

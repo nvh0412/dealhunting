@@ -1,0 +1,12 @@
+<!-- Move this to fragment -->
+<android.support.v7.widget.RecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/deal_recycler_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:paddingBottom="28dp"
+    android:paddingLeft="@dimen/list_side_margin"
+    android:paddingRight="@dimen/list_side_margin"
+    android:scrollbarStyle="outsideOverlay">
+</android.support.v7.widget.RecyclerView>

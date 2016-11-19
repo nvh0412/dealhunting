@@ -30,12 +30,12 @@ public interface DealHuntingService {
   @GET("stores")
   Observable<List<Store>> getStoreData();
 
-  @GET("categories/${id}/promotions")
-  Observable<Promotion> getPromotionDataByStore(@Path("id") String storeId);
+  @GET("categories/{id}/promotions")
+  Observable<List<Promotion>> getPromotionDataByStore(@Path("id") String storeId);
 
   @GET("categories")
-  Observable<Category> getCategoryData();
+  Observable<List<Category>> getCategoryData();
 
-  @GET("categories/${id}/promotions")
-  Observable<Promotion> getPromotionDataByCategory(@Path("id") String categoryId);
+  @GET("categories/{id}/promotions")
+  Observable<List<Promotion>> getPromotionDataByCategory(@Path("id") String categoryId);
 }
