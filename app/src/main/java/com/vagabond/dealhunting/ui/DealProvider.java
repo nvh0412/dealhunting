@@ -1,4 +1,4 @@
-package com.vagabond.dealhunting;/*
+package com.vagabond.dealhunting.ui;/*
  * Copyright (C) 2016 SkyUnity (HoaNV)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

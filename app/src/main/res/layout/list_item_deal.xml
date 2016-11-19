@@ -28,7 +28,7 @@
             android:layout_height="match_parent"/>
       </FrameLayout>
       <!--suppress AndroidLintContentDescription -->
-      <com.vagabond.dealhunting.DynamicHeightImageView
+      <com.vagabond.dealhunting.ui.DynamicHeightImageView
           android:id="@+id/thumbnail"
           android:layout_width="match_parent"
           android:layout_height="0dp"

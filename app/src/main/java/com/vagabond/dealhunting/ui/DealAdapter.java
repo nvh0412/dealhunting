@@ -1,4 +1,4 @@
-package com.vagabond.dealhunting;
+package com.vagabond.dealhunting.ui;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+import com.vagabond.dealhunting.R;
 
 /*
  * Copyright (C) 2016 SkyUnity (HoaNV)

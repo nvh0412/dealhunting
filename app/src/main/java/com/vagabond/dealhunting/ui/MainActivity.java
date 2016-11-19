@@ -1,4 +1,4 @@
-package com.vagabond.dealhunting;
+package com.vagabond.dealhunting.ui;
 
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.facebook.stetho.Stetho;
+import com.vagabond.dealhunting.R;
 import com.vagabond.dealhunting.data.DealContract;
 import com.vagabond.dealhunting.sync.DealHuntingSyncAdapter;
 

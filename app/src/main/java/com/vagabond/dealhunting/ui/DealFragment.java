@@ -1,4 +1,4 @@
-package com.vagabond.dealhunting;
+package com.vagabond.dealhunting.ui;
 
 
 import android.database.Cursor;
@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.vagabond.dealhunting.R;
 import com.vagabond.dealhunting.data.DealContract;
 
 public class DealFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {

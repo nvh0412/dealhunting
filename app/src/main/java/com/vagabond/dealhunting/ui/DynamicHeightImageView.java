@@ -1,4 +1,4 @@
-package com.vagabond.dealhunting;
+package com.vagabond.dealhunting.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
