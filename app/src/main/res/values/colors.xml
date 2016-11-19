@@ -3,7 +3,7 @@
   <color name="colorPrimary">#D32F2F</color>
   <color name="colorPrimaryDark">#F44336</color>
   <color name="colorAccent">#FF4081</color>
-    <color name="white_icon">#FFFFFF</color>
+  <color name="white_icon">#FFFFFF</color>
   <color name="photo_placeholder">#ccc</color>
   <color name="black">#000</color>
   <color name="background">#E0E0E0</color>

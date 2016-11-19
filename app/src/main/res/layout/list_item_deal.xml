@@ -85,10 +85,12 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="@dimen/fab_size"
-        android:layout_height="@dimen/fab_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:background="@color/white_icon"
+        android:src="@drawable/ic_bookmark_border_black_36dp"
+        app:backgroundTint="@color/white_icon"
+        app:fabSize="mini"
         app:layout_anchor="@id/thumbnail"
         app:layout_anchorGravity="bottom|right|end"/>
   </android.support.design.widget.CoordinatorLayout>
