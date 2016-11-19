@@ -8,4 +8,8 @@
   <string name="drawer_close">Close Menu Navigation</string>
   <string name="content_authority">com.vagabond.dealhunting.app</string>
   <string name="sync_account_type">com.vagabond.dealhunting</string>
+  <string name="nav_about_title">About Application</string>
+  <string name="nav_setting_title">Settings</string>
+  <string name="nav_browse_title">Browse</string>
+  <string name="nav_browse_tutorial">Tutorial</string>
 </resources>

@@ -7,4 +7,7 @@
   <color name="photo_placeholder">#ccc</color>
   <color name="black">#000</color>
   <color name="background">#E0E0E0</color>
+  <color name="large_dark_icon">#66000000</color>
+  <color name="navdrawer_selected_item_background">#1a000000</color>
+  <color name="navview_icon">#ff444444</color>
 </resources>
