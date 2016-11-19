@@ -6,4 +6,5 @@
     <color name="white_icon">#FFFFFF</color>
   <color name="photo_placeholder">#ccc</color>
   <color name="black">#000</color>
+  <color name="background">#E0E0E0</color>
 </resources>

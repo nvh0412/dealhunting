@@ -4,6 +4,6 @@
   <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="list_toolbar_side_margin">16dp</dimen>
     <dimen name="list_side_margin">4dp</dimen>
-  <dimen name="fab_size">56dp</dimen>
+  <dimen name="fab_size">40dp</dimen>
   <dimen name="padding_view">8dp</dimen>
 </resources>
