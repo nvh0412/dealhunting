@@ -56,7 +56,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
       view.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-          mClickHandler.onClick(vh);
+          mClickHandler.onClick(mCursor, vh);
         }
       });
       return vh;
@@ -135,11 +135,10 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
     public void onClick(View view) {
       int adapterPosition = getAdapterPosition();
       mCursor.moveToPosition(adapterPosition);
-      mClickHandler.onClick(this);
     }
   }
 
-  public static interface ForecastAdapterOnClickHandler {
-    void onClick(DealAdapterViewHolder vh);
+  public interface ForecastAdapterOnClickHandler {
+    void onClick(Cursor cursor, DealAdapterViewHolder vh);
   }
 }

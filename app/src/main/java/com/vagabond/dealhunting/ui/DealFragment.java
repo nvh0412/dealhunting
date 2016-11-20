@@ -38,18 +38,17 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    Bundle args = getArguments();
-    if (args != null) {
-      categoryId = args.getString("CATEGORY_ID");
-    }
-
-    getLoaderManager().initLoader(LOADER_ID, null, this);
   }
 
   @Override
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+
+    Bundle args = getArguments();
+    if (args != null) {
+      categoryId = args.getString("CATEGORY_ID");
+    }
+    getLoaderManager().initLoader(LOADER_ID, null, this);
   }
 
   @Override
@@ -60,9 +59,9 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
 
     dealAdapter = new DealAdapter(getActivity(), new DealAdapter.ForecastAdapterOnClickHandler() {
       @Override
-      public void onClick(DealAdapter.DealAdapterViewHolder vh) {
-        Cursor cursor = dealAdapter.getCursor();
+      public void onClick(Cursor cursor, DealAdapter.DealAdapterViewHolder vh) {
         if (null != cursor) {
+          cursor.moveToPosition(vh.getAdapterPosition());
           Uri dealUri = DealContract.PromotionEntry.buildPromotionUri(cursor.getInt(COLUMN_PROMOTION_ID_INDEX));
           ((Callback)getActivity()).onItemSelected(dealUri, vh);
         }

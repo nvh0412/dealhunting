@@ -1,11 +1,26 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.vagabond.dealhunting.ui.DealDetailFragment">
-  <com.vagabond.dealhunting.ui.widget.ThreeTwoImageView
-      android:id="@+id/deal_image_backdrop"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                tools:context="com.vagabond.dealhunting.ui.DealDetailFragment">
+  <android.support.design.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.vagabond.dealhunting.ui.widget.ThreeTwoImageView
+      android:id="@+id/detail_image_backdrop"
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:scaleType="centerCrop"/>
+    <android.support.v7.widget.CardView
+      android:layout_width="match_parent"
+      android:layout_height="56dp"
+      android:layout_marginLeft="@dimen/abc_list_item_padding_horizontal_material"
+      android:layout_marginRight="@dimen/abc_list_item_padding_horizontal_material"
+      app:layout_anchor="@id/detail_image_backdrop"
+      app:layout_anchorGravity="bottom|center">
+
+    </android.support.v7.widget.CardView>
+  </android.support.design.widget.CoordinatorLayout>
+
 </RelativeLayout>
