@@ -39,11 +39,12 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
   private static final int INDEX_COLUMN_STORE_IMAGE = 12;
   private Context context;
   private Cursor mCursor;
+  private ForecastAdapterOnClickHandler mClickHandler;
 
-  public DealAdapter(Context context) {
+  public DealAdapter(Context context, ForecastAdapterOnClickHandler dh, View emptyView) {
     this.context = context;
+    this.mClickHandler = dh;
   }
-
 
   @Override
   public DealAdapterViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -51,7 +52,14 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
       int layoutId = R.layout.list_item_deal;
       View view = LayoutInflater.from(viewGroup.getContext()).inflate(layoutId, viewGroup, false);
       view.setFocusable(true);
-      return new DealAdapterViewHolder(view);
+      final DealAdapterViewHolder vh = new DealAdapterViewHolder(view);
+      view.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+          mClickHandler.onClick(vh);
+        }
+      });
+      return vh;
     } else {
       throw new RuntimeException("Not bound to RecyclerView");
     }
@@ -60,6 +68,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
   @Override
   public void onBindViewHolder(final DealAdapterViewHolder holder, int position) {
     mCursor.moveToPosition(position);
+
     holder.titleView.setText(mCursor.getString(INDEX_COLUMN_TITLE));
     holder.storeTitleTextView.setText(mCursor.getString(INDEX_COLUMN_STORE_TITLE));
     Picasso.with(context).load(mCursor.getString(INDEX_COLUMN_STORE_IMAGE)).into(new Target() {
@@ -124,7 +133,13 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
 
     @Override
     public void onClick(View view) {
-
+      int adapterPosition = getAdapterPosition();
+      mCursor.moveToPosition(adapterPosition);
+      mClickHandler.onClick(this);
     }
+  }
+
+  public static interface ForecastAdapterOnClickHandler {
+    void onClick(DealAdapterViewHolder vh);
   }
 }

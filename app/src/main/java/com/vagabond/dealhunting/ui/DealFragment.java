@@ -2,6 +2,7 @@ package com.vagabond.dealhunting.ui;
 
 
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,8 +25,13 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
   private String categoryId;
   private RecyclerView recycleView;
   private DealAdapter dealAdapter;
+  private View emptyView;
 
   public DealFragment() {
+  }
+
+  public interface Callback {
+    void onItemSelected(Uri dealUri, DealAdapter.DealAdapterViewHolder vh);
   }
 
   @Override
@@ -52,7 +58,12 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
     View root = inflater.inflate(R.layout.fragment_deal, container, false);
     recycleView = (RecyclerView) root.findViewById(R.id.deal_recycler_view);
 
-    dealAdapter = new DealAdapter(getActivity());
+    dealAdapter = new DealAdapter(getActivity(), new DealAdapter.ForecastAdapterOnClickHandler() {
+      @Override
+      public void onClick(DealAdapter.DealAdapterViewHolder vh) {
+        ((Callback)getActivity()).onItemSelected(null, vh);
+      }
+    }, emptyView);
     dealAdapter.setHasStableIds(true);
 
     recycleView.setAdapter(dealAdapter);

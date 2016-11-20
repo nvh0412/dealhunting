@@ -1,7 +1,9 @@
 package com.vagabond.dealhunting.ui;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -28,7 +30,7 @@ import com.vagabond.dealhunting.sync.DealHuntingSyncAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, DealFragment.Callback {
   private static final String LOG_TAG = MainActivity.class.getSimpleName();
   private static final int LOADER_ID = 0;
   private DrawerLayout mDrawerLayout;
@@ -173,6 +175,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
   @Override
   public void onLoaderReset(Loader<Cursor> loader) { }
+
+  @Override
+  public void onItemSelected(Uri dealUri, DealAdapter.DealAdapterViewHolder vh) {
+    Intent intent = new Intent(this, DetailActivity.class);
+    startActivity(intent);
+  }
 
   private class PagerFragmentAdapter extends FragmentPagerAdapter {
     private final List<Fragment> mFragments = new ArrayList<>();

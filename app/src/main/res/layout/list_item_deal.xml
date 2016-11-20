@@ -5,7 +5,9 @@
                                     android:layout_marginLeft="4dp"
                                     android:layout_marginRight="4dp"
                                     android:layout_marginTop="4dp"
-                                    android:layout_marginBottom="4dp">
+                                    android:layout_marginBottom="4dp"
+    android:clickable="true"
+    android:focusable="true">
 
   <android.support.design.widget.CoordinatorLayout
       android:layout_width="match_parent"
@@ -83,15 +85,15 @@
       </RelativeLayout>
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_bookmark_border_black_36dp"
-        app:backgroundTint="@color/white_icon"
-        app:fabSize="mini"
-        app:layout_anchor="@id/thumbnail"
-        app:layout_anchorGravity="bottom|right|end"/>
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="16dp"-->
+        <!--android:src="@drawable/ic_bookmark_border_black_36dp"-->
+        <!--app:backgroundTint="@color/white_icon"-->
+        <!--app:fabSize="mini"-->
+        <!--app:layout_anchor="@id/thumbnail"-->
+        <!--app:layout_anchorGravity="bottom|right|end"/>-->
   </android.support.design.widget.CoordinatorLayout>
 </android.support.v7.widget.CardView>

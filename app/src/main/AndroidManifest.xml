@@ -16,13 +16,14 @@
     <activity android:name=".ui.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
+
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
 
     <provider
-        android:authorities="com.vagabond.dealhunting.app"
         android:name=".ui.DealProvider"
+        android:authorities="com.vagabond.dealhunting.app"
         android:enabled="true"
         android:syncable="true"/>
 
@@ -32,11 +33,11 @@
       <intent-filter>
         <action android:name="android.content.SyncAdapter"/>
       </intent-filter>
+
       <meta-data
           android:name="android.content.SyncAdapter"
           android:resource="@xml/syncadapter"/>
     </service>
-
     <service android:name=".sync.DealHuntingAuthenticatorService">
       <intent-filter>
         <action android:name="android.accounts.AccountAuthenticator"/>
@@ -46,5 +47,12 @@
           android:name="android.accounts.AccountAuthenticator"
           android:resource="@xml/authenticator"/>
     </service>
+
+    <activity android:name=".ui.DetailActivity"
+        android:parentActivityName=".ui.MainActivity">
+        <meta-data android:name="android.support.PARENT_ACTIVITY"
+            android:value=".ui.MainActivity"/>
+    </activity>
   </application>
+
 </manifest>
