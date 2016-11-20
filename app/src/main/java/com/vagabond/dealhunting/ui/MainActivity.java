@@ -7,9 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -26,9 +23,6 @@ import com.facebook.stetho.Stetho;
 import com.vagabond.dealhunting.R;
 import com.vagabond.dealhunting.data.DealContract;
 import com.vagabond.dealhunting.sync.DealHuntingSyncAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, DealFragment.Callback {
   private static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -179,35 +173,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
   @Override
   public void onItemSelected(Uri dealUri, DealAdapter.DealAdapterViewHolder vh) {
     Intent intent = new Intent(this, DetailActivity.class);
+    intent.setData(dealUri);
     startActivity(intent);
-  }
-
-  private class PagerFragmentAdapter extends FragmentPagerAdapter {
-    private final List<Fragment> mFragments = new ArrayList<>();
-    private final List<String> mFragmentTitles = new ArrayList<>();
-
-    PagerFragmentAdapter(FragmentManager fm) {
-      super(fm);
-    }
-
-    @Override
-    public Fragment getItem(int position) {
-      return mFragments.get(position);
-    }
-
-    @Override
-    public int getCount() {
-      return mFragments.size();
-    }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-      return mFragmentTitles.get(position);
-    }
-
-    void addFragment(Fragment fragment, String title) {
-      mFragments.add(fragment);
-      mFragmentTitles.add(title);
-    }
   }
 }

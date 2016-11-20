@@ -22,6 +22,7 @@ import com.vagabond.dealhunting.data.DealContract;
 public class DealFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private static final String LOG_TAG = DealFragment.class.getSimpleName();
   private static final int LOADER_ID = 1;
+  private static final int COLUMN_PROMOTION_ID_INDEX = 0;
   private String categoryId;
   private RecyclerView recycleView;
   private DealAdapter dealAdapter;
@@ -41,7 +42,6 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
     Bundle args = getArguments();
     if (args != null) {
       categoryId = args.getString("CATEGORY_ID");
-      Log.d(LOG_TAG, "onCreate: CATEGORY_ID:" + categoryId);
     }
 
     getLoaderManager().initLoader(LOADER_ID, null, this);
@@ -61,7 +61,11 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
     dealAdapter = new DealAdapter(getActivity(), new DealAdapter.ForecastAdapterOnClickHandler() {
       @Override
       public void onClick(DealAdapter.DealAdapterViewHolder vh) {
-        ((Callback)getActivity()).onItemSelected(null, vh);
+        Cursor cursor = dealAdapter.getCursor();
+        if (null != cursor) {
+          Uri dealUri = DealContract.PromotionEntry.buildPromotionUri(cursor.getInt(COLUMN_PROMOTION_ID_INDEX));
+          ((Callback)getActivity()).onItemSelected(dealUri, vh);
+        }
       }
     }, emptyView);
     dealAdapter.setHasStableIds(true);
