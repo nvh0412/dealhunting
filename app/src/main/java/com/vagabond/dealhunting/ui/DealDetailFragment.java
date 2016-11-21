@@ -8,11 +8,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.vagabond.dealhunting.R;
@@ -23,16 +25,24 @@ public class DealDetailFragment extends Fragment implements LoaderManager.Loader
   public static final String DETAIL_URI = "detail_uri";
   private static final int INDEX_COLUMN_TITLE = 1;
   private static final int INDEX_COLUMN_IMAGE = 3;
+  private static final int INDEX_COLUMN_STORE_IMAGE = 5;
+  private static final int INDEX_COLUMN_SUMMARY = 4;
   private static final String LOG_TAG = DealDetailFragment.class.getSimpleName();
   private static final int LOADER_ID = 3;
   private static final String[] DEAIL_PROMOTION_COLUMN = new String[] {
       DealContract.PromotionEntry.TABLE_NAME + "." + DealContract.PromotionEntry._ID,
       DealContract.PromotionEntry.TABLE_NAME + "." + DealContract.PromotionEntry.COLUMN_TITLE,
       DealContract.PromotionEntry.TABLE_NAME + "." + DealContract.PromotionEntry.COLUMN_TITLE_DETAIL,
-      DealContract.PromotionEntry.TABLE_NAME + "." + DealContract.PromotionEntry.COLUMN_IMAGE_URL
+      DealContract.PromotionEntry.TABLE_NAME + "." + DealContract.PromotionEntry.COLUMN_IMAGE_URL,
+      DealContract.PromotionEntry.TABLE_NAME + "." + DealContract.PromotionEntry.COLUMN_SUMMARY,
+      DealContract.StoreEntry.TABLE_NAME + "." + DealContract.StoreEntry.COLUMN_THUMBNAIL_URL
   };
+
   private Uri mUri;
   private ImageView backdropImage;
+  private ImageView storeIconImage;
+  private TextView titleTextView;
+  private TextView summaryTextView;
 
   public DealDetailFragment() {
   }
@@ -52,7 +62,10 @@ public class DealDetailFragment extends Fragment implements LoaderManager.Loader
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_deal_detail, container, false);
-    backdropImage = (ImageView)rootView.findViewById(R.id.detail_image_backdrop);
+    backdropImage = (ImageView) rootView.findViewById(R.id.detail_image_backdrop);
+    storeIconImage = (ImageView) rootView.findViewById(R.id.detail_store_logo);
+    titleTextView = (TextView) rootView.findViewById(R.id.detail_title);
+    summaryTextView = (TextView) rootView.findViewById(R.id.detail_summary);
     return rootView;
   }
 
@@ -76,6 +89,10 @@ public class DealDetailFragment extends Fragment implements LoaderManager.Loader
       return;
     }
     Picasso.with(getActivity()).load(data.getString(INDEX_COLUMN_IMAGE)).into(backdropImage);
+    Picasso.with(getActivity()).load(data.getString(INDEX_COLUMN_STORE_IMAGE)).into(storeIconImage);
+    titleTextView.setText(data.getString(INDEX_COLUMN_TITLE));
+    Log.d(LOG_TAG, data.getString(INDEX_COLUMN_SUMMARY));
+    summaryTextView.setText(Html.fromHtml(data.getString(INDEX_COLUMN_SUMMARY)));
   }
 
   @Override
