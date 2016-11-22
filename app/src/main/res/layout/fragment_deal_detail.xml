@@ -19,7 +19,7 @@
       android:layout_below="@id/detail_image_backdrop"
       android:layout_marginLeft="@dimen/abc_list_item_padding_horizontal_material"
       android:layout_marginRight="@dimen/abc_list_item_padding_horizontal_material"
-      android:layout_marginTop="-16dp">
+      android:layout_marginTop="@dimen/overlap_margin">
       <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

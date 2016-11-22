@@ -13,4 +13,5 @@
   <dimen name="navdrawer_header_icon_margin_top">25dp</dimen>
   <dimen name="detail_backdrop_height">56dp</dimen>
   <dimen name="title_size">20sp</dimen>
+  <dimen name="overlap_margin">-16dp</dimen>
 </resources>
