@@ -14,4 +14,5 @@
   <dimen name="detail_backdrop_height">56dp</dimen>
   <dimen name="title_size">20sp</dimen>
   <dimen name="overlap_margin">-16dp</dimen>
+  <dimen name="margin_navigate_map_btn">32dp</dimen>
 </resources>

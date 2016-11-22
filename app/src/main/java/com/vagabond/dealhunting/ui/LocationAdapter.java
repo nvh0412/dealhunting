@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.vagabond.dealhunting.R;
 import com.vagabond.dealhunting.model.Location;
@@ -31,7 +32,12 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
   private static Location[] locations;
 
   static {
-    locations = new Location[]{new Location(), new Location(), new Location(), new Location()};
+    locations = new Location[]{
+        new Location("Store Address 1", "Store Address 1"),
+        new Location("Store Address 1", "Store Address 1"),
+        new Location("Store Address 1", "Store Address 1"),
+        new Location("Store Address 1", "Store Address 1")
+    };
   }
 
   public LocationAdapter(Context context) {
@@ -50,7 +56,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
   @Override
   public LocationAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     if ( parent instanceof RecyclerView ) {
-      int layoutId = R.layout.list_item_location;
+      int layoutId = viewType;
       View view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
       view.setFocusable(true);
       return new LocationAdapterViewHolder(view);
@@ -62,6 +68,18 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
   @Override
   public void onBindViewHolder(LocationAdapter.LocationAdapterViewHolder holder, int position) {
 //    mCursor.moveToPosition(position);
+    Location location = locations[position];
+    holder.titleTV.setText(location.getTitle());
+    holder.addressTV.setText(location.getAddress());
+  }
+
+  @Override
+  public int getItemViewType(int position) {
+    int viewId = R.layout.list_item_location;
+    if (position == 0) {
+      viewId = R.layout.list_item_location_active;
+    }
+    return viewId;
   }
 
   @Override
@@ -70,8 +88,15 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
   }
 
   public class LocationAdapterViewHolder extends RecyclerView.ViewHolder {
-    LocationAdapterViewHolder(View itemView) {
+    private TextView titleTV;
+    private TextView addressTV;
+    private TextView distanceTV;
+
+    public LocationAdapterViewHolder(View itemView) {
       super(itemView);
+      titleTV = (TextView) itemView.findViewById(R.id.location_title);
+      addressTV = (TextView) itemView.findViewById(R.id.location_address);
+      distanceTV = (TextView) itemView.findViewById(R.id.distance_textview);
     }
   }
 }

@@ -1,23 +1,32 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.vagabond.dealhunting.ui.DetailLocationFragment">
-
-  <com.vagabond.dealhunting.ui.widget.SquareMap
-    android:id="@+id/mapView"
+<android.support.design.widget.CoordinatorLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+  <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_alignParentTop="true"
-    android:layout_height="0dp" />
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.vagabond.dealhunting.ui.DetailLocationFragment">
+    <com.vagabond.dealhunting.ui.widget.SquareMap
+      android:id="@+id/mapView"
+      android:layout_width="match_parent"
+      android:layout_alignParentTop="true"
+      android:layout_height="0dp" />
+      <android.support.v7.widget.RecyclerView
+        android:id="@+id/location_recycler_view"
+        android:layout_below="@id/mapView"
+        android:layout_marginTop="@dimen/overlap_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+      </android.support.v7.widget.RecyclerView>
+  </RelativeLayout>
 
-  <android.support.v7.widget.RecyclerView
-    android:id="@+id/location_recycler_view"
-    android:layout_below="@id/mapView"
-    android:layout_marginTop="@dimen/overlap_margin"
-    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-    android:layout_marginRight="@dimen/activity_horizontal_margin"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-  </android.support.v7.widget.RecyclerView>
-</RelativeLayout>
+  <android.support.design.widget.FloatingActionButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_navigate_map_btn"
+    app:layout_anchor="@id/location_recycler_view"
+    app:layout_anchorGravity="top|right|end"/>
+</android.support.design.widget.CoordinatorLayout>

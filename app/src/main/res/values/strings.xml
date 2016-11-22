@@ -12,4 +12,5 @@
   <string name="nav_setting_title">Settings</string>
   <string name="nav_browse_title">Browse</string>
   <string name="nav_browse_tutorial">Tutorial</string>
+  <string name="nearest_location_msg">Địa điểm gần nhất</string>
 </resources>

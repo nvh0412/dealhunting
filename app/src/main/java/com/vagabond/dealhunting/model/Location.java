@@ -19,6 +19,14 @@ public class Location {
   private String title;
   private String address;
 
+  public Location() {
+  }
+
+  public Location(String title, String address) {
+    this.title = title;
+    this.address = address;
+  }
+
   public String getTitle() {
     return title;
   }

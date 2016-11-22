@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    xmlns:tools="http://schemas.android.com/tools"
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="104dp"
+                                    android:layout_marginBottom="@dimen/padding_view"
+                                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+  <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <View
+      android:layout_width="4dp"
+      android:layout_height="match_parent"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentStart="true"
+      android:layout_alignParentTop="true"
+      android:background="@color/colorAccent"/>
+
+    <TextView
+      android:id="@+id/current_location_tv"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textColor="@color/colorAccent"
+      android:layout_marginTop="@dimen/activity_horizontal_margin"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginStart="@dimen/activity_horizontal_margin"
+      android:fontFamily="sans-serif-condensed"
+      android:text="@string/nearest_location_msg"/>
+
+    <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_below="@id/current_location_tv"
+      android:padding="@dimen/activity_horizontal_margin">
+
+      <TextView
+        android:id="@+id/location_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:textColor="@color/black"
+        android:fontFamily="sans-serif-condensed"
+        tools:text="Store Address 1"/>
+
+      <TextView
+        android:id="@+id/location_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/location_title"
+        android:fontFamily="sans-serif"
+        tools:text="TT16B Tam Dao Str, Tan Binh"/>
+
+      <ImageView
+        android:id="@+id/distance_icon"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_store_black_24dp"/>
+
+      <TextView
+        android:id="@+id/distance_textview"
+        android:layout_toLeftOf="@id/distance_icon"
+        android:layout_toStartOf="@id/distance_icon"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/list_side_margin"
+        android:layout_marginEnd="@dimen/list_side_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="1.2km"/>
+    </RelativeLayout>
+  </RelativeLayout>
+</android.support.v7.widget.CardView>
