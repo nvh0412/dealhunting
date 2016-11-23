@@ -13,4 +13,7 @@
   <string name="nav_browse_title">Browse</string>
   <string name="nav_browse_tutorial">Tutorial</string>
   <string name="nearest_location_msg">Địa điểm gần nhất</string>
+  <string name="location_permission_denied">Denied</string>
+  <string name="permission_required_toast">Required Permission</string>
+  <string name="permission_rationale_location">Rationale Location</string>
 </resources>

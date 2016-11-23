@@ -1,13 +1,8 @@
 package com.vagabond.dealhunting.ui;
 
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,15 +12,11 @@ import android.view.ViewGroup;
 
 import com.vagabond.dealhunting.R;
 
-public class DetailLocationFragment extends Fragment implements OnMapReadyCallback {
+public class DetailLocationFragment extends Fragment {
 
-  private GoogleMap mMap;
   private MapView mMapView;
   private RecyclerView recycleView;
   private LocationAdapter locationAdapter;
-
-  private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-  private boolean mPermissionDenied = false;
 
   public DetailLocationFragment() {
   }
@@ -52,7 +43,8 @@ public class DetailLocationFragment extends Fragment implements OnMapReadyCallba
 
     mMapView.onCreate(savedInstanceState);
     mMapView.onResume();
-    mMapView.getMapAsync(this);
+
+    ((Callback)getActivity()).syncMap(mMapView);
 
     recycleView = (RecyclerView) root.findViewById(R.id.location_recycler_view);
 
@@ -62,14 +54,8 @@ public class DetailLocationFragment extends Fragment implements OnMapReadyCallba
     return root;
   }
 
-  @Override
-  public void onMapReady(GoogleMap googleMap) {
-    mMap = googleMap;
-
-    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-        ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-      return;
-    }
-    mMap.setMyLocationEnabled(true);
+  public interface Callback {
+    void syncMap(MapView mapView);
   }
+
 }
