@@ -1,13 +1,13 @@
 package com.vagabond.dealhunting.ui;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +24,11 @@ public class DetailLocationFragment extends Fragment implements OnMapReadyCallba
   private RecyclerView recycleView;
   private LocationAdapter locationAdapter;
 
-  public DetailLocationFragment() { }
+  private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+  private boolean mPermissionDenied = false;
+
+  public DetailLocationFragment() {
+  }
 
   public static DetailLocationFragment newInstance(Bundle args) {
     DetailLocationFragment fragment = new DetailLocationFragment();
@@ -44,7 +48,7 @@ public class DetailLocationFragment extends Fragment implements OnMapReadyCallba
                            Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_detail_location, container, false);
 
-    mMapView = (MapView)root.findViewById(R.id.mapView);
+    mMapView = (MapView) root.findViewById(R.id.mapView);
 
     mMapView.onCreate(savedInstanceState);
     mMapView.onResume();
@@ -62,8 +66,10 @@ public class DetailLocationFragment extends Fragment implements OnMapReadyCallba
   public void onMapReady(GoogleMap googleMap) {
     mMap = googleMap;
 
-    LatLng sydney = new LatLng(-34, 151);
-    mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-    mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+        ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+      return;
+    }
+    mMap.setMyLocationEnabled(true);
   }
 }
