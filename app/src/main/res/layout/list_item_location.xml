@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    xmlns:tools="http://schemas.android.com/tools"
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/padding_view"
+                                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+  <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/activity_horizontal_margin">
+    <TextView
+      android:id="@+id/location_title"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentTop="true"
+      android:layout_alignParentLeft="true"
+      android:textColor="@color/black"
+      android:fontFamily="sans-serif-condensed"
+      tools:text="Store Address 1"/>
+
+    <TextView
+      android:id="@+id/location_address"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/location_title"
+      android:fontFamily="sans-serif"
+      tools:text="TT16B Tam Dao Str, Tan Binh"/>
+
+    <ImageView
+      android:id="@+id/distance_icon"
+      android:layout_alignParentRight="true"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerVertical="true"
+      app:srcCompat="@drawable/ic_direction"/>
+
+    <TextView
+      android:id="@+id/distance_textview"
+      android:layout_toLeftOf="@id/distance_icon"
+      android:layout_toStartOf="@id/distance_icon"
+      android:layout_centerVertical="true"
+      android:layout_marginRight="@dimen/list_side_margin"
+      android:layout_marginEnd="@dimen/list_side_margin"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      tools:text="1.2km"/>
+  </RelativeLayout>
+</android.support.v7.widget.CardView>

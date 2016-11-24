@@ -2,6 +2,7 @@ package com.vagabond.dealhunting.ui;
 
 
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,29 +22,33 @@ import com.vagabond.dealhunting.data.DealContract;
 public class DealFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private static final String LOG_TAG = DealFragment.class.getSimpleName();
   private static final int LOADER_ID = 1;
+  private static final int COLUMN_PROMOTION_ID_INDEX = 0;
   private String categoryId;
   private RecyclerView recycleView;
   private DealAdapter dealAdapter;
+  private View emptyView;
 
   public DealFragment() {
+  }
+
+  public interface Callback {
+    void onItemSelected(Uri dealUri, DealAdapter.DealAdapterViewHolder vh);
   }
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    Bundle args = getArguments();
-    if (args != null) {
-      categoryId = args.getString("CATEGORY_ID");
-      Log.d(LOG_TAG, "onCreate: CATEGORY_ID:" + categoryId);
-    }
-
-    getLoaderManager().initLoader(LOADER_ID, null, this);
   }
 
   @Override
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+
+    Bundle args = getArguments();
+    if (args != null) {
+      categoryId = args.getString("CATEGORY_ID");
+    }
+    getLoaderManager().initLoader(LOADER_ID, null, this);
   }
 
   @Override
@@ -52,7 +57,16 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
     View root = inflater.inflate(R.layout.fragment_deal, container, false);
     recycleView = (RecyclerView) root.findViewById(R.id.deal_recycler_view);
 
-    dealAdapter = new DealAdapter(getActivity());
+    dealAdapter = new DealAdapter(getActivity(), new DealAdapter.ForecastAdapterOnClickHandler() {
+      @Override
+      public void onClick(Cursor cursor, DealAdapter.DealAdapterViewHolder vh) {
+        if (null != cursor) {
+          cursor.moveToPosition(vh.getAdapterPosition());
+          Uri dealUri = DealContract.PromotionEntry.buildPromotionUri(cursor.getInt(COLUMN_PROMOTION_ID_INDEX));
+          ((Callback)getActivity()).onItemSelected(dealUri, vh);
+        }
+      }
+    }, emptyView);
     dealAdapter.setHasStableIds(true);
 
     recycleView.setAdapter(dealAdapter);
