@@ -23,12 +23,18 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
   private static final String LOG_TAG = DealFragment.class.getSimpleName();
   private static final int LOADER_ID = 1;
   private static final int COLUMN_PROMOTION_ID_INDEX = 0;
+  private static final String CATEGORY_ID_KEY = "CATEGORY_ID";
   private String categoryId;
   private RecyclerView recycleView;
   private DealAdapter dealAdapter;
   private View emptyView;
 
-  public DealFragment() {
+  public static DealFragment newInstance(String categoryId) {
+    DealFragment fragment = new DealFragment();
+    Bundle args = new Bundle();
+    args.putString(CATEGORY_ID_KEY, categoryId);
+    fragment.setArguments(args);
+    return fragment;
   }
 
   public interface Callback {

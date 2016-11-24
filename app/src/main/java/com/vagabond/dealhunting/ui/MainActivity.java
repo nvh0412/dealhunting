@@ -27,6 +27,8 @@ import com.vagabond.dealhunting.sync.DealHuntingSyncAdapter;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, DealFragment.Callback {
   private static final String LOG_TAG = MainActivity.class.getSimpleName();
   private static final int LOADER_ID = 0;
+  private static final int COLUMN_CATEGORY_ID_INDEX = 0;
+  private static final int COLUMN_CATEGORY_TITLE_INDEX = 1;
   private DrawerLayout mDrawerLayout;
   private ActionBarDrawerToggle mDrawerToggle;
   private ViewPager viewPager;
@@ -155,11 +157,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     PagerFragmentAdapter adapter = new PagerFragmentAdapter(getSupportFragmentManager());
 
     do {
-      DealFragment dealFragment = new DealFragment();
-      Bundle bundle = new Bundle();
-      bundle.putString("CATEGORY_ID", String.valueOf(data.getInt(0)));
-      dealFragment.setArguments(bundle);
-      adapter.addFragment(dealFragment, data.getString(1));
+      adapter.addFragment(
+          DealFragment.newInstance(String.valueOf(data.getInt(COLUMN_CATEGORY_ID_INDEX))),
+          data.getString(COLUMN_CATEGORY_TITLE_INDEX));
     } while (data.moveToNext());
 
     if (adapter.getCount() != countFragment) {
