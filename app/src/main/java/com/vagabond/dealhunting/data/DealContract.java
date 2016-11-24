@@ -42,6 +42,7 @@ public class DealContract {
     public static final String PATH_PROMOTION = "promotion";
     public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_PROMOTION).build();
     public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PROMOTION;
+    public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PROMOTION;
 
     public static final String TABLE_NAME = "promotion";
     public static final String COLUMN_TITLE = "title";
@@ -59,10 +60,15 @@ public class DealContract {
     }
 
     public static Uri buildPromotionUriByCategory(String categoryId) {
-      return CONTENT_URI.buildUpon().appendPath(categoryId).build();
+      return CONTENT_URI.buildUpon().appendPath(CategoryEntry.PATH_CATEGORY).appendQueryParameter(COLUMN_CATEGORY_KEY, categoryId).build();
     }
 
     public static String getCategoryId(Uri uri) {
+      String categoryId = uri.getQueryParameter(COLUMN_CATEGORY_KEY);
+      return categoryId;
+    }
+
+    public static String getPromotionIdFromUri(Uri uri) {
       return uri.getPathSegments().get(1);
     }
   }

@@ -1,4 +1,4 @@
-package com.vagabond.dealhunting;/*
+package com.vagabond.dealhunting.ui;/*
  * Copyright (C) 2016 SkyUnity (HoaNV)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +23,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.vagabond.dealhunting.data.DealContract;
 import com.vagabond.dealhunting.data.DealDBHelper;
@@ -33,6 +34,8 @@ public class DealProvider extends ContentProvider {
   private static final int PROMOTION = 201;
   private static final int PROMOTION_CATEGORY = 202;
   private static final int STORE = 203;
+  private static final int PROMOTION_WITH_ID = 204;
+  private static final String LOG_TAG = DealProvider.class.getSimpleName();
   private DealDBHelper mOpenHelper;
   private static final UriMatcher sUriMatcher = buildUriMatcher();
 
@@ -43,6 +46,9 @@ public class DealProvider extends ContentProvider {
 
   private static final String promotionCategorySelection = DealContract.PromotionEntry.TABLE_NAME +
       "." + DealContract.PromotionEntry.COLUMN_CATEGORY_KEY + " = ? ";
+
+  private static final String sPromotionIDSelection = DealContract.PromotionEntry.TABLE_NAME +
+      "." + DealContract.PromotionEntry._ID + " = ? ";
 
   static {
     sCategoryQueryBuild = new SQLiteQueryBuilder();
@@ -61,6 +67,7 @@ public class DealProvider extends ContentProvider {
     uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.StoreEntry.PATH_STORE, STORE);
     uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.CategoryEntry.PATH_CATEGORY, CATEGORY);
     uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.PromotionEntry.PATH_PROMOTION, PROMOTION);
+    uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.PromotionEntry.PATH_PROMOTION + "/#", PROMOTION_WITH_ID);
     uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.PromotionEntry.PATH_PROMOTION + "/*", PROMOTION_CATEGORY);
     return uriMatcher;
   }
@@ -85,6 +92,9 @@ public class DealProvider extends ContentProvider {
       case PROMOTION:
         retCursor = sPromotionQueryBuild.query(mOpenHelper.getReadableDatabase(), projection, selection, selectionArgs, null, null, sortOrder);
         break;
+      case PROMOTION_WITH_ID:
+        retCursor = getPromotionByPromotionID(uri, projection, sortOrder);
+        break;
       case PROMOTION_CATEGORY:
         retCursor = getPromotionByCategory(uri, projection, sortOrder);
         break;
@@ -99,6 +109,7 @@ public class DealProvider extends ContentProvider {
   private Cursor getPromotionByCategory(Uri uri, String[] projection, String sortOrder) {
     String selection = promotionCategorySelection;
     String[] selectionArgs = new String[]{DealContract.PromotionEntry.getCategoryId(uri) };
+    Log.d(LOG_TAG, "getPromotionByCategory:" + selectionArgs[0]);
     return sPromotionQueryBuild.query(mOpenHelper.getReadableDatabase(),
         projection,
         selection,
@@ -117,6 +128,8 @@ public class DealProvider extends ContentProvider {
         return DealContract.CategoryEntry.CONTENT_TYPE;
       case PROMOTION_CATEGORY:
         return DealContract.PromotionEntry.CONTENT_TYPE;
+      case PROMOTION_WITH_ID:
+        return DealContract.PromotionEntry.CONTENT_ITEM_TYPE;
       case PROMOTION:
         return DealContract.PromotionEntry.CONTENT_TYPE;
       default:
@@ -267,4 +280,15 @@ public class DealProvider extends ContentProvider {
         return super.bulkInsert(uri, values);
     }
   }
+
+  public Cursor getPromotionByPromotionID(Uri uri, String[] projection, String sortOrder) {
+    return sPromotionQueryBuild.query(
+        mOpenHelper.getReadableDatabase(),
+        projection, sPromotionIDSelection,
+        new String[]{ DealContract.PromotionEntry.getPromotionIdFromUri(uri) },
+        null,
+        null,
+        sortOrder);
+  }
+
 }

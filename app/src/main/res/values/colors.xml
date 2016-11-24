@@ -10,4 +10,6 @@
   <color name="large_dark_icon">#66000000</color>
   <color name="navdrawer_selected_item_background">#1a000000</color>
   <color name="navview_icon">#ff444444</color>
+  <color name="colorActive">#FF6D00</color>
+  <color name="grey_icon">#757575</color>
 </resources>

@@ -1,8 +1,10 @@
-package com.vagabond.dealhunting;
+package com.vagabond.dealhunting.ui.widget;
+
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.MapView;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 /*
  * Copyright (C) 2016 SkyUnity (HoaNV)
@@ -19,25 +21,27 @@ import android.widget.ImageView;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class DynamicHeightImageView extends ImageView {
-  private float mAspectRatio = 1f;
-
-  public DynamicHeightImageView(Context context) {
+public class SquareMap extends MapView {
+  public SquareMap(Context context) {
     super(context);
   }
 
-  public DynamicHeightImageView(Context context, AttributeSet attrs) {
-    super(context, attrs);
+  public SquareMap(Context context, AttributeSet attributeSet) {
+    super(context, attributeSet);
   }
 
-  public DynamicHeightImageView(Context context, AttributeSet attrs, int defStyleAttr) {
-    super(context, attrs, defStyleAttr);
+  public SquareMap(Context context, AttributeSet attributeSet, int i) {
+    super(context, attributeSet, i);
+  }
+
+  public SquareMap(Context context, GoogleMapOptions googleMapOptions) {
+    super(context, googleMapOptions);
   }
 
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    int measuredWidth = getMeasuredWidth();
-    setMeasuredDimension(measuredWidth, (int) (measuredWidth / mAspectRatio));
+    int squareHeight = MeasureSpec.getSize(widthMeasureSpec) * 2/3;
+    int squareHeightSpec = MeasureSpec.makeMeasureSpec(squareHeight, MeasureSpec.EXACTLY);
+    super.onMeasure(widthMeasureSpec, squareHeightSpec);
   }
 }
