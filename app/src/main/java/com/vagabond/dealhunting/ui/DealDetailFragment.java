@@ -52,6 +52,7 @@ public class DealDetailFragment extends Fragment implements LoaderManager.Loader
   private TextView titleTextView;
   private TextView summaryTextView;
   private String mDeal;
+  private Cursor mCursor;
 
   public DealDetailFragment() {
   }
@@ -106,24 +107,27 @@ public class DealDetailFragment extends Fragment implements LoaderManager.Loader
 
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-    Log.d(LOG_TAG, "onLoadFinished ");
-    if (!data.moveToFirst()) {
-      return;
+    mCursor = data;
+    if (mCursor != null && !mCursor.moveToFirst()) {
+      Log.e(LOG_TAG, "Error reading item detail cursor");
+      mCursor.close();
+      mCursor = null;
     }
-    Picasso.with(getActivity()).load(data.getString(INDEX_COLUMN_IMAGE)).into(backdropImage);
-    Picasso.with(getActivity()).load(data.getString(INDEX_COLUMN_STORE_IMAGE)).into(storeIconImage);
 
-    String storeName = data.getString(INDEX_COLUMN_STORE_TITLE);
-    String dealTitle = data.getString(INDEX_COLUMN_TITLE);
+    Picasso.with(getActivity()).load(mCursor.getString(INDEX_COLUMN_IMAGE)).into(backdropImage);
+    Picasso.with(getActivity()).load(mCursor.getString(INDEX_COLUMN_STORE_IMAGE)).into(storeIconImage);
+
+    String storeName = mCursor.getString(INDEX_COLUMN_STORE_TITLE);
+    String dealTitle = mCursor.getString(INDEX_COLUMN_TITLE);
     titleTextView.setText(dealTitle);
-    summaryTextView.setText(Html.fromHtml(data.getString(INDEX_COLUMN_SUMMARY)));
+    summaryTextView.setText(Html.fromHtml(mCursor.getString(INDEX_COLUMN_SUMMARY)));
 
     mDeal = String.format("%s - %s ", storeName, dealTitle);
     setHasOptionsMenu(true);
   }
 
   @Override
-  public void onLoaderReset(Loader<Cursor> loader) { }
+  public void onLoaderReset(Loader<Cursor> loader) { mCursor.close(); }
 
   private Intent createShareDealIntent() {
     Intent shareIntent = new Intent(Intent.ACTION_SEND);

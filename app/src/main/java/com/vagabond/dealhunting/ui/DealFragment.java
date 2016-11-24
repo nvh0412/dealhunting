@@ -74,13 +74,11 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
       }
     }, emptyView);
     dealAdapter.setHasStableIds(true);
-
     recycleView.setAdapter(dealAdapter);
     int columnCount = getResources().getInteger(R.integer.list_column_count);
     StaggeredGridLayoutManager sglm =
         new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
     recycleView.setLayoutManager(sglm);
-
     return root;
   }
 
@@ -95,6 +93,7 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
     Log.d(LOG_TAG, "onLoadFinished");
     if (!data.moveToFirst()) {
       Log.d(LOG_TAG, "onLoadFinished: empty promotion");
+      data.close();
       return;
     }
 
