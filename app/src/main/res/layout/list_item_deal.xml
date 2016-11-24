@@ -58,20 +58,12 @@
             android:id="@+id/store_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_store_black_24dp"/>
-
-        <TextView
-            android:id="@+id/store_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/store_icon"
-            android:layout_toEndOf="@+id/store_icon"
-            android:layout_alignParentTop="true"/>
+            app:srcCompat="@drawable/ic_store_black"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_place_black_24dp"
+            app:srcCompat="@drawable/ic_place_black"
             android:layout_toLeftOf="@+id/distance_textview"
             android:layout_toStartOf="@+id/distance_textview"/>
         <TextView

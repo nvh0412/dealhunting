@@ -14,10 +14,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.vagabond.dealhunting.R;
 
-public class DetailActivity extends AppCompatActivity implements DetailLocationFragment.Callback, OnMapReadyCallback {
+public class DetailActivity extends AppCompatActivity implements GoogleMap.OnMyLocationButtonClickListener, DetailLocationFragment.Callback, OnMapReadyCallback {
 
   private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
   private ViewPager viewPager;
@@ -65,7 +66,7 @@ public class DetailActivity extends AppCompatActivity implements DetailLocationF
   @Override
   public void onMapReady(GoogleMap googleMap) {
     mMap = googleMap;
-
+    mMap.setOnMyLocationButtonClickListener(this);
     enableMyLocation();
   }
 
@@ -75,11 +76,9 @@ public class DetailActivity extends AppCompatActivity implements DetailLocationF
   private void enableMyLocation() {
     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
         != PackageManager.PERMISSION_GRANTED) {
-      // Permission to access the location is missing.
       PermissionUtils.requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE,
           Manifest.permission.ACCESS_FINE_LOCATION, true);
     } else if (mMap != null) {
-      // Access to the location has been granted to the app.
       mMap.setMyLocationEnabled(true);
     }
   }
@@ -93,10 +92,8 @@ public class DetailActivity extends AppCompatActivity implements DetailLocationF
 
     if (PermissionUtils.isPermissionGranted(permissions, grantResults,
         Manifest.permission.ACCESS_FINE_LOCATION)) {
-      // Enable the my location layer if the permission has been granted.
       enableMyLocation();
     } else {
-      // Display the missing permission error dialog when the fragments resume.
       mPermissionDenied = true;
     }
   }
@@ -105,17 +102,19 @@ public class DetailActivity extends AppCompatActivity implements DetailLocationF
   protected void onResumeFragments() {
     super.onResumeFragments();
     if (mPermissionDenied) {
-      // Permission was not granted, display error dialog.
       showMissingPermissionError();
       mPermissionDenied = false;
     }
   }
 
-  /**
-   * Displays a dialog with error message explaining that the location permission is missing.
-   */
   private void showMissingPermissionError() {
     PermissionUtils.PermissionDeniedDialog
         .newInstance(true).show(getSupportFragmentManager(), "dialog");
+  }
+
+  @Override
+  public boolean onMyLocationButtonClick() {
+    Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
+    return false;
   }
 }

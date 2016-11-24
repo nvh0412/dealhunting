@@ -70,7 +70,6 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
     mCursor.moveToPosition(position);
 
     holder.titleView.setText(mCursor.getString(INDEX_COLUMN_TITLE));
-    holder.storeTitleTextView.setText(mCursor.getString(INDEX_COLUMN_STORE_TITLE));
     Picasso.with(context).load(mCursor.getString(INDEX_COLUMN_STORE_IMAGE)).into(new Target() {
       @Override
       public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -117,7 +116,6 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
 
   public class DealAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TextView titleView;
-    private TextView storeTitleTextView;
     private ImageView storeBrandImageView;
     private DynamicHeightImageView dynamicHeightImageView;
     private View brandBar;
@@ -128,7 +126,6 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
       dynamicHeightImageView = (DynamicHeightImageView) itemView.findViewById(R.id.thumbnail);
       storeBrandImageView = (ImageView) itemView.findViewById(R.id.brand_logo);
       brandBar = itemView.findViewById(R.id.brand_bar);
-      storeTitleTextView = (TextView) itemView.findViewById(R.id.store_title);
     }
 
     @Override

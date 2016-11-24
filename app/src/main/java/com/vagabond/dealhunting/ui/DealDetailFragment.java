@@ -85,7 +85,6 @@ public class DealDetailFragment extends Fragment implements LoaderManager.Loader
   public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
     Log.d(LOG_TAG, "onLoadFinished ");
     if (!data.moveToFirst()) {
-      Log.e(LOG_TAG, "onLoadFinished error data: " + data);
       return;
     }
     Picasso.with(getActivity()).load(data.getString(INDEX_COLUMN_IMAGE)).into(backdropImage);
