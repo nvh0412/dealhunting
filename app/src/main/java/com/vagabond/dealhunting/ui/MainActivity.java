@@ -5,6 +5,8 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.LoaderManager;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
   private DrawerLayout mDrawerLayout;
   private ActionBarDrawerToggle mDrawerToggle;
   private ViewPager viewPager;
+  private NavigationView mNavigationView;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +80,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
     getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_hamburger);
+
+    mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+    setupDrawerContent(mNavigationView);
 
     getSupportLoaderManager().initLoader(LOADER_ID, null, this);
 
@@ -175,5 +181,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     Intent intent = new Intent(this, DetailActivity.class);
     intent.setData(dealUri);
     startActivity(intent);
+  }
+
+  private void setupDrawerContent(NavigationView navigationView) {
+    navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+      @Override
+      public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Log.d(LOG_TAG, "Navigation selected");
+        return false;
+      }
+    });
   }
 }

@@ -9,6 +9,11 @@
         android:icon="@drawable/ic_navview_browse"
         android:title="@string/nav_browse_title"/>
     <item
+      android:id="@+id/ic_navview_store"
+      android:checkable="true"
+      android:icon="@drawable/ic_store_black"
+      android:title="@string/nav_store_title"/>
+    <item
         android:id="@+id/ic_navview_tutorial"
         android:checkable="true"
         android:icon="@drawable/ic_navview_tutorial"
