@@ -52,7 +52,7 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
 
     Bundle args = getArguments();
     if (args != null) {
-      categoryId = args.getString("CATEGORY_ID");
+      categoryId = args.getString(CATEGORY_ID_KEY);
     }
     getLoaderManager().initLoader(LOADER_ID, null, this);
   }
