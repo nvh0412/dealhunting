@@ -116,10 +116,10 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = null;
         switch (item.getItemId()) {
           case R.id.ic_navview_browse:
-            fragment = new HomeFragment();
+            fragment = HomeFragment.getInstance();
             break;
           case R.id.ic_navview_store:
-            fragment = new StoreFragment();
+            fragment = StoreFragment.getInstance();
             break;
           case R.id.about_nav_item:
             break;

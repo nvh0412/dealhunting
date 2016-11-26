@@ -48,6 +48,7 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
     viewPager = (ViewPager) root.findViewById(R.id.viewpager);
 
     TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tabs);
+    tabLayout.setVisibility(View.VISIBLE);
     tabLayout.setupWithViewPager(viewPager);
     return root;
   }

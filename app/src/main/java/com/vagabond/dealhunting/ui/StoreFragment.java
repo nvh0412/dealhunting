@@ -14,5 +14,27 @@ package com.vagabond.dealhunting.ui;/*
  * limitations under the License.
  */
 
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.vagabond.dealhunting.R;
+
 public class StoreFragment extends android.support.v4.app.Fragment {
+
+  public static StoreFragment getInstance() {
+    return new StoreFragment();
+  }
+
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                           Bundle savedInstanceState) {
+    TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tabs);
+    tabLayout.setVisibility(View.GONE);
+
+    View root = inflater.inflate(R.layout.fragment_store, container, false);
+    return root;
+  }
 }
