@@ -26,7 +26,7 @@ public class PagerFragmentAdapter extends FragmentStatePagerAdapter{
   private final List<Fragment> mFragments = new ArrayList<>();
   private final List<String> mFragmentTitles = new ArrayList<>();
 
-  PagerFragmentAdapter(FragmentManager fm) {
+  public PagerFragmentAdapter(FragmentManager fm) {
     super(fm);
   }
 
@@ -45,7 +45,7 @@ public class PagerFragmentAdapter extends FragmentStatePagerAdapter{
     return mFragmentTitles.get(position);
   }
 
-  void addFragment(Fragment fragment, String title) {
+  public void addFragment(Fragment fragment, String title) {
     mFragments.add(fragment);
     mFragmentTitles.add(title);
   }

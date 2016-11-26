@@ -1,40 +1,26 @@
 package com.vagabond.dealhunting.ui;
 
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.facebook.stetho.Stetho;
 import com.vagabond.dealhunting.R;
-import com.vagabond.dealhunting.data.DealContract;
 import com.vagabond.dealhunting.sync.DealHuntingSyncAdapter;
+import com.vagabond.dealhunting.ui.home.HomeFragment;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, DealFragment.Callback {
+public class MainActivity extends AppCompatActivity {
   private static final String LOG_TAG = MainActivity.class.getSimpleName();
-  private static final int LOADER_ID = 0;
-  private static final int COLUMN_CATEGORY_ID_INDEX = 0;
-  private static final int COLUMN_CATEGORY_TITLE_INDEX = 1;
-  private DrawerLayout mDrawerLayout;
   private ActionBarDrawerToggle mDrawerToggle;
-  private ViewPager viewPager;
-  private NavigationView mNavigationView;
+  private HomeFragment homeFragment;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -51,29 +37,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-    viewPager = (ViewPager) findViewById(R.id.viewpager);
+    DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-    TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-    tabLayout.setupWithViewPager(viewPager);
-
-    mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-    mDrawerToggle = new ActionBarDrawerToggle(
-      this,
-      mDrawerLayout, R.drawable.ic_hamburger,
-      R.string.drawer_open,
-      R.string.drawer_close
-    ) {
-      @Override
-      public void onDrawerClosed(View drawerView) {
-        super.onDrawerClosed(drawerView);
-      }
-
-      @Override
-      public void onDrawerOpened(View drawerView) {
-        super.onDrawerOpened(drawerView);
-      }
-    };
+    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
 
     mDrawerLayout.setDrawerListener(mDrawerToggle);
 
@@ -81,10 +47,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     getSupportActionBar().setHomeButtonEnabled(true);
     getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_hamburger);
 
-    mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+    NavigationView mNavigationView = (NavigationView) findViewById(R.id.nav_view);
     setupDrawerContent(mNavigationView);
 
-    getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+    homeFragment = HomeFragment.getInstance();
+    getSupportFragmentManager().beginTransaction()
+        .replace(R.id.content_fl, homeFragment)
+        .commit();
 
     DealHuntingSyncAdapter.initializeSyncAdapter(this);
   }
@@ -92,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
   @Override
   protected void onPostCreate(Bundle savedInstanceState) {
     super.onPostCreate(savedInstanceState);
-
     mDrawerToggle.syncState();
   }
 
@@ -124,11 +92,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
   @Override
   public void onBackPressed() {
-    Log.d(LOG_TAG, "onBackPressed: Pager position" + viewPager.getCurrentItem());
-    if (viewPager.getCurrentItem() == 0) {
+    if (!homeFragment.backHanlder()) {
       super.onBackPressed();
-    } else {
-      viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
     }
   }
 
@@ -140,47 +105,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
   @Override
   public void onStop() {
     super.onStop();
-  }
-
-  @Override
-  public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-    return new CursorLoader(this, DealContract.CategoryEntry.CONTENT_URI, null, null, null, null);
-  }
-
-  @Override
-  public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-    // Add Tab to Tablayout
-    Log.d(LOG_TAG, "onLoadFinished");
-    if (!data.moveToFirst()) {
-      return;
-    }
-
-    int countFragment = 0;
-    if (viewPager.getAdapter() != null) {
-      countFragment = viewPager.getAdapter().getCount();
-    }
-
-    PagerFragmentAdapter adapter = new PagerFragmentAdapter(getSupportFragmentManager());
-
-    do {
-      adapter.addFragment(
-          DealFragment.newInstance(String.valueOf(data.getInt(COLUMN_CATEGORY_ID_INDEX))),
-          data.getString(COLUMN_CATEGORY_TITLE_INDEX));
-    } while (data.moveToNext());
-
-    if (adapter.getCount() != countFragment) {
-      viewPager.setAdapter(adapter);
-    }
-  }
-
-  @Override
-  public void onLoaderReset(Loader<Cursor> loader) { }
-
-  @Override
-  public void onItemSelected(Uri dealUri, DealAdapter.DealAdapterViewHolder vh) {
-    Intent intent = new Intent(this, DetailActivity.class);
-    intent.setData(dealUri);
-    startActivity(intent);
   }
 
   private void setupDrawerContent(NavigationView navigationView) {
