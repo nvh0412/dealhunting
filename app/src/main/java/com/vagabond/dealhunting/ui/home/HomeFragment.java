@@ -1,9 +1,7 @@
 package com.vagabond.dealhunting.ui.home;
 
 
-import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -18,15 +16,13 @@ import android.view.ViewGroup;
 
 import com.vagabond.dealhunting.R;
 import com.vagabond.dealhunting.data.DealContract;
-import com.vagabond.dealhunting.ui.DealAdapter;
 import com.vagabond.dealhunting.ui.DealFragment;
-import com.vagabond.dealhunting.ui.DetailActivity;
 import com.vagabond.dealhunting.ui.PagerFragmentAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, DealFragment.Callback {
+public class HomeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
   private static final String LOG_TAG = HomeFragment.class.getSimpleName();
   private static final int COLUMN_CATEGORY_ID_INDEX = 0;
@@ -96,12 +92,5 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
       viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
       return true;
     }
-  }
-
-  @Override
-  public void onItemSelected(Uri dealUri, DealAdapter.DealAdapterViewHolder vh) {
-    Intent intent = new Intent(getActivity(), DetailActivity.class);
-    intent.setData(dealUri);
-    startActivity(intent);
   }
 }

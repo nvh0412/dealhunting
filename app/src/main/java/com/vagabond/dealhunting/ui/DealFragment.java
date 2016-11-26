@@ -1,6 +1,7 @@
 package com.vagabond.dealhunting.ui;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,10 +38,6 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
     return fragment;
   }
 
-  public interface Callback {
-    void onItemSelected(Uri dealUri, DealAdapter.DealAdapterViewHolder vh);
-  }
-
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -69,16 +66,18 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
         if (null != cursor) {
           cursor.moveToPosition(vh.getAdapterPosition());
           Uri dealUri = DealContract.PromotionEntry.buildPromotionUri(cursor.getInt(COLUMN_PROMOTION_ID_INDEX));
-          ((Callback)getActivity()).onItemSelected(dealUri, vh);
+
+          Intent intent = new Intent(getActivity(), DetailActivity.class);
+          intent.setData(dealUri);
+          startActivity(intent);
         }
       }
     }, emptyView);
+
     dealAdapter.setHasStableIds(true);
     recycleView.setAdapter(dealAdapter);
     int columnCount = getResources().getInteger(R.integer.list_column_count);
-    StaggeredGridLayoutManager sglm =
-        new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
-    recycleView.setLayoutManager(sglm);
+    recycleView.setLayoutManager(new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL));
     return root;
   }
 

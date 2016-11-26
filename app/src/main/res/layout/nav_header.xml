@@ -16,7 +16,7 @@
       android:paddingRight="@dimen/navdrawer_logo_padding_right"
       android:paddingTop="@dimen/navdrawer_logo_vertical_padding"
       android:scaleType="fitEnd"
-      android:src="@drawable/ic_logo"/>
+      app:srcCompat="@drawable/ic_logo"/>
 
   <LinearLayout
       android:id="@+id/chosen_account_content_view"

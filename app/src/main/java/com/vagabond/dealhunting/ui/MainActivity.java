@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
   private static final String LOG_TAG = MainActivity.class.getSimpleName();
   private ActionBarDrawerToggle mDrawerToggle;
   private HomeFragment homeFragment;
+  private DrawerLayout mDrawerLayout;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-    DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+    mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
     mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
 
@@ -111,8 +113,24 @@ public class MainActivity extends AppCompatActivity {
     navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
       @Override
       public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Log.d(LOG_TAG, "Navigation selected");
-        return false;
+        Fragment fragment = null;
+        switch (item.getItemId()) {
+          case R.id.ic_navview_browse:
+            fragment = new HomeFragment();
+            break;
+          case R.id.ic_navview_store:
+            fragment = new StoreFragment();
+            break;
+          case R.id.about_nav_item:
+            break;
+        }
+
+        getSupportFragmentManager().beginTransaction()
+            .replace(R.id.content_fl, fragment)
+            .commit();
+
+        mDrawerLayout.closeDrawers();
+        return true;
       }
     });
   }
