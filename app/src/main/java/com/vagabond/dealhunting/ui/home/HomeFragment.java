@@ -84,7 +84,9 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
   }
 
   @Override
-  public void onLoaderReset(Loader<Cursor> loader) { }
+  public void onLoaderReset(Loader<Cursor> loader) {
+
+  }
 
   public boolean backHanlder() {
     if (viewPager.getCurrentItem() == 0) {
@@ -93,5 +95,11 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
       viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
       return true;
     }
+  }
+
+  @Override
+  public void onDetach() {
+    getActivity().getSupportLoaderManager().destroyLoader(LOADER_ID);
+    super.onDetach();
   }
 }

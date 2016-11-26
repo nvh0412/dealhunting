@@ -1,7 +1,15 @@
-<android.support.v7.widget.RecyclerView
+<RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:background="@color/background"
-  android:id="@+id/store_rv"
   android:layout_width="match_parent"
-  android:layout_height="match_parent"/>
+  android:layout_height="match_parent">
+  <com.vagabond.dealhunting.ui.widget.ThreeTwoImageView
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:id="@+id/store_banner"/>
+  <android.support.v7.widget.RecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/background"
+    android:id="@+id/store_rv"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
+</RelativeLayout>
