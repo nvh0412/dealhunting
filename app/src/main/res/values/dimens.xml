@@ -19,4 +19,5 @@
   <dimen name="text_left_padding">72dp</dimen>
   <dimen name="list_text_height">56dp</dimen>
   <dimen name="list_item_high">72dp</dimen>
+  <dimen name="store_backdrop_height">256dp</dimen>
 </resources>

@@ -18,13 +18,15 @@ package com.vagabond.dealhunting.ui;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,10 +56,15 @@ public class StoreFragment extends Fragment implements LoaderManager.LoaderCallb
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tabs);
-    tabLayout.setVisibility(View.GONE);
-
     View root = inflater.inflate(R.layout.fragment_store, container, false);
+
+    Toolbar toolbar = (Toolbar) root.findViewById(R.id.toolbar);
+    ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+    ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
+    actionBar.setHomeButtonEnabled(true);
+    actionBar.setHomeAsUpIndicator(R.drawable.ic_hamburger);
 
     storeAdapter = new StoreAdapter(getActivity());
 

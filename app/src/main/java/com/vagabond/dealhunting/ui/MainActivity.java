@@ -6,9 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,26 +35,20 @@ public class MainActivity extends AppCompatActivity {
             .build());
 
     setContentView(R.layout.activity_main);
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-    setSupportActionBar(toolbar);
-
-    mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
-
-    mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_hamburger);
-
-    NavigationView mNavigationView = (NavigationView) findViewById(R.id.nav_view);
-    setupDrawerContent(mNavigationView);
 
     homeFragment = HomeFragment.getInstance();
     getSupportFragmentManager().beginTransaction()
         .replace(R.id.content_fl, homeFragment)
         .commit();
+
+    mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_hamburger, R.string.drawer_open, R.string.drawer_close);
+
+    mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+    NavigationView mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+    setupDrawerContent(mNavigationView);
 
     DealHuntingSyncAdapter.initializeSyncAdapter(this);
   }

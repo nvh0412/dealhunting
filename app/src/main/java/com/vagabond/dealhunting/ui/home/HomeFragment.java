@@ -10,6 +10,9 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +38,11 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
   }
 
   @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+  }
+
+  @Override
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this);
@@ -45,10 +53,18 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
                            Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     View root = inflater.inflate(R.layout.fragment_home, container, false);
+
+    Toolbar toolbar = (Toolbar) root.findViewById(R.id.toolbar);
+    ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+    ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
+    actionBar.setHomeButtonEnabled(true);
+    actionBar.setHomeAsUpIndicator(R.drawable.ic_hamburger);
+
     viewPager = (ViewPager) root.findViewById(R.id.viewpager);
 
-    TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tabs);
-    tabLayout.setVisibility(View.VISIBLE);
+    TabLayout tabLayout = (TabLayout) root.findViewById(R.id.tabs);
     tabLayout.setupWithViewPager(viewPager);
     return root;
   }
