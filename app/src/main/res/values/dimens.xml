@@ -5,7 +5,7 @@
   <dimen name="list_toolbar_side_margin">16dp</dimen>
   <dimen name="location_active_margin">0dp</dimen>
   <dimen name="list_side_margin">4dp</dimen>
-  <dimen name="fab_size">40dp</dimen>
+  <dimen name="fab_size">52dp</dimen>
   <dimen name="padding_view">8dp</dimen>
   <dimen name="navdrawer_logo_vertical_padding">16dp</dimen>
   <dimen name="navdrawer_logo_padding_right">16dp</dimen>
@@ -16,4 +16,7 @@
   <dimen name="title_size">20sp</dimen>
   <dimen name="overlap_margin">-16dp</dimen>
   <dimen name="margin_navigate_map_btn">32dp</dimen>
+  <dimen name="text_left_padding">72dp</dimen>
+  <dimen name="list_text_height">56dp</dimen>
+  <dimen name="list_item_high">72dp</dimen>
 </resources>

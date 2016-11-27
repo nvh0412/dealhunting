@@ -45,9 +45,9 @@
           android:fontFamily="sans-serif-condensed"
           android:textSize="14sp"
           android:textColor="@color/black"
-          android:paddingTop="16dp"
-          android:paddingLeft="8dp"
-          android:paddingRight="8dp"/>
+          android:paddingTop="@dimen/activity_horizontal_margin"
+          android:paddingLeft="@dimen/padding_view"
+          android:paddingRight="@dimen/padding_view"/>
 
       <RelativeLayout
           android:layout_width="match_parent"
@@ -72,8 +72,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            tools:text="12km"
-            android:fontFamily="sans-serif-condensed"/>
+            android:fontFamily="sans-serif-condensed"
+            tools:text="12km"/>
       </RelativeLayout>
     </LinearLayout>
   </android.support.design.widget.CoordinatorLayout>

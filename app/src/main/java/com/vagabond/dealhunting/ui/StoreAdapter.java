@@ -20,11 +20,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.vagabond.dealhunting.R;
 
 public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreAdpaterViewHolder> {
   private static final int INDEX_COLUMN_ID = 0;
+  private static final int INDEX_COLUMN_TITLE = 1;
+  private static final int INDEX_COLUMN_THUMBNAIL = 2;
   private Context context;
   private Cursor mCursor;
 
@@ -46,7 +51,11 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreAdpater
 
   @Override
   public void onBindViewHolder(StoreAdpaterViewHolder holder, int position) {
-
+    if (!mCursor.moveToPosition(position)) {
+      return;
+    }
+    holder.storeTitle.setText(mCursor.getString(INDEX_COLUMN_TITLE));
+    Picasso.with(context).load(mCursor.getString(INDEX_COLUMN_THUMBNAIL)).into(holder.storeIV);
   }
 
   @Override
@@ -67,9 +76,14 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreAdpater
   }
 
   public class StoreAdpaterViewHolder extends RecyclerView.ViewHolder {
+    private TextView storeTitle;
+    private ImageView storeIV;
 
     public StoreAdpaterViewHolder(View itemView) {
       super(itemView);
+
+      storeTitle = (TextView) itemView.findViewById(R.id.store_item_title);
+      storeIV = (ImageView) itemView.findViewById(R.id.store_item_logo);
     }
   }
 }

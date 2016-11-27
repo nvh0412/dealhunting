@@ -8,8 +8,9 @@
     android:id="@+id/store_banner"/>
   <android.support.v7.widget.RecyclerView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/background"
     android:id="@+id/store_rv"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"/>
 </RelativeLayout>
