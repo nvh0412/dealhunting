@@ -33,10 +33,12 @@ import com.vagabond.dealhunting.R;
  */
 public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterViewHolder> {
 
+  private static final int INDEX_COLUMN_ID = 0;
   private static final int INDEX_COLUMN_TITLE = 1;
   private static final int INDEX_COLUMN_IMAGE = 4;
   private static final int INDEX_COLUMN_STORE_TITLE = 11;
   private static final int INDEX_COLUMN_STORE_IMAGE = 12;
+
   private Context context;
   private Cursor mCursor;
   private ForecastAdapterOnClickHandler mClickHandler;
@@ -70,6 +72,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
     mCursor.moveToPosition(position);
 
     holder.titleView.setText(mCursor.getString(INDEX_COLUMN_TITLE));
+
     Picasso.with(context).load(mCursor.getString(INDEX_COLUMN_STORE_IMAGE)).into(new Target() {
       @Override
       public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -99,6 +102,12 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
   }
 
   @Override
+  public long getItemId(int position) {
+    mCursor.moveToPosition(position);
+    return mCursor.getLong(INDEX_COLUMN_ID);
+  }
+
+  @Override
   public int getItemCount() {
     if ( null == mCursor ) return 0;
     return mCursor.getCount();
@@ -112,7 +121,6 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
   public Cursor getCursor() {
     return mCursor;
   }
-
 
   public class DealAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TextView titleView;

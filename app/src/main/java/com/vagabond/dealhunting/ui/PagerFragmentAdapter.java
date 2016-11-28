@@ -2,7 +2,7 @@ package com.vagabond.dealhunting.ui;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +22,11 @@ import java.util.List;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class PagerFragmentAdapter extends FragmentPagerAdapter{
+public class PagerFragmentAdapter extends FragmentStatePagerAdapter{
   private final List<Fragment> mFragments = new ArrayList<>();
   private final List<String> mFragmentTitles = new ArrayList<>();
 
-  PagerFragmentAdapter(FragmentManager fm) {
+  public PagerFragmentAdapter(FragmentManager fm) {
     super(fm);
   }
 
@@ -45,7 +45,7 @@ public class PagerFragmentAdapter extends FragmentPagerAdapter{
     return mFragmentTitles.get(position);
   }
 
-  void addFragment(Fragment fragment, String title) {
+  public void addFragment(Fragment fragment, String title) {
     mFragments.add(fragment);
     mFragmentTitles.add(title);
   }

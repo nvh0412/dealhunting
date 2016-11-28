@@ -1,5 +1,6 @@
 package com.vagabond.dealhunting.ui;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,9 @@ import android.support.v4.content.Loader;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,8 +29,9 @@ public class DealDetailFragment extends Fragment implements LoaderManager.Loader
   public static final String DETAIL_URI = "detail_uri";
   private static final int INDEX_COLUMN_TITLE = 1;
   private static final int INDEX_COLUMN_IMAGE = 3;
-  private static final int INDEX_COLUMN_STORE_IMAGE = 5;
   private static final int INDEX_COLUMN_SUMMARY = 4;
+  private static final int INDEX_COLUMN_STORE_IMAGE = 5;
+  private static final int INDEX_COLUMN_STORE_TITLE = 6;
   private static final String LOG_TAG = DealDetailFragment.class.getSimpleName();
   private static final int LOADER_ID = 3;
   private static final String[] DEAIL_PROMOTION_COLUMN = new String[] {
@@ -35,14 +40,19 @@ public class DealDetailFragment extends Fragment implements LoaderManager.Loader
       DealContract.PromotionEntry.TABLE_NAME + "." + DealContract.PromotionEntry.COLUMN_TITLE_DETAIL,
       DealContract.PromotionEntry.TABLE_NAME + "." + DealContract.PromotionEntry.COLUMN_IMAGE_URL,
       DealContract.PromotionEntry.TABLE_NAME + "." + DealContract.PromotionEntry.COLUMN_SUMMARY,
-      DealContract.StoreEntry.TABLE_NAME + "." + DealContract.StoreEntry.COLUMN_THUMBNAIL_URL
+      DealContract.StoreEntry.TABLE_NAME + "." + DealContract.StoreEntry.COLUMN_THUMBNAIL_URL,
+      DealContract.StoreEntry.TABLE_NAME + "." + DealContract.StoreEntry.COLUMN_TITLE
   };
+  private static final String FORECAST_SHARE_HASHTAG = "#DealHuntingApp";
+
 
   private Uri mUri;
   private ImageView backdropImage;
   private ImageView storeIconImage;
   private TextView titleTextView;
   private TextView summaryTextView;
+  private String mDeal;
+  private Cursor mCursor;
 
   public DealDetailFragment() {
   }
@@ -56,6 +66,20 @@ public class DealDetailFragment extends Fragment implements LoaderManager.Loader
   @Override
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+  }
+
+  @Override
+  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    if ( getActivity() instanceof DetailActivity ){
+      inflater.inflate(R.menu.detail_menu, menu);
+      finishCreatingMenu(menu);
+    }
+  }
+
+  private void finishCreatingMenu(Menu menu) {
+    // Retrieve the share menu item
+    MenuItem menuItem = menu.findItem(R.id.menu_share);
+    menuItem.setIntent(createShareDealIntent());
   }
 
   @Override
@@ -83,17 +107,33 @@ public class DealDetailFragment extends Fragment implements LoaderManager.Loader
 
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-    Log.d(LOG_TAG, "onLoadFinished ");
-    if (!data.moveToFirst()) {
-      return;
+    mCursor = data;
+    if (mCursor != null && !mCursor.moveToFirst()) {
+      Log.e(LOG_TAG, "Error reading item detail cursor");
+      mCursor.close();
+      mCursor = null;
     }
-    Picasso.with(getActivity()).load(data.getString(INDEX_COLUMN_IMAGE)).into(backdropImage);
-    Picasso.with(getActivity()).load(data.getString(INDEX_COLUMN_STORE_IMAGE)).into(storeIconImage);
-    titleTextView.setText(data.getString(INDEX_COLUMN_TITLE));
-    Log.d(LOG_TAG, data.getString(INDEX_COLUMN_SUMMARY));
-    summaryTextView.setText(Html.fromHtml(data.getString(INDEX_COLUMN_SUMMARY)));
+
+    Picasso.with(getActivity()).load(mCursor.getString(INDEX_COLUMN_IMAGE)).into(backdropImage);
+    Picasso.with(getActivity()).load(mCursor.getString(INDEX_COLUMN_STORE_IMAGE)).into(storeIconImage);
+
+    String storeName = mCursor.getString(INDEX_COLUMN_STORE_TITLE);
+    String dealTitle = mCursor.getString(INDEX_COLUMN_TITLE);
+    titleTextView.setText(dealTitle);
+    summaryTextView.setText(Html.fromHtml(mCursor.getString(INDEX_COLUMN_SUMMARY)));
+
+    mDeal = String.format("%s - %s ", storeName, dealTitle);
+    setHasOptionsMenu(true);
   }
 
   @Override
-  public void onLoaderReset(Loader<Cursor> loader) { }
+  public void onLoaderReset(Loader<Cursor> loader) { mCursor.close(); }
+
+  private Intent createShareDealIntent() {
+    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+    shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+    shareIntent.setType("text/plain");
+    shareIntent.putExtra(Intent.EXTRA_TEXT, mDeal + FORECAST_SHARE_HASHTAG);
+    return shareIntent;
+  }
 }

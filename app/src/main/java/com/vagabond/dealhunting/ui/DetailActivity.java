@@ -13,7 +13,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.widget.Toast;
 
 import com.vagabond.dealhunting.R;
@@ -43,12 +42,6 @@ public class DetailActivity extends AppCompatActivity implements GoogleMap.OnMyL
     arguments.putParcelable(DealDetailFragment.DETAIL_URI, getIntent().getData());
 
     setUpTabs(arguments);
-  }
-
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.detail_menu, menu);
-    return true;
   }
 
   private void setUpTabs(Bundle arguments) {

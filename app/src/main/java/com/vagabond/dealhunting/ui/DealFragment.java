@@ -1,6 +1,7 @@
 package com.vagabond.dealhunting.ui;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,16 +24,18 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
   private static final String LOG_TAG = DealFragment.class.getSimpleName();
   private static final int LOADER_ID = 1;
   private static final int COLUMN_PROMOTION_ID_INDEX = 0;
+  private static final String CATEGORY_ID_KEY = "CATEGORY_ID";
   private String categoryId;
   private RecyclerView recycleView;
   private DealAdapter dealAdapter;
   private View emptyView;
 
-  public DealFragment() {
-  }
-
-  public interface Callback {
-    void onItemSelected(Uri dealUri, DealAdapter.DealAdapterViewHolder vh);
+  public static DealFragment newInstance(String categoryId) {
+    DealFragment fragment = new DealFragment();
+    Bundle args = new Bundle();
+    args.putString(CATEGORY_ID_KEY, categoryId);
+    fragment.setArguments(args);
+    return fragment;
   }
 
   @Override
@@ -46,7 +49,7 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
 
     Bundle args = getArguments();
     if (args != null) {
-      categoryId = args.getString("CATEGORY_ID");
+      categoryId = args.getString(CATEGORY_ID_KEY);
     }
     getLoaderManager().initLoader(LOADER_ID, null, this);
   }
@@ -63,18 +66,18 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
         if (null != cursor) {
           cursor.moveToPosition(vh.getAdapterPosition());
           Uri dealUri = DealContract.PromotionEntry.buildPromotionUri(cursor.getInt(COLUMN_PROMOTION_ID_INDEX));
-          ((Callback)getActivity()).onItemSelected(dealUri, vh);
+
+          Intent intent = new Intent(getActivity(), DetailActivity.class);
+          intent.setData(dealUri);
+          startActivity(intent);
         }
       }
     }, emptyView);
-    dealAdapter.setHasStableIds(true);
 
+    dealAdapter.setHasStableIds(true);
     recycleView.setAdapter(dealAdapter);
     int columnCount = getResources().getInteger(R.integer.list_column_count);
-    StaggeredGridLayoutManager sglm =
-        new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
-    recycleView.setLayoutManager(sglm);
-
+    recycleView.setLayoutManager(new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL));
     return root;
   }
 
@@ -89,6 +92,7 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
     Log.d(LOG_TAG, "onLoadFinished");
     if (!data.moveToFirst()) {
       Log.d(LOG_TAG, "onLoadFinished: empty promotion");
+      data.close();
       return;
     }
 
