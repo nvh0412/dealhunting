@@ -46,7 +46,7 @@ import rx.schedulers.Schedulers;
 public class DealHuntingSyncAdapter extends AbstractThreadedSyncAdapter {
 
   private static final String LOG_TAG = "DealSyncAdapter";
-  private static final int SYNC_INTERVAL = 30;
+  private static final int SYNC_INTERVAL = 60 * 30;
   private static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
   DealHuntingService dealHuntingService = WebService.getDealHuntingervice();
 

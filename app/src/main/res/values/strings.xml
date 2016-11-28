@@ -18,4 +18,5 @@
   <string name="permission_rationale_location">Rationale Location</string>
   <string name="nav_store_title">Stores</string>
   <string name="store_tab_title">Stores</string>
+  <string name="promotion_text">Promotion of</string>
 </resources>

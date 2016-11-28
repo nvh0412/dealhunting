@@ -16,6 +16,10 @@ package com.vagabond.dealhunting.ui;/*
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.vagabond.dealhunting.R;
 
 public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreAdpaterViewHolder> {
@@ -50,12 +55,30 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreAdpater
   }
 
   @Override
-  public void onBindViewHolder(StoreAdpaterViewHolder holder, int position) {
+  public void onBindViewHolder(final StoreAdpaterViewHolder holder, int position) {
     if (!mCursor.moveToPosition(position)) {
       return;
     }
     holder.storeTitle.setText(mCursor.getString(INDEX_COLUMN_TITLE));
-    Picasso.with(context).load(mCursor.getString(INDEX_COLUMN_THUMBNAIL)).into(holder.storeIV);
+    holder.storeTitleDetail.setText(String.format("%s %s", context.getString(R.string.promotion_text), mCursor.getString(INDEX_COLUMN_TITLE)));
+    Picasso.with(context).load(mCursor.getString(INDEX_COLUMN_THUMBNAIL)).into(new Target() {
+      @Override
+      public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+        RoundedBitmapDrawable iconStoreDrawable = RoundedBitmapDrawableFactory.create(context.getResources(), bitmap);
+        iconStoreDrawable.setCircular(true);
+        holder.storeIV.setImageDrawable(iconStoreDrawable);
+      }
+
+      @Override
+      public void onBitmapFailed(Drawable errorDrawable) {
+
+      }
+
+      @Override
+      public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+      }
+    });
   }
 
   @Override
@@ -78,12 +101,14 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreAdpater
   public class StoreAdpaterViewHolder extends RecyclerView.ViewHolder {
     private TextView storeTitle;
     private ImageView storeIV;
+    private TextView storeTitleDetail;
 
     public StoreAdpaterViewHolder(View itemView) {
       super(itemView);
 
       storeTitle = (TextView) itemView.findViewById(R.id.store_item_title);
       storeIV = (ImageView) itemView.findViewById(R.id.store_item_logo);
+      storeTitleDetail = (TextView) itemView.findViewById(R.id.store_item_title_detail);
     }
   }
 }

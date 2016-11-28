@@ -13,4 +13,5 @@
   <color name="colorActive">#FF6D00</color>
   <color name="grey_icon">#757575</color>
   <color name="activated">#E0E0E0</color>
+  <color name="grey_line">#E0E0E0</color>
 </resources>

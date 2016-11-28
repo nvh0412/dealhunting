@@ -70,8 +70,17 @@ public class StoreFragment extends Fragment implements LoaderManager.LoaderCallb
 
     storeRecyclerView = (RecyclerView) root.findViewById(R.id.store_rv);
     storeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    storeRecyclerView.setHasFixedSize(true);
     storeRecyclerView.setAdapter(storeAdapter);
     return root;
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    if (null != storeRecyclerView) {
+      storeRecyclerView.clearOnScrollListeners();
+    }
   }
 
   @Override
