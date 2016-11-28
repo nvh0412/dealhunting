@@ -122,7 +122,6 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
     return mCursor;
   }
 
-
   public class DealAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TextView titleView;
     private ImageView storeBrandImageView;

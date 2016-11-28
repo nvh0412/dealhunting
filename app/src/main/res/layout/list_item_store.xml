@@ -1,0 +1,47 @@
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_height="@dimen/list_item_high"
+  android:layout_width="match_parent"
+  android:gravity="center_vertical"
+  android:background="@drawable/touch_selector"
+  android:layout_marginLeft="@dimen/activity_horizontal_margin"
+  xmlns:tools="http://schemas.android.com/tools"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+  <ImageView
+    android:id="@+id/store_item_logo"
+    android:layout_width="@dimen/fab_size"
+    android:layout_height="@dimen/fab_size"
+    android:layout_centerVertical="true"
+    app:srcCompat="@drawable/ic_default_avatar"/>
+
+  <View
+    android:layout_marginLeft="@dimen/text_left_padding"
+    android:layout_alignParentBottom="true"
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:background="@color/grey_line"/>
+
+  <LinearLayout
+    android:id="@+id/store_item_detail_container"
+    android:layout_marginLeft="@dimen/text_left_padding"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+    <TextView
+      android:id="@+id/store_item_title"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="16sp"
+      android:fontFamily="sans-serif-condensed"
+      tools:text="Zara"/>
+
+    <TextView
+      android:id="@+id/store_item_title_detail"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="14sp"
+      android:fontFamily="sans-serif"
+      tools:text="Promotion of Zara"/>
+  </LinearLayout>
+</RelativeLayout>
