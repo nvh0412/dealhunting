@@ -22,14 +22,22 @@
       app:expandedTitleMarginEnd="64dp"
       app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-      <ImageView
-        android:id="@+id/store_banner"
+      <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/store_background"
-        android:fitsSystemWindows="true"
-        app:layout_collapseMode="parallax"/>
+        app:layout_collapseMode="parallax">
+        <ImageView
+          android:id="@+id/store_banner"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:scaleType="centerCrop"
+          android:src="@drawable/store_background"
+          android:fitsSystemWindows="true"/>
+        <View
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@drawable/scrim"/>
+      </FrameLayout>
 
       <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

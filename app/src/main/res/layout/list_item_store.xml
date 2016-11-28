@@ -12,6 +12,7 @@
     android:layout_width="@dimen/fab_size"
     android:layout_height="@dimen/fab_size"
     android:layout_centerVertical="true"
+    android:background="@drawable/border_shape"
     app:srcCompat="@drawable/ic_default_avatar"/>
 
   <View
