@@ -1,6 +1,7 @@
 package com.vagabond.dealhunting.ui.home;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,11 +23,12 @@ import com.vagabond.dealhunting.R;
 import com.vagabond.dealhunting.data.DealContract;
 import com.vagabond.dealhunting.ui.DealFragment;
 import com.vagabond.dealhunting.ui.PagerFragmentAdapter;
+import com.vagabond.dealhunting.ui.SearchActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class HomeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, Toolbar.OnMenuItemClickListener {
 
   private static final String LOG_TAG = HomeFragment.class.getSimpleName();
   private static final int COLUMN_CATEGORY_ID_INDEX = 0;
@@ -55,6 +58,7 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
     View root = inflater.inflate(R.layout.fragment_home, container, false);
 
     Toolbar toolbar = (Toolbar) root.findViewById(R.id.toolbar);
+    toolbar.setOnMenuItemClickListener(this);
     ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
     ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
@@ -117,5 +121,15 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
   public void onDetach() {
     getActivity().getSupportLoaderManager().destroyLoader(LOADER_ID);
     super.onDetach();
+  }
+
+  @Override
+  public boolean onMenuItemClick(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.menu_search:
+        startActivity(new Intent(getActivity(), SearchActivity.class));
+        return true;
+    }
+    return false;
   }
 }

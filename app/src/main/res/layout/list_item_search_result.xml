@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.vagabond.dealhunting.ui.widget.SearchSnippet
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/search_result"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:minHeight="?android:listPreferredItemHeightSmall"
+  android:gravity="start|center_vertical"
+  android:paddingTop="@dimen/spacing_normal"
+  android:paddingBottom="@dimen/spacing_normal"
+  android:paddingLeft="@dimen/keyline_2"
+  android:paddingStart="@dimen/keyline_2"
+  android:paddingRight="@dimen/padding_normal"
+  android:paddingEnd="@dimen/padding_normal"
+  android:textAlignment="viewStart" />

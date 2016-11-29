@@ -19,4 +19,7 @@
   <string name="nav_store_title">Stores</string>
   <string name="store_tab_title">Stores</string>
   <string name="promotion_text">Promotion of</string>
+  <string name="app_label">Search feature</string>
+  <string name="search_hint">Search hint</string>
+  <string name="title_search">Search sessions</string>
 </resources>

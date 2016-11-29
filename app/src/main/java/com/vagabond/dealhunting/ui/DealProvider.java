@@ -36,6 +36,7 @@ public class DealProvider extends ContentProvider {
   private static final int STORE = 203;
   private static final int PROMOTION_WITH_ID = 204;
   private static final String LOG_TAG = DealProvider.class.getSimpleName();
+  private static final int SEARCH_SUGGEST = 205;
   private DealDBHelper mOpenHelper;
   private static final UriMatcher sUriMatcher = buildUriMatcher();
 
@@ -90,7 +91,12 @@ public class DealProvider extends ContentProvider {
         retCursor = sCategoryQueryBuild.query(mOpenHelper.getReadableDatabase(), projection, selection, selectionArgs, null, null, sortOrder);
         break;
       case PROMOTION:
-        retCursor = sPromotionQueryBuild.query(mOpenHelper.getReadableDatabase(), projection, selection, selectionArgs, null, null, sortOrder);
+        if (!selectionArgs[0].equals("")) {
+          selectionArgs[0] = selectionArgs[0] + "%";
+          retCursor = sPromotionQueryBuild.query(mOpenHelper.getReadableDatabase(), projection, "PROMOTION.TITLE LIKE ?", selectionArgs, null, null, sortOrder);
+        } else {
+          retCursor = sPromotionQueryBuild.query(mOpenHelper.getReadableDatabase(), projection, selection, null, null, null, sortOrder);
+        }
         break;
       case PROMOTION_WITH_ID:
         retCursor = getPromotionByPromotionID(uri, projection, sortOrder);
