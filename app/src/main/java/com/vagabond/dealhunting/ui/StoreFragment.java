@@ -68,7 +68,7 @@ public class StoreFragment extends Fragment implements LoaderManager.LoaderCallb
                            Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_store, container, false);
 
-    toolbar = (Toolbar) root.findViewById(R.id.toolbar_store);
+    toolbar = (Toolbar) root.findViewById(R.id.toolbar);
     ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
     ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
