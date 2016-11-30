@@ -8,7 +8,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
@@ -17,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.vagabond.dealhunting.R;
+import com.vagabond.dealhunting.adapter.SearchAdapter;
 import com.vagabond.dealhunting.data.DealContract;
 
 /*
@@ -40,7 +40,7 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
   private SearchView mSearchView;
   private String mQuery = "";
   private ListView mSearchResults;
-  private SimpleCursorAdapter mResultsAdapter;
+  private SearchAdapter mResultsAdapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +50,7 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
     mSearchView = (SearchView) findViewById(R.id.search_view);
     setupSearchView();
     mSearchResults = (ListView) findViewById(R.id.search_results);
-    mResultsAdapter = new SimpleCursorAdapter(this,
-        R.layout.list_item_search_result, null,
-        new String[]{ DealContract.PromotionEntry.COLUMN_TITLE},
-        new int[]{R.id.search_result}, 0);
+    mResultsAdapter = new SearchAdapter(this, null, 0);
     mSearchResults.setAdapter(mResultsAdapter);
 
     String query = getIntent().getStringExtra(SearchManager.QUERY);
@@ -104,6 +101,7 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
       query = "";
     }
     args.putString(ARG_QUERY, query);
+
     if (TextUtils.equals(query, mQuery)) {
       getSupportLoaderManager().initLoader(SearchPromotionQuery.TOKEN, args, this);
     } else {
@@ -128,7 +126,7 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
 
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
-
+    mResultsAdapter.swapCursor(null);
   }
 
   @Override
@@ -139,7 +137,5 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
   private interface SearchPromotionQuery {
     int TOKEN = 0x4;
     String[] PROJECTION = DealContract.PromotionEntry.DEFAULT_PROJECTION;
-
-    int _ID = 0;
   }
 }

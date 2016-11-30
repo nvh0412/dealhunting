@@ -60,7 +60,9 @@ public class DealContract {
     public static final String[] DEFAULT_PROJECTION = new String[] {
         TABLE_NAME + "." + BaseColumns._ID,
         TABLE_NAME + "." + COLUMN_TITLE,
-        TABLE_NAME + "." + COLUMN_TITLE_DETAIL
+        TABLE_NAME + "." + COLUMN_TITLE_DETAIL,
+        StoreEntry.TABLE_NAME + "." + StoreEntry.COLUMN_THUMBNAIL_URL
+
     };
 
     public static Uri buildPromotionUri(long rowId) {
@@ -72,22 +74,11 @@ public class DealContract {
     }
 
     public static String getCategoryId(Uri uri) {
-      String categoryId = uri.getQueryParameter(COLUMN_CATEGORY_KEY);
-      return categoryId;
+      return uri.getQueryParameter(COLUMN_CATEGORY_KEY);
     }
 
     public static String getPromotionIdFromUri(Uri uri) {
       return uri.getPathSegments().get(1);
-    }
-
-    public static Uri buildSearchUri(String query) {
-      if (null == query) {
-        query = "";
-      }
-      // convert "lorem ipsum dolor sit" to "lorem* ipsum* dolor* sit*"
-      query = query.replaceAll(" +", " *") + "*";
-      return CONTENT_URI.buildUpon()
-          .appendPath(PATH_SEARCH).appendPath(query).build();
     }
   }
 
