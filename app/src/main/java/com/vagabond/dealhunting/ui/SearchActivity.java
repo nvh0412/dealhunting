@@ -1,7 +1,9 @@
 package com.vagabond.dealhunting.ui;
 
 import android.app.SearchManager;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -37,6 +39,7 @@ import com.vagabond.dealhunting.data.DealContract;
 public class SearchActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener {
   private static final String ARG_QUERY = "query";
   private static final String SCREEN_LABEL = "Search";
+  private static final int COLUMN_PROMOTION_ID_INDEX = 0;
   private SearchView mSearchView;
   private String mQuery = "";
   private ListView mSearchResults;
@@ -52,6 +55,7 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
     mSearchResults = (ListView) findViewById(R.id.search_results);
     mResultsAdapter = new SearchAdapter(this, null, 0);
     mSearchResults.setAdapter(mResultsAdapter);
+    mSearchResults.setOnItemClickListener(this);
 
     String query = getIntent().getStringExtra(SearchManager.QUERY);
     query = query == null ? "" : query;
@@ -130,8 +134,15 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
   }
 
   @Override
-  public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+  public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+    Cursor cursor = mResultsAdapter.getCursor();
+    cursor.moveToPosition(position);
 
+    Uri dealUri = DealContract.PromotionEntry.buildPromotionUri(cursor.getInt(COLUMN_PROMOTION_ID_INDEX));
+
+    Intent intent = new Intent(this, DetailActivity.class);
+    intent.setData(dealUri);
+    startActivity(intent);
   }
 
   private interface SearchPromotionQuery {
