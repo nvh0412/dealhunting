@@ -1,6 +1,7 @@
 package com.vagabond.dealhunting.ui.home;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,17 +25,19 @@ import com.vagabond.dealhunting.R;
 import com.vagabond.dealhunting.data.DealContract;
 import com.vagabond.dealhunting.ui.DealFragment;
 import com.vagabond.dealhunting.ui.PagerFragmentAdapter;
+import com.vagabond.dealhunting.ui.SearchActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class HomeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, Toolbar.OnMenuItemClickListener {
 
   private static final String LOG_TAG = HomeFragment.class.getSimpleName();
   private static final int COLUMN_CATEGORY_ID_INDEX = 0;
   private static final int COLUMN_CATEGORY_TITLE_INDEX = 1;
   private static final int LOADER_ID = 0;
   private ViewPager viewPager;
+  private Toolbar toolbar;
 
   public static HomeFragment getInstance() {
     return new HomeFragment();
@@ -39,6 +45,7 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
+    setHasOptionsMenu(true);
     super.onCreate(savedInstanceState);
   }
 
@@ -54,7 +61,7 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
     // Inflate the layout for this fragment
     View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-    Toolbar toolbar = (Toolbar) root.findViewById(R.id.toolbar);
+    toolbar = (Toolbar) root.findViewById(R.id.toolbar);
     ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
     ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
@@ -72,6 +79,14 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
     return new CursorLoader(getActivity(), DealContract.CategoryEntry.CONTENT_URI, null, null, null, null);
+  }
+
+  @Override
+  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    super.onCreateOptionsMenu(menu, inflater);
+
+    toolbar.inflateMenu(R.menu.main);
+    toolbar.setOnMenuItemClickListener(this);
   }
 
   @Override
@@ -104,7 +119,7 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
 
   }
 
-  public boolean backHanlder() {
+  public boolean backHandler() {
     if (viewPager.getCurrentItem() == 0) {
       return false;
     } else {
@@ -117,5 +132,15 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
   public void onDetach() {
     getActivity().getSupportLoaderManager().destroyLoader(LOADER_ID);
     super.onDetach();
+  }
+
+  @Override
+  public boolean onMenuItemClick(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.menu_search:
+        startActivity(new Intent(getActivity(), SearchActivity.class));
+        return true;
+    }
+    return false;
   }
 }

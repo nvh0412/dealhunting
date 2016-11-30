@@ -15,6 +15,7 @@ package com.vagabond.dealhunting.ui;
  * limitations under the License.
  */
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,27 +30,36 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.vagabond.dealhunting.R;
 import com.vagabond.dealhunting.data.DealContract;
 
-public class StoreFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class StoreFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, Toolbar.OnMenuItemClickListener {
 
   private static final int LOADER_ID = 5;
   private static final String LOG_TAG = StoreFragment.class.getSimpleName();
   private RecyclerView storeRecyclerView;
   private StoreAdapter storeAdapter;
+  private Toolbar toolbar;
 
   public static StoreFragment getInstance() {
     return new StoreFragment();
   }
 
   @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setHasOptionsMenu(true);
+  }
+
+  @Override
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-
     getLoaderManager().initLoader(LOADER_ID, null, this);
   }
 
@@ -58,7 +68,7 @@ public class StoreFragment extends Fragment implements LoaderManager.LoaderCallb
                            Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_store, container, false);
 
-    Toolbar toolbar = (Toolbar) root.findViewById(R.id.toolbar);
+    toolbar = (Toolbar) root.findViewById(R.id.toolbar_store);
     ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
     ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
@@ -73,6 +83,14 @@ public class StoreFragment extends Fragment implements LoaderManager.LoaderCallb
     storeRecyclerView.setHasFixedSize(true);
     storeRecyclerView.setAdapter(storeAdapter);
     return root;
+  }
+
+  @Override
+  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    super.onCreateOptionsMenu(menu, inflater);
+
+    toolbar.inflateMenu(R.menu.main);
+    toolbar.setOnMenuItemClickListener(this);
   }
 
   @Override
@@ -110,5 +128,15 @@ public class StoreFragment extends Fragment implements LoaderManager.LoaderCallb
   public void onDetach() {
     getActivity().getSupportLoaderManager().destroyLoader(LOADER_ID);
     super.onDetach();
+  }
+
+  @Override
+  public boolean onMenuItemClick(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.menu_search:
+        startActivity(new Intent(getActivity(), SearchActivity.class));
+        return true;
+    }
+    return false;
   }
 }

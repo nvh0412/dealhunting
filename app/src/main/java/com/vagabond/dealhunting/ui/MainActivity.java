@@ -4,9 +4,9 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -71,12 +71,6 @@ public class MainActivity extends AppCompatActivity {
   }
 
   @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.main, menu);
-    return true;
-  }
-
-  @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     if (mDrawerToggle.onOptionsItemSelected(item)) {
       return true;
@@ -87,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   public void onBackPressed() {
-    if (!homeFragment.backHanlder()) {
+    if (!homeFragment.backHandler()) {
       super.onBackPressed();
     }
   }
