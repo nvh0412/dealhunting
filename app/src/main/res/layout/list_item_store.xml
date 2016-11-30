@@ -12,6 +12,7 @@
     android:layout_width="@dimen/fab_size"
     android:layout_height="@dimen/fab_size"
     android:layout_centerVertical="true"
+    android:background="@drawable/border_shape"
     app:srcCompat="@drawable/ic_default_avatar"/>
 
   <View
@@ -32,6 +33,7 @@
       android:id="@+id/store_item_title"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:textColor="@color/black"
       android:textSize="16sp"
       android:fontFamily="sans-serif-condensed"
       tools:text="Zara"/>
@@ -40,6 +42,7 @@
       android:id="@+id/store_item_title_detail"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:textColor="@color/black"
       android:textSize="14sp"
       android:fontFamily="sans-serif"
       tools:text="Promotion of Zara"/>

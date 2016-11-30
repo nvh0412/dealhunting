@@ -32,9 +32,7 @@
           android:layout_height="match_parent"
           android:scaleType="centerCrop"
           android:src="@drawable/store_background"
-          android:fitsSystemWindows="true"
-          app:layout_collapseMode="parallax"/>
-
+          android:fitsSystemWindows="true"/>
         <View
           android:layout_width="match_parent"
           android:layout_height="match_parent"
@@ -42,7 +40,7 @@
       </FrameLayout>
 
       <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_store"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -52,10 +50,15 @@
     </android.support.design.widget.CollapsingToolbarLayout>
   </android.support.design.widget.AppBarLayout>
 
-  <android.support.v7.widget.RecyclerView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/store_rv"
+  <RelativeLayout
+    android:clipToPadding="false"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <android.support.v7.widget.RecyclerView
+      android:id="@+id/store_rv"
+      android:layout_centerHorizontal="true"
+      android:layout_width="@dimen/landscape_forecast_view_width"
+      android:layout_height="match_parent"/>
+  </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

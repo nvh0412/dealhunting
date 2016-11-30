@@ -20,4 +20,12 @@
   <dimen name="list_text_height">56dp</dimen>
   <dimen name="list_item_high">72dp</dimen>
   <dimen name="store_backdrop_height">256dp</dimen>
+  <dimen name="landscape_forecast_view_width">360dp</dimen>
+  <dimen name="appbar_elevation">4dp</dimen>
+  <dimen name="padding_normal">16dp</dimen>
+  <dimen name="card_corner_radius">2dp</dimen>
+  <dimen name="card_elevation">2dp</dimen>
+  <dimen name="divider_height">1dp</dimen>
+  <dimen name="spacing_normal">8dp</dimen>
+  <dimen name="keyline_2">72dp</dimen>
 </resources>

@@ -8,4 +8,10 @@
     <item name="colorAccent">@color/colorAccent</item>
   </style>
 
+  <style name="SearchViewTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+    <item name="android:textColorPrimary">@color/app_body_text_1</item>
+    <item name="colorControlNormal">@color/app_body_text_2</item>
+    <item name="colorControlActivated">@color/colorAccent</item>
+  </style>
+
 </resources>

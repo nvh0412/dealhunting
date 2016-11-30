@@ -55,6 +55,16 @@ public class DealContract {
     public static final String COLUMN_STORE_KEY = "store_id";
     public static final String COLUMN_CATEGORY_KEY = "category_id";
 
+    public static final String PATH_SEARCH = "search";
+
+    public static final String[] DEFAULT_PROJECTION = new String[] {
+        TABLE_NAME + "." + BaseColumns._ID,
+        TABLE_NAME + "." + COLUMN_TITLE,
+        TABLE_NAME + "." + COLUMN_TITLE_DETAIL,
+        StoreEntry.TABLE_NAME + "." + StoreEntry.COLUMN_THUMBNAIL_URL
+
+    };
+
     public static Uri buildPromotionUri(long rowId) {
       return ContentUris.withAppendedId(CONTENT_URI, rowId);
     }
@@ -64,8 +74,7 @@ public class DealContract {
     }
 
     public static String getCategoryId(Uri uri) {
-      String categoryId = uri.getQueryParameter(COLUMN_CATEGORY_KEY);
-      return categoryId;
+      return uri.getQueryParameter(COLUMN_CATEGORY_KEY);
     }
 
     public static String getPromotionIdFromUri(Uri uri) {
