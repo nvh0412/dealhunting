@@ -15,6 +15,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,7 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
   private static final int COLUMN_CATEGORY_TITLE_INDEX = 1;
   private static final int LOADER_ID = 0;
   private ViewPager viewPager;
+  private Toolbar toolbar;
 
   public static HomeFragment getInstance() {
     return new HomeFragment();
@@ -42,6 +45,7 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
+    setHasOptionsMenu(true);
     super.onCreate(savedInstanceState);
   }
 
@@ -57,8 +61,7 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
     // Inflate the layout for this fragment
     View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-    Toolbar toolbar = (Toolbar) root.findViewById(R.id.toolbar);
-    toolbar.setOnMenuItemClickListener(this);
+    toolbar = (Toolbar) root.findViewById(R.id.toolbar);
     ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
     ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
@@ -76,6 +79,14 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
     return new CursorLoader(getActivity(), DealContract.CategoryEntry.CONTENT_URI, null, null, null, null);
+  }
+
+  @Override
+  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    super.onCreateOptionsMenu(menu, inflater);
+
+    toolbar.inflateMenu(R.menu.main);
+    toolbar.setOnMenuItemClickListener(this);
   }
 
   @Override
@@ -108,7 +119,7 @@ public class HomeFragment extends Fragment implements LoaderManager.LoaderCallba
 
   }
 
-  public boolean backHanlder() {
+  public boolean backHandler() {
     if (viewPager.getCurrentItem() == 0) {
       return false;
     } else {

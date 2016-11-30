@@ -1,6 +1,5 @@
 package com.vagabond.dealhunting.ui;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,7 +8,6 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,12 +17,11 @@ import com.vagabond.dealhunting.R;
 import com.vagabond.dealhunting.sync.DealHuntingSyncAdapter;
 import com.vagabond.dealhunting.ui.home.HomeFragment;
 
-public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener {
+public class MainActivity extends AppCompatActivity {
   private static final String LOG_TAG = MainActivity.class.getSimpleName();
   private ActionBarDrawerToggle mDrawerToggle;
   private HomeFragment homeFragment;
   private DrawerLayout mDrawerLayout;
-  private Toolbar mToolbar;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -83,29 +80,8 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
   }
 
   @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    super.onCreateOptionsMenu(menu);
-
-    // Add the search button to the toolbar.
-    Toolbar toolbar = getToolbar();
-    toolbar.inflateMenu(R.menu.main);
-    toolbar.setOnMenuItemClickListener(this);
-    return true;
-  }
-
-  public Toolbar getToolbar() {
-    if (mToolbar == null) {
-      mToolbar = (Toolbar) findViewById(R.id.toolbar);
-      if (mToolbar != null) {
-        setSupportActionBar(mToolbar);
-      }
-    }
-    return mToolbar;
-  }
-
-  @Override
   public void onBackPressed() {
-    if (!homeFragment.backHanlder()) {
+    if (!homeFragment.backHandler()) {
       super.onBackPressed();
     }
   }
@@ -144,15 +120,5 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         return true;
       }
     });
-  }
-
-  @Override
-  public boolean onMenuItemClick(MenuItem item) {
-    switch (item.getItemId()) {
-      case R.id.menu_search:
-        startActivity(new Intent(this, SearchActivity.class));
-        return true;
-    }
-    return false;
   }
 }
