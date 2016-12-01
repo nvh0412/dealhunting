@@ -12,7 +12,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +59,7 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
     View root = inflater.inflate(R.layout.fragment_deal, container, false);
     recycleView = (RecyclerView) root.findViewById(R.id.deal_recycler_view);
 
-    dealAdapter = new DealAdapter(getActivity(), new DealAdapter.ForecastAdapterOnClickHandler() {
+    dealAdapter = new DealAdapter(getActivity(), new DealAdapter.DealAdapterOnClickHandler() {
       @Override
       public void onClick(Cursor cursor, DealAdapter.DealAdapterViewHolder vh) {
         if (null != cursor) {
@@ -89,9 +88,7 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
 
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-    Log.d(LOG_TAG, "onLoadFinished");
     if (!data.moveToFirst()) {
-      Log.d(LOG_TAG, "onLoadFinished: empty promotion");
       data.close();
       return;
     }

@@ -76,7 +76,13 @@ public class StoreFragment extends Fragment implements LoaderManager.LoaderCallb
     actionBar.setHomeButtonEnabled(true);
     actionBar.setHomeAsUpIndicator(R.drawable.ic_hamburger);
 
-    storeAdapter = new StoreAdapter(getActivity());
+    storeAdapter = new StoreAdapter(getActivity(), new StoreAdapter.StoreAdapterClickHandler() {
+      @Override
+      public void onClick() {
+        Intent intent = new Intent(getActivity(), StoreDetail.class);
+        startActivity(intent);
+      }
+    });
 
     storeRecyclerView = (RecyclerView) root.findViewById(R.id.store_rv);
     storeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

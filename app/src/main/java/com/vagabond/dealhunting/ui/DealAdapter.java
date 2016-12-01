@@ -41,9 +41,9 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
 
   private Context context;
   private Cursor mCursor;
-  private ForecastAdapterOnClickHandler mClickHandler;
+  private DealAdapterOnClickHandler mClickHandler;
 
-  public DealAdapter(Context context, ForecastAdapterOnClickHandler dh, View emptyView) {
+  public DealAdapter(Context context, DealAdapterOnClickHandler dh, View emptyView) {
     this.context = context;
     this.mClickHandler = dh;
   }
@@ -122,13 +122,13 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
     return mCursor;
   }
 
-  public class DealAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+  class DealAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TextView titleView;
     private ImageView storeBrandImageView;
     private DynamicHeightImageView dynamicHeightImageView;
     private View brandBar;
 
-    public DealAdapterViewHolder(View itemView) {
+    DealAdapterViewHolder(View itemView) {
       super(itemView);
       titleView = (TextView) itemView.findViewById(R.id.deal_title_textview);
       dynamicHeightImageView = (DynamicHeightImageView) itemView.findViewById(R.id.thumbnail);
@@ -143,7 +143,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
     }
   }
 
-  public interface ForecastAdapterOnClickHandler {
+  interface DealAdapterOnClickHandler {
     void onClick(Cursor cursor, DealAdapterViewHolder vh);
   }
 }

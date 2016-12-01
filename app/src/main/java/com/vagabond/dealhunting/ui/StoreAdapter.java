@@ -37,9 +37,11 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreAdpater
   private static final int INDEX_COLUMN_THUMBNAIL = 2;
   private Context context;
   private Cursor mCursor;
+  private StoreAdapterClickHandler sc;
 
-  public StoreAdapter(Context context) {
+  public StoreAdapter(Context context, StoreAdapterClickHandler sc) {
     this.context = context;
+    this.sc = sc;
   }
 
   @Override
@@ -61,6 +63,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreAdpater
     }
     holder.storeTitle.setText(mCursor.getString(INDEX_COLUMN_TITLE));
     holder.storeTitleDetail.setText(String.format("%s %s", context.getString(R.string.promotion_text), mCursor.getString(INDEX_COLUMN_TITLE)));
+
     Picasso.with(context).load(mCursor.getString(INDEX_COLUMN_THUMBNAIL)).into(new Target() {
       @Override
       public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -98,7 +101,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreAdpater
     return mCursor.getLong(INDEX_COLUMN_ID);
   }
 
-  public class StoreAdpaterViewHolder extends RecyclerView.ViewHolder {
+  public class StoreAdpaterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TextView storeTitle;
     private ImageView storeIV;
     private TextView storeTitleDetail;
@@ -109,6 +112,18 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreAdpater
       storeTitle = (TextView) itemView.findViewById(R.id.store_item_title);
       storeIV = (ImageView) itemView.findViewById(R.id.store_item_logo);
       storeTitleDetail = (TextView) itemView.findViewById(R.id.store_item_title_detail);
+      itemView.setOnClickListener(this);
     }
+
+    @Override
+    public void onClick(View view) {
+      int adapterPosition = getAdapterPosition();
+      mCursor.moveToPosition(adapterPosition);
+      sc.onClick();
+    }
+  }
+
+  public interface StoreAdapterClickHandler {
+    void onClick();
   }
 }
