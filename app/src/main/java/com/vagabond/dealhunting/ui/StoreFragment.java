@@ -80,6 +80,7 @@ public class StoreFragment extends Fragment implements LoaderManager.LoaderCallb
       @Override
       public void onClick(int storeId) {
         Intent intent = new Intent(getActivity(), StoreDetail.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constant.BUNDLE_STORE_KEY, storeId);
         startActivity(intent);
       }

@@ -36,15 +36,15 @@ public class MainActivity extends AppCompatActivity {
 
     setContentView(R.layout.activity_main);
 
-    homeFragment = HomeFragment.getInstance();
-    getSupportFragmentManager().beginTransaction()
-        .replace(R.id.content_fl, homeFragment)
-        .commit();
+    if (savedInstanceState == null) {
+      homeFragment = HomeFragment.getInstance();
+      getSupportFragmentManager().beginTransaction()
+          .replace(R.id.content_fl, homeFragment)
+          .commit();
+    }
 
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
     mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_hamburger, R.string.drawer_open, R.string.drawer_close);
-
     mDrawerLayout.setDrawerListener(mDrawerToggle);
 
     NavigationView mNavigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction()
             .replace(R.id.content_fl, fragment)
+            .addToBackStack("menu_back_stack")
             .commit();
 
         mDrawerLayout.closeDrawers();
