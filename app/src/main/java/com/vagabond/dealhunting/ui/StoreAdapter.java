@@ -101,6 +101,10 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreAdpater
     return mCursor.getLong(INDEX_COLUMN_ID);
   }
 
+  public interface StoreAdapterClickHandler {
+    void onClick(int storeId);
+  }
+
   public class StoreAdpaterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TextView storeTitle;
     private ImageView storeIV;
@@ -119,11 +123,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreAdpater
     public void onClick(View view) {
       int adapterPosition = getAdapterPosition();
       mCursor.moveToPosition(adapterPosition);
-      sc.onClick();
+      sc.onClick(mCursor.getInt(INDEX_COLUMN_ID));
     }
-  }
-
-  public interface StoreAdapterClickHandler {
-    void onClick();
   }
 }

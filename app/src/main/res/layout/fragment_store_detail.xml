@@ -1,15 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.vagabond.dealhunting.StoreDetailFragment">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.vagabond.dealhunting.ui.StoreDetailFragment">
   <ImageView
     android:id="@+id/store_detail_banner"
     android:layout_alignParentTop="true"
     android:layout_margin="@dimen/list_side_margin"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
-    android:background="@color/colorPrimary"/>
+    android:layout_height="@dimen/store_detail_banner_height"/>
 
   <FrameLayout
     android:id="@+id/store_promotion_fl"

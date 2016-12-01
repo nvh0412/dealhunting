@@ -5,6 +5,8 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import static com.vagabond.dealhunting.data.DealContract.PromotionEntry.COLUMN_STORE_KEY;
+
 /*
  * Copyright (C) 2016 SkyUnity (HoaNV)
  *
@@ -36,6 +38,13 @@ public class DealContract {
       return ContentUris.withAppendedId(CONTENT_URI, rowId);
     }
 
+    public static String getStoreIdFromUri(Uri uri) {
+      return uri.getPathSegments().get(1);
+    }
+
+    public static Uri buildPromotionUriByStore(int storeId) {
+      return CONTENT_URI.buildUpon().appendPath(COLUMN_STORE_KEY).appendQueryParameter(COLUMN_STORE_KEY, String.valueOf(storeId)).build();
+    }
   }
 
   public static class PromotionEntry implements BaseColumns {
@@ -79,6 +88,11 @@ public class DealContract {
 
     public static String getPromotionIdFromUri(Uri uri) {
       return uri.getPathSegments().get(1);
+    }
+
+
+    public static String getStoreId(Uri uri) {
+      return uri.getQueryParameter(COLUMN_STORE_KEY);
     }
   }
 

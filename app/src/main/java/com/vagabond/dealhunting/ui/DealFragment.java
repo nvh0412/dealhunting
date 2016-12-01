@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.vagabond.dealhunting.Constant;
 import com.vagabond.dealhunting.R;
 import com.vagabond.dealhunting.data.DealContract;
 
@@ -28,11 +29,20 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
   private RecyclerView recycleView;
   private DealAdapter dealAdapter;
   private View emptyView;
+  private int storeId;
 
   public static DealFragment newInstance(String categoryId) {
     DealFragment fragment = new DealFragment();
     Bundle args = new Bundle();
     args.putString(CATEGORY_ID_KEY, categoryId);
+    fragment.setArguments(args);
+    return fragment;
+  }
+
+  public static DealFragment newInstance(int storeId) {
+    DealFragment fragment = new DealFragment();
+    Bundle args = new Bundle();
+    args.putInt(Constant.BUNDLE_STORE_KEY, storeId);
     fragment.setArguments(args);
     return fragment;
   }
@@ -49,6 +59,7 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
     Bundle args = getArguments();
     if (args != null) {
       categoryId = args.getString(CATEGORY_ID_KEY);
+      storeId = args.getInt(Constant.BUNDLE_STORE_KEY);
     }
     getLoaderManager().initLoader(LOADER_ID, null, this);
   }
@@ -82,8 +93,13 @@ public class DealFragment extends Fragment implements LoaderManager.LoaderCallba
 
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-    return new CursorLoader(getActivity(),
-        DealContract.PromotionEntry.buildPromotionUriByCategory(categoryId), null, null, null, null);
+    Uri uri = null;
+    if (categoryId != null) {
+      uri = DealContract.PromotionEntry.buildPromotionUriByCategory(categoryId);
+    } else {
+      uri = DealContract.StoreEntry.buildPromotionUriByStore(storeId);
+    }
+    return new CursorLoader(getActivity(), uri, null, null, null, null);
   }
 
   @Override

@@ -30,25 +30,26 @@ import com.vagabond.dealhunting.data.DealDBHelper;
 
 public class DealProvider extends ContentProvider {
 
+  private static final String LOG_TAG = DealProvider.class.getSimpleName();
+
   private static final int CATEGORY = 200;
   private static final int PROMOTION = 201;
   private static final int PROMOTION_CATEGORY = 202;
   private static final int STORE = 203;
-  private static final int PROMOTION_WITH_ID = 204;
-  private static final String LOG_TAG = DealProvider.class.getSimpleName();
-  private DealDBHelper mOpenHelper;
+  private static final int STORE_WITH_ID = 204;
+  private static final int PROMOTION_WITH_ID = 205;
+  private static final int STORE_PROMOTION = 206;
   private static final UriMatcher sUriMatcher = buildUriMatcher();
-
-
   private static final SQLiteQueryBuilder sCategoryQueryBuild;
   private static final SQLiteQueryBuilder sPromotionQueryBuild;
   private static final SQLiteQueryBuilder sStoreQueryBuild;
-
   private static final String promotionCategorySelection = DealContract.PromotionEntry.TABLE_NAME +
       "." + DealContract.PromotionEntry.COLUMN_CATEGORY_KEY + " = ? ";
-
+  private static final String promotionStoreSelection = DealContract.PromotionEntry.TABLE_NAME +
+      "." + DealContract.PromotionEntry.COLUMN_STORE_KEY + " = ? ";
   private static final String sPromotionIDSelection = DealContract.PromotionEntry.TABLE_NAME +
       "." + DealContract.PromotionEntry._ID + " = ? ";
+  private static final String sStoreIDSelection = DealContract.PromotionEntry._ID + " = ? ";
 
   static {
     sCategoryQueryBuild = new SQLiteQueryBuilder();
@@ -62,9 +63,13 @@ public class DealProvider extends ContentProvider {
     sStoreQueryBuild.setTables(DealContract.StoreEntry.TABLE_NAME);
   }
 
+  private DealDBHelper mOpenHelper;
+
   private static UriMatcher buildUriMatcher() {
     UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.StoreEntry.PATH_STORE, STORE);
+    uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.StoreEntry.PATH_STORE + "/#", STORE_WITH_ID);
+    uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.StoreEntry.PATH_STORE + "/*", STORE_PROMOTION);
     uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.CategoryEntry.PATH_CATEGORY, CATEGORY);
     uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.PromotionEntry.PATH_PROMOTION, PROMOTION);
     uriMatcher.addURI(DealContract.CONTENT_AUTHORITY, DealContract.PromotionEntry.PATH_PROMOTION + "/#", PROMOTION_WITH_ID);
@@ -85,6 +90,12 @@ public class DealProvider extends ContentProvider {
     switch (sUriMatcher.match(uri)) {
       case STORE:
         retCursor = sStoreQueryBuild.query(mOpenHelper.getReadableDatabase(), projection, selection, selectionArgs, null, null, sortOrder);
+        break;
+      case STORE_WITH_ID:
+        retCursor = getStoreById(uri, projection);
+        break;
+      case STORE_PROMOTION:
+        retCursor = getPromotionByStore(uri, projection);
         break;
       case CATEGORY:
         retCursor = sCategoryQueryBuild.query(mOpenHelper.getReadableDatabase(), projection, selection, selectionArgs, null, null, sortOrder);
@@ -111,6 +122,19 @@ public class DealProvider extends ContentProvider {
 
     retCursor.setNotificationUri(getContext().getContentResolver(), uri);
     return retCursor;
+  }
+
+  private Cursor getPromotionByStore(Uri uri, String[] projection) {
+    String selection = promotionStoreSelection;
+    String[] selectionArgs = new String[]{DealContract.PromotionEntry.getStoreId(uri)};
+    return sPromotionQueryBuild.query(mOpenHelper.getReadableDatabase(),
+        projection,
+        selection,
+        selectionArgs,
+        null,
+        null,
+        null
+    );
   }
 
   private Cursor getPromotionByCategory(Uri uri, String[] projection, String sortOrder) {
@@ -298,4 +322,13 @@ public class DealProvider extends ContentProvider {
         sortOrder);
   }
 
+  private Cursor getStoreById(Uri uri, String[] projection) {
+    return sStoreQueryBuild.query(
+        mOpenHelper.getReadableDatabase(),
+        projection, sStoreIDSelection,
+        new String[]{DealContract.StoreEntry.getStoreIdFromUri(uri)},
+        null,
+        null,
+        null);
+  }
 }

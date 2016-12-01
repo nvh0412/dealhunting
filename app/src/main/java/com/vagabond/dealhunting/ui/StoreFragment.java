@@ -28,7 +28,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,6 +35,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.vagabond.dealhunting.Constant;
 import com.vagabond.dealhunting.R;
 import com.vagabond.dealhunting.data.DealContract;
 
@@ -78,8 +78,9 @@ public class StoreFragment extends Fragment implements LoaderManager.LoaderCallb
 
     storeAdapter = new StoreAdapter(getActivity(), new StoreAdapter.StoreAdapterClickHandler() {
       @Override
-      public void onClick() {
+      public void onClick(int storeId) {
         Intent intent = new Intent(getActivity(), StoreDetail.class);
+        intent.putExtra(Constant.BUNDLE_STORE_KEY, storeId);
         startActivity(intent);
       }
     });
@@ -115,9 +116,7 @@ public class StoreFragment extends Fragment implements LoaderManager.LoaderCallb
 
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-    Log.d(LOG_TAG, "onLoadFinished");
     if (!data.moveToFirst()) {
-      Log.d(LOG_TAG, "cursor error!");
       data.close();
       return;
     }
