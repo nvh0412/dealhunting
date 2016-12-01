@@ -22,4 +22,5 @@
   <string name="app_label">Search feature</string>
   <string name="search_hint">Nhập từ khoá</string>
   <string name="title_search">Search sessions</string>
+  <string name="app_intro">Intro</string>
 </resources>

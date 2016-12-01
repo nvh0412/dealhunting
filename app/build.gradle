@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.1"
     defaultConfig {
         applicationId "com.vagabond.dealhunting"
-        minSdkVersion 10
+        minSdkVersion 11
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -49,5 +49,6 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.google.android.gms:play-services-maps:9.8.0'
+    compile 'com.github.paolorotolo:appintro:4.1.0'
     testCompile 'junit:junit:4.12'
 }

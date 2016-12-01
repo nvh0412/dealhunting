@@ -81,6 +81,9 @@
         android:name="android.support.PARENT_ACTIVITY"
         android:value=".ui.MainActivity"/>
     </activity>
+
+    <activity android:name="com.vagabond.dealhunting.ui.IntroActivity"
+              android:label="@string/app_intro" />
   </application>
 
 </manifest>

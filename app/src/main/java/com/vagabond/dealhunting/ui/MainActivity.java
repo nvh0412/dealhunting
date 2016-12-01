@@ -1,5 +1,6 @@
 package com.vagabond.dealhunting.ui;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -108,6 +109,10 @@ public class MainActivity extends AppCompatActivity {
           case R.id.ic_navview_store:
             fragment = StoreFragment.getInstance();
             break;
+          case R.id.ic_navview_tutorial:
+            Intent intent = new Intent(getApplication(), IntroActivity.class);
+            startActivity(intent);
+            return true;
           case R.id.about_nav_item:
             break;
         }
