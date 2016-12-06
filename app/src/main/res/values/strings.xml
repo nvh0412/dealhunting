@@ -23,4 +23,7 @@
   <string name="search_hint">Nhập từ khoá</string>
   <string name="title_search">Search sessions</string>
   <string name="app_intro">Intro</string>
+  <string name="hour_text">Giờ</string>
+  <string name="day_text">Ngày</string>
+  <string name="overtime">Hết hạn</string>
 </resources>

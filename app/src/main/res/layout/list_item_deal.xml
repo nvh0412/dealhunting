@@ -55,10 +55,19 @@
           android:padding="@dimen/padding_view">
 
         <ImageView
-            android:id="@+id/store_icon"
+            android:id="@+id/timer_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_store_black"/>
+            app:srcCompat="@drawable/ic_timer"/>
+
+        <TextView
+          android:id="@+id/timer_tv"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_toRightOf="@id/timer_icon"
+          android:layout_toEndOf="@id/timer_icon"
+          android:fontFamily="sans-serif-condensed"
+          tools:text="1 day"/>
 
         <ImageView
             android:layout_width="wrap_content"

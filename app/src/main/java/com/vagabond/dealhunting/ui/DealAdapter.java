@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,8 +37,10 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
   private static final int INDEX_COLUMN_ID = 0;
   private static final int INDEX_COLUMN_TITLE = 1;
   private static final int INDEX_COLUMN_IMAGE = 4;
+  private static final int INDEX_COLUMN_END_DATE = 7;
   private static final int INDEX_COLUMN_STORE_TITLE = 11;
   private static final int INDEX_COLUMN_STORE_IMAGE = 12;
+  private static final int SECOND_IN_HOUR = 3600 * 1000;
 
   private Context context;
   private Cursor mCursor;
@@ -72,6 +75,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
     mCursor.moveToPosition(position);
 
     holder.titleView.setText(mCursor.getString(INDEX_COLUMN_TITLE));
+    setTimeDuration(mCursor.getLong(INDEX_COLUMN_END_DATE), holder);
 
     Picasso.with(context).load(mCursor.getString(INDEX_COLUMN_STORE_IMAGE)).into(new Target() {
       @Override
@@ -99,6 +103,26 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
       }
     });
     Picasso.with(context).load(mCursor.getString(INDEX_COLUMN_IMAGE)).into(holder.dynamicHeightImageView);
+
+  }
+
+  private void setTimeDuration(long time, DealAdapterViewHolder holder) {
+    String durationStr;
+    long duration = time - System.currentTimeMillis();
+    boolean overtime = true;
+    if (duration > 0) {
+      long numdays = duration / (SECOND_IN_HOUR * 24);
+      if (numdays > 0) {
+        durationStr = duration / SECOND_IN_HOUR * 24 + " " + context.getString(R.string.day_text);
+      } else {
+        durationStr = duration / SECOND_IN_HOUR + " " + context.getString(R.string.hour_text);
+      }
+      overtime = false;
+    } else {
+      durationStr = context.getString(R.string.overtime);
+    }
+    holder.durationView.setText(durationStr);
+    holder.durationView.setTextColor(ContextCompat.getColor(context, overtime ? R.color.colorPrimary : R.color.navview_icon));
   }
 
   @Override
@@ -124,6 +148,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
 
   class DealAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TextView titleView;
+    private TextView durationView;
     private ImageView storeBrandImageView;
     private DynamicHeightImageView dynamicHeightImageView;
     private View brandBar;
@@ -134,6 +159,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealAdapterVie
       dynamicHeightImageView = (DynamicHeightImageView) itemView.findViewById(R.id.thumbnail);
       storeBrandImageView = (ImageView) itemView.findViewById(R.id.brand_logo);
       brandBar = itemView.findViewById(R.id.brand_bar);
+      durationView = (TextView) itemView.findViewById(R.id.timer_tv);
     }
 
     @Override
