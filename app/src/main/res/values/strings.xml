@@ -26,4 +26,8 @@
   <string name="hour_text">Giờ</string>
   <string name="day_text">Ngày</string>
   <string name="overtime">Hết hạn</string>
+  <string name="pref_enable_notifications_default">false</string>
+  <string name="pref_enable_notifications_key">NOTIFICATION_SETTING_KEY</string>
+  <string name="pref_last_notification">last_notification</string>
+  <string name="pref_notifiable_type_key">notifiable_type_key</string>
 </resources>
