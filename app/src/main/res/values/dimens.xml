@@ -29,4 +29,5 @@
   <dimen name="spacing_normal">8dp</dimen>
   <dimen name="keyline_2">72dp</dimen>
   <dimen name="store_detail_banner_height">72dp</dimen>
+  <dimen name="bar_height">56dp</dimen>
 </resources>

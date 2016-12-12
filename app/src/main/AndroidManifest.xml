@@ -69,6 +69,7 @@
 
     <activity
       android:name=".ui.DetailActivity"
+      android:theme="@style/BaseTheme"
       android:parentActivityName=".ui.MainActivity">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"

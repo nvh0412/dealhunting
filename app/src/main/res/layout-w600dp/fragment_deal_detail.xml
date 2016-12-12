@@ -1,0 +1,59 @@
+<ScrollView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+  <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.vagabond.dealhunting.ui.DealDetailFragment">
+    <com.vagabond.dealhunting.ui.widget.ThreeTwoImageView
+      android:id="@+id/detail_image_backdrop"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:scaleType="centerCrop"/>
+
+    <android.support.v7.widget.CardView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/detail_image_backdrop"
+      android:layout_marginLeft="@dimen/abc_list_item_padding_horizontal_material"
+      android:layout_marginRight="@dimen/abc_list_item_padding_horizontal_material"
+      android:layout_marginTop="@dimen/overlap_margin">
+      <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_horizontal_margin">
+        <ImageView
+          android:id="@+id/detail_store_logo"
+          android:layout_width="56dp"
+          android:layout_height="56dp"
+          android:layout_alignParentTop="true"
+          android:layout_alignParentStart="true"
+          android:layout_alignParentLeft="true"
+          app:srcCompat="@drawable/ic_store_black"/>
+        <TextView
+          android:id="@+id/detail_title"
+          android:layout_toRightOf="@id/detail_store_logo"
+          android:layout_toEndOf="@id/detail_store_logo"
+          android:layout_alignParentTop="true"
+          android:layout_marginLeft="@dimen/activity_horizontal_margin"
+          android:layout_marginStart="@dimen/activity_horizontal_margin"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="@color/black"
+          android:fontFamily="sans-serif-condensed"
+          tools:text="TITLE STORE"/>
+        <TextView
+          android:id="@+id/detail_summary"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/detail_store_logo"
+          android:layout_marginTop="@dimen/activity_horizontal_margin"
+          android:fontFamily="sans-serif"
+          tools:text="Detail of promotion"/>
+      </RelativeLayout>
+    </android.support.v7.widget.CardView>
+  </RelativeLayout>
+</ScrollView>
