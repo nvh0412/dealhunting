@@ -121,7 +121,7 @@ public class DealHuntingSyncAdapter extends AbstractThreadedSyncAdapter {
       inserted = getContext().getContentResolver().bulkInsert(DealContract.StoreEntry.CONTENT_URI, cvArray);
     }
 
-    Log.d(LOG_TAG, "Sync Category completed. " + inserted + " inserted.");
+    Log.d(LOG_TAG, "Sync Store completed. " + inserted + " inserted.");
   }
 
   private void categoryListHandler(List<Category> categoryList) {

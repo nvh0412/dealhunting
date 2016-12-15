@@ -1,6 +1,7 @@
 package com.vagabond.dealhunting.services;
 
 import com.vagabond.dealhunting.model.Category;
+import com.vagabond.dealhunting.model.Location;
 import com.vagabond.dealhunting.model.Promotion;
 import com.vagabond.dealhunting.model.Store;
 
@@ -30,7 +31,10 @@ public interface DealHuntingService {
   @GET("stores")
   Observable<List<Store>> getStoreData();
 
-  @GET("categories/{id}/promotions")
+  @GET("stores/{id}/locations")
+  Observable<List<Location>> getLocationData(@Path("id") String storeId);
+
+  @GET("stores/{id}/promotions")
   Observable<List<Promotion>> getPromotionDataByStore(@Path("id") String storeId);
 
   @GET("categories")
