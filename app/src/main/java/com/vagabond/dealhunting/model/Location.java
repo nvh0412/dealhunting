@@ -17,7 +17,7 @@ package com.vagabond.dealhunting.model;
  */
 public class Location {
   private int id;
-  private String title;
+  private String name;
   private String address;
   private String lat;
   private String lon;
@@ -25,17 +25,12 @@ public class Location {
   public Location() {
   }
 
-  public Location(String title, String address) {
-    this.title = title;
-    this.address = address;
+  public String getName() {
+    return name;
   }
 
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
+  public void setName(String name) {
+    this.name = name;
   }
 
   public String getAddress() {

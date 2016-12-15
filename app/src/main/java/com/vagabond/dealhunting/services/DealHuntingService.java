@@ -32,7 +32,7 @@ public interface DealHuntingService {
   Observable<List<Store>> getStoreData();
 
   @GET("stores/{id}/locations")
-  Observable<List<Location>> getLocationData(@Path("id") String storeId);
+  Observable<List<Location>> getLocationData(@Path("id") int storeId);
 
   @GET("stores/{id}/promotions")
   Observable<List<Promotion>> getPromotionDataByStore(@Path("id") String storeId);

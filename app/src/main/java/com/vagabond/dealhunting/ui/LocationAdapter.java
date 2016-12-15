@@ -1,7 +1,6 @@
 package com.vagabond.dealhunting.ui;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,8 @@ import android.widget.TextView;
 
 import com.vagabond.dealhunting.R;
 import com.vagabond.dealhunting.model.Location;
+
+import java.util.List;
 
 /*
  * Copyright (C) 2016 SkyUnity (HoaNV)
@@ -28,29 +29,10 @@ import com.vagabond.dealhunting.model.Location;
  */
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.LocationAdapterViewHolder> {
   private Context context;
-  private Cursor mCursor;
-  private static Location[] locations;
-
-  static {
-    locations = new Location[]{
-        new Location("Store Address 1", "Store Address 1"),
-        new Location("Store Address 1", "Store Address 1"),
-        new Location("Store Address 1", "Store Address 1"),
-        new Location("Store Address 1", "Store Address 1")
-    };
-  }
+  private List<Location> locations;
 
   public LocationAdapter(Context context) {
     this.context = context;
-  }
-
-  public void swapCursor(Cursor newCursor) {
-    mCursor = newCursor;
-    notifyDataSetChanged();
-  }
-
-  public Cursor getCursor() {
-    return mCursor;
   }
 
   @Override
@@ -67,9 +49,8 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
 
   @Override
   public void onBindViewHolder(LocationAdapter.LocationAdapterViewHolder holder, int position) {
-//    mCursor.moveToPosition(position);
-    Location location = locations[position];
-    holder.titleTV.setText(location.getTitle());
+    Location location = locations.get(position);
+    holder.titleTV.setText(location.getName());
     holder.addressTV.setText(location.getAddress());
   }
 
@@ -84,7 +65,15 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
 
   @Override
   public int getItemCount() {
-    return locations.length;
+    if (locations == null) {
+      return 0;
+    }
+    return locations.size();
+  }
+
+  public void setLocations(List<Location> locations) {
+    this.locations = locations;
+    this.notifyDataSetChanged();
   }
 
   public class LocationAdapterViewHolder extends RecyclerView.ViewHolder {

@@ -14,5 +14,5 @@
     <item name="colorControlActivated">@color/colorAccent</item>
   </style>
 
-  <style name="BaseTheme" parent="Theme.AppCompat.DayNight.NoActionBar" />
+  <style name="BaseTheme" parent="AppTheme" />
 </resources>

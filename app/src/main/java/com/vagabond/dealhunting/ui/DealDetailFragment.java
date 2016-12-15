@@ -112,6 +112,7 @@ public class DealDetailFragment extends Fragment implements LoaderManager.Loader
       Log.e(LOG_TAG, "Error reading item detail cursor");
       mCursor.close();
       mCursor = null;
+      return;
     }
 
     Picasso.with(getActivity()).load(mCursor.getString(INDEX_COLUMN_IMAGE)).into(backdropImage);
