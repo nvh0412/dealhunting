@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.facebook.stetho.Stetho;
 import com.vagabond.dealhunting.R;
 import com.vagabond.dealhunting.sync.DealHuntingSyncAdapter;
 import com.vagabond.dealhunting.ui.home.HomeFragment;
@@ -28,12 +27,6 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     Log.d(LOG_TAG, "onCreate");
     super.onCreate(savedInstanceState);
-
-    Stetho.initialize(
-        Stetho.newInitializerBuilder(this)
-            .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-            .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
-            .build());
 
     setContentView(R.layout.activity_main);
 

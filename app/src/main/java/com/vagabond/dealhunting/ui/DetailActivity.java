@@ -23,6 +23,7 @@ public class DetailActivity extends AppCompatActivity implements GoogleMap.OnMyL
   private ViewPager viewPager;
   private GoogleMap mMap;
   private boolean mPermissionDenied;
+  private DetailLocationFragment.LocationMapHandler mHandler;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +53,9 @@ public class DetailActivity extends AppCompatActivity implements GoogleMap.OnMyL
   }
 
   @Override
-  public void syncMap(MapView mapView) {
+  public void syncMap(MapView mapView, DetailLocationFragment.LocationMapHandler handler) {
     mapView.getMapAsync(this);
+    mHandler = handler;
   }
 
   @Override
@@ -61,6 +63,7 @@ public class DetailActivity extends AppCompatActivity implements GoogleMap.OnMyL
     mMap = googleMap;
     mMap.setOnMyLocationButtonClickListener(this);
     enableMyLocation();
+    mHandler.handler(mMap);
   }
 
   /**

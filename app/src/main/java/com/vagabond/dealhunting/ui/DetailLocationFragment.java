@@ -2,13 +2,13 @@ package com.vagabond.dealhunting.ui;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -33,7 +33,7 @@ import rx.schedulers.Schedulers;
 
 import static com.vagabond.dealhunting.ui.DealDetailFragment.DETAIL_URI;
 
-public class DetailLocationFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, OnMapReadyCallback {
+public class DetailLocationFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
   private static final int LOADER_ID = 5;
   private static final String[] DEAIL_PROMOTION_COLUMN = new String[] {
@@ -61,6 +61,12 @@ public class DetailLocationFragment extends Fragment implements LoaderManager.Lo
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mUri = getArguments().getParcelable(DETAIL_URI);
+  }
+
+  @Override
+  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+
     getLoaderManager().initLoader(LOADER_ID, null, this);
   }
 
@@ -73,8 +79,6 @@ public class DetailLocationFragment extends Fragment implements LoaderManager.Lo
 
     mMapView.onCreate(savedInstanceState);
     mMapView.onResume();
-
-    ((Callback)getActivity()).syncMap(mMapView);
 
     recycleView = (RecyclerView) root.findViewById(R.id.location_recycler_view);
 
@@ -106,16 +110,20 @@ public class DetailLocationFragment extends Fragment implements LoaderManager.Lo
         );
   }
 
-  private void locationListHanlder(List<Location> locationList) {
+  private void locationListHanlder(final List<Location> locationList) {
     locationAdapter.setLocations(locationList);
 
-    if (mGoogleMap != null) {
-      for (Location location : locationList) {
-        mGoogleMap.addMarker(new MarkerOptions()
-            .position(new LatLng(Double.parseDouble(location.getLat()), Double.parseDouble(location.getLon())))
-            .title(location.getName()));
+    ((Callback)getActivity()).syncMap(mMapView, new LocationMapHandler() {
+      @Override
+      public void handler(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+        for (Location location : locationList) {
+          mGoogleMap.addMarker(new MarkerOptions()
+              .position(new LatLng(Double.parseDouble(location.getLat()), Double.parseDouble(location.getLon())))
+              .title(location.getName()));
+        }
       }
-    }
+    });
   }
 
   @Override
@@ -141,13 +149,12 @@ public class DetailLocationFragment extends Fragment implements LoaderManager.Lo
 
   }
 
-  @Override
-  public void onMapReady(GoogleMap googleMap) {
-    mGoogleMap = googleMap;
+  public interface Callback {
+    void syncMap(MapView mapView, LocationMapHandler handler);
   }
 
-  public interface Callback {
-    void syncMap(MapView mapView);
+  public interface LocationMapHandler {
+    void handler(GoogleMap googleMap);
   }
 
 }
