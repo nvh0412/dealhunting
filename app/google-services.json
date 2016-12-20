@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "2328104608",
+    "firebase_url": "https://dealhunting-1479746504210.firebaseio.com",
+    "project_id": "dealhunting-1479746504210",
+    "storage_bucket": "dealhunting-1479746504210.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2328104608:android:b5c2722fdd5a4582",
+        "android_client_info": {
+          "package_name": "com.vagabond.dealhunting"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "2328104608-47sesn32v2hib4s236p9greaij346ali.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOn5-0RstpIQlzdwn-vlts-TGNvfm-2fU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

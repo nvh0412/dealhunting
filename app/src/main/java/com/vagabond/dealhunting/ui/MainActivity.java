@@ -1,5 +1,9 @@
 package com.vagabond.dealhunting.ui;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -29,6 +33,12 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.activity_main);
+
+    MobileAds.initialize(getApplicationContext(), "ca-app-pub-2790836638899575~6752690446");
+
+    AdView mAdView = (AdView) findViewById(R.id.adView);
+    AdRequest adRequest = new AdRequest.Builder().build();
+    mAdView.loadAd(adRequest);
 
     if (savedInstanceState == null) {
       homeFragment = HomeFragment.getInstance();
