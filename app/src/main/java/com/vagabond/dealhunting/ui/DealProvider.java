@@ -101,10 +101,10 @@ public class DealProvider extends ContentProvider {
         retCursor = sCategoryQueryBuild.query(mOpenHelper.getReadableDatabase(), projection, selection, selectionArgs, null, null, sortOrder);
         break;
       case PROMOTION:
-        if (!selectionArgs[0].equals("")) {
+        if (selectionArgs != null && !selectionArgs[0].equals("")) {
           selectionArgs[0] = "%" + selectionArgs[0] + "%";
           retCursor = sPromotionQueryBuild.query(mOpenHelper.getReadableDatabase(), projection, "promotion.title LIKE ?", selectionArgs, null, null, sortOrder);
-        } else if (selectionArgs[0].equals("")) {
+        } else if (selectionArgs != null && selectionArgs[0].equals("")) {
           retCursor = sPromotionQueryBuild.query(mOpenHelper.getReadableDatabase(), projection, selection, null, null, null, sortOrder, "10");
         } else {
           retCursor = sPromotionQueryBuild.query(mOpenHelper.getReadableDatabase(), projection, selection, null, null, null, sortOrder);

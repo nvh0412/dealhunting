@@ -67,6 +67,8 @@
         android:resource="@xml/authenticator"/>
     </service>
 
+    <service android:name=".ui.widget.TodayWidgetIntentService"/>
+
     <activity
       android:name=".ui.DetailActivity"
       android:theme="@style/BaseTheme"
@@ -85,6 +87,14 @@
 
     <activity android:name="com.vagabond.dealhunting.ui.IntroActivity"
               android:label="@string/app_intro" />
+
+    <receiver android:name=".ui.widget.TodayWidgetProvider">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+        <action android:name="com.vagabond.dealhunting.ACTION_DATA_UPDATED" />
+      </intent-filter>
+      <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_info_today"/>
+    </receiver>
   </application>
 
 </manifest>

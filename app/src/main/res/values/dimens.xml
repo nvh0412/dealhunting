@@ -30,4 +30,9 @@
   <dimen name="keyline_2">72dp</dimen>
   <dimen name="store_detail_banner_height">72dp</dimen>
   <dimen name="bar_height">56dp</dimen>
+
+  <!-- Today Widget -->
+  <dimen name="widget_today_default_width">180dp</dimen>
+  <dimen name="widget_today_default_height">40dp</dimen>
+  <dimen name="deal_widget_thumbnail">40px</dimen>
 </resources>

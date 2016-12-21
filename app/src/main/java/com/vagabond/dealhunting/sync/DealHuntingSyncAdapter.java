@@ -7,6 +7,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
@@ -46,8 +47,9 @@ import rx.schedulers.Schedulers;
 public class DealHuntingSyncAdapter extends AbstractThreadedSyncAdapter {
 
   private static final String LOG_TAG = "DealSyncAdapter";
-  private static final int SYNC_INTERVAL = 60 * 30;
+  private static final int SYNC_INTERVAL =  10;
   private static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
+  public static final String ACTION_DATA_UPDATED = "com.vagabond.dealhunting.ACTION_DATA_UPDATED";
   DealHuntingService dealHuntingService = WebService.getDealHuntingervice();
 
   public DealHuntingSyncAdapter(Context context, boolean autoInitialize) {
@@ -95,6 +97,9 @@ public class DealHuntingSyncAdapter extends AbstractThreadedSyncAdapter {
               }
             }
         );
+
+    Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
+    getContext().sendBroadcast(dataUpdatedIntent);
   }
 
   private void storeListHandler(List<Store> storeList) {
