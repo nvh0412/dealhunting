@@ -34,11 +34,16 @@ public class MainActivity extends AppCompatActivity {
 
     setContentView(R.layout.activity_main);
 
-    MobileAds.initialize(getApplicationContext(), "ca-app-pub-2790836638899575~6752690446");
+    MobileAds.initialize(getApplicationContext(), getString(R.string.banner_ad_app_id));
 
     AdView mAdView = (AdView) findViewById(R.id.adView);
-    AdRequest adRequest = new AdRequest.Builder().build();
-    mAdView.loadAd(adRequest);
+
+    // Just for testing
+    AdRequest request = new AdRequest.Builder()
+        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)        // All emulators
+        .addTestDevice("AC98C820A50B4AD8A2106EDE96FB87D4")  // An example device ID
+        .build();
+    mAdView.loadAd(request);
 
     if (savedInstanceState == null) {
       homeFragment = HomeFragment.getInstance();

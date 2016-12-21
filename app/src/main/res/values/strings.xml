@@ -32,4 +32,5 @@
   <string name="pref_notifiable_type_key">notifiable_type_key</string>
   <string name="mylocation_clicked">MyLocation button clicked</string>
   <string name="banner_ad_unit_id">ca-app-pub-2790836638899575/5775484841</string>
+  <string name="banner_ad_app_id">"ca-app-pub-2790836638899575~6752690446"</string>
 </resources>
