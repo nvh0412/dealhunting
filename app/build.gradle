@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'dealhunting'
             keyPassword 'hoanguyen123'
-            storeFile file('/Users/HoaNV/GitHub/jobs/dealhunting/keystore.jks')
+            storeFile file("$rootDir/keystore.jks")
             storePassword 'hoanguyen123'
         }
     }
