@@ -47,7 +47,7 @@ public class TestDB {
     final HashSet<String> tableNameHashSet = new HashSet<>();
     tableNameHashSet.add(DealContract.PromotionEntry.TABLE_NAME);
     tableNameHashSet.add(DealContract.CategoryEntry.TABLE_NAME);
-    tableNameHashSet.add(DealContract.StoreEnty.TABLE_NAME);
+    tableNameHashSet.add(DealContract.StoreEntry.TABLE_NAME);
 
     SQLiteDatabase db = new DealDBHelper(InstrumentationRegistry.getInstrumentation().getTargetContext()).getWritableDatabase();
     assertEquals(true, db.isOpen());
@@ -72,7 +72,7 @@ public class TestDB {
     SQLiteDatabase db = new DealDBHelper(InstrumentationRegistry.getInstrumentation().getTargetContext()).getWritableDatabase();
     assertEquals(true, db.isOpen());
 
-    Cursor c = db.rawQuery("PRAGMA table_info(" + DealContract.StoreEnty.TABLE_NAME + ")",
+    Cursor c = db.rawQuery("PRAGMA table_info(" + DealContract.StoreEntry.TABLE_NAME + ")",
         null);
 
     assertTrue("Error: This means that we were unable to query the database for table information.",
@@ -80,9 +80,9 @@ public class TestDB {
 
     // Build a HashSet of all of the column names we want to look for
     final HashSet<String> storeColumnHashSet = new HashSet<>();
-    storeColumnHashSet.add(DealContract.StoreEnty._ID);
-    storeColumnHashSet.add(DealContract.StoreEnty.COLUMN_TITLE);
-    storeColumnHashSet.add(DealContract.StoreEnty.COLUMN_THUMBNAIL_URL);
+    storeColumnHashSet.add(DealContract.StoreEntry._ID);
+    storeColumnHashSet.add(DealContract.StoreEntry.COLUMN_TITLE);
+    storeColumnHashSet.add(DealContract.StoreEntry.COLUMN_THUMBNAIL_URL);
 
     int columnNameIndex = c.getColumnIndex("name");
     do {
@@ -100,7 +100,7 @@ public class TestDB {
     SQLiteDatabase db = new DealDBHelper(InstrumentationRegistry.getInstrumentation().getTargetContext()).getWritableDatabase();
     assertEquals(true, db.isOpen());
 
-    Cursor c = db.rawQuery("PRAGMA table_info(" + DealContract.StoreEnty.TABLE_NAME + ")",
+    Cursor c = db.rawQuery("PRAGMA table_info(" + DealContract.StoreEntry.TABLE_NAME + ")",
         null);
 
     assertTrue("Error: This means that we were unable to query the database for table information.",
