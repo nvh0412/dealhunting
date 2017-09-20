@@ -1,15 +1,15 @@
 language: android
 android:
   components:
-     - build-tools-24.0.1
+     - build-tools-25.0.0
      - platform-tools
      - tools
-     - android-24
-     - sys-img-armeabi-v7a-google_apis-24
+     - android-25
+     - sys-img-armeabi-v7a-google_apis-25
 
 before_script:
-  - android update sdk --no-ui --filter build-tools-24.0.1,android-24,extra-android-m2repository
-  - echo no | android create avd --force -n test -t "android-24" --abi armeabi-v7a --tag google_apis
+  - android update sdk --no-ui --filter build-tools-25.0.0,android-25,extra-android-m2repository
+  - echo no | android create avd --force -n test -t "android-25" --abi armeabi-v7a --tag google_apis
   - emulator -avd test -no-skin -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
