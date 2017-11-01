@@ -1,5 +1,5 @@
 {
-  "name": "quyenmobile",
+  "name": "dealhunting",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "firebase": "^4.6.0",
     "lodash": "^4.17.4",
     "moment": "^2.19.1",
     "numeral": "^2.0.6",
