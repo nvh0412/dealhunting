@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/nvh0412/dealhunting.svg?branch=master)](https://travis-ci.org/nvh0412/dealhunting)
+![Image of dealhuting](https://i.imgur.com/MdbpQ3O.jpg)
 
-# Dealhunting balbalb
+# Dealhunting
 An elegant application that helps user save their money with discount information. This application provides newest promotions, discount informations and promotional catalogues.
 This application allow user to take advantage of discounts and sale where they are. It’s gonna notify user whenever system has a new promotion. User can search, find or sharing information of promotions for their friends and so on. It’s completely free and it just for you. Woohoo. 
 
