@@ -6,6 +6,7 @@ import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { persistStore, autoRehydrate } from 'redux-persist';
 import reducers from '../reducers';
+import firebase from './firebase';
 
 const isDebuggingInChrome = __DEV__ && !!window.navigator.userAgent;
 

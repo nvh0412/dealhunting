@@ -11,9 +11,6 @@ import { UserProfile } from '../common';
 
 class DashboardScreen extends PureComponent {
   componentDidMount() {
-    this.props.getBillTracking(this.props.user.spree_api_key);
-    this.props.getBillReport(this.props.user.spree_api_key);
-    this.props.getCustomerReport(this.props.user.spree_api_key);
   }
 
   render() {

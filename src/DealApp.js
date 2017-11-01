@@ -3,6 +3,7 @@ import { View, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import Router from './Router';
 import LoginScreen from './components/login/LoginScreen';
+import * as firebase from 'firebase';
 
 class DealApp extends Component {
   renderView() {
