@@ -10,7 +10,7 @@ import {
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { emailLoginChange, passwordLoginChange, logIn } from '../../actions/auth';
-import Colors from '../../common/Colors';
+import Colors from '../common/Colors';
 
 class LoginForm extends Component {
   render() {

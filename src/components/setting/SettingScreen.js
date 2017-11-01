@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import Colors from '../../common/Colors';
+import Colors from '../common/Colors';
 import { connect } from 'react-redux';
 import { logOut } from '../../actions/auth';
 
